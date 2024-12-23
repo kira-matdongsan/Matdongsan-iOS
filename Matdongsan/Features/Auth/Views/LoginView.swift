@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct JoinView: View {
+struct LoginView: View {
     var body: some View {
         NavigationStack {
             VStack {
@@ -23,7 +23,7 @@ struct JoinView: View {
                 Button {
                     // action
                 } label: {
-                    Text("이메일 회원가입")
+                    Text("이메일 로그인")
                 }
                 .bold()
                 .frame(width: 260, height: 50)
@@ -39,7 +39,7 @@ struct JoinView: View {
                     Image("naverBtn")
                         .resizable()
                         .frame(width: 28, height: 28)
-                    Text("네이버 회원가입")
+                    Text("네이버 로그인")
                 }
                 .bold()
                 .frame(width: 260, height: 50)
@@ -55,7 +55,7 @@ struct JoinView: View {
                     Image("kakaoBtn")
                         .resizable()
                         .frame(width: 28, height: 28)
-                    Text("카카오 회원가입")
+                    Text("카카오 로그인")
                 }
                 .bold()
                 .frame(width: 260, height: 50)
@@ -63,6 +63,25 @@ struct JoinView: View {
                 .cornerRadius(15)
                 .foregroundColor(.white)
                 .padding(.bottom, 48)
+                
+                HStack {
+                    Button {
+                        // TODO
+                    } label: {
+                        Text("비밀번호 찾기")
+                    }
+                    
+                    Text("/")
+                        .padding(-3.0)
+                    
+                    Button {
+                        // TODO
+                    } label: {
+                        Text("회원가입")
+                    }
+                }
+                .font(.callout)
+                .tint(.mdGray100)
             }
             .toolbar(content: {
                 ToolbarItem(placement: .topBarLeading) {
@@ -80,5 +99,5 @@ struct JoinView: View {
 }
 
 #Preview {
-    JoinView()
+    LoginView()
 }
