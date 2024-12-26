@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct EmailLoginView: View {
+    @Environment(\.dismiss) private var dismiss
     
     @State private var email = ""
     @State private var password = ""
+    @State private var isfailed = false
     
     var body: some View {
         NavigationStack {
@@ -56,18 +58,21 @@ struct EmailLoginView: View {
                 }
                 .padding(.horizontal,20)
                 
+                if isfailed {
+                    HStack {
+                        Text("로그인에 실패했어요. 다시 시도해주세요.")
+                            .font(.footnote)
+                            .foregroundColor(.mdRed)
 
-                HStack {
-                    Text("로그인에 실패했어요. 다시 시도해주세요.")
-                        .font(.footnote)
-                        .foregroundColor(.mdRed)
-
-                    Spacer()
+                        Spacer()
+                    }
+                    .padding(.leading, 20)
                 }
-                .padding(.leading, 20)
+                
                 
                 Button {
-                    // action
+                    // TODO
+                    self.isfailed.toggle() // temp
                 } label: {
                     Text("로그인")
                 }
@@ -93,15 +98,18 @@ struct EmailLoginView: View {
                 Spacer(minLength: 20)
 
             }
+            .navigationBarBackButtonHidden(true)
             .toolbar(content: {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem (placement: .topBarLeading) {
                     Button {
                         // TODO
+                        dismiss()
                     } label: {
                         Image(systemName: "chevron.backward")
-                            .tint(.black)
                     }
+                    .tint(.mdCoolgray80)
                     .padding(10)
+
                 }
             })
         }

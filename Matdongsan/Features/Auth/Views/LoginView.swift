@@ -20,9 +20,7 @@ struct LoginView: View {
                     .padding(32)
                     .foregroundStyle(.mdGray90)
                 
-                Button {
-                    // action
-                } label: {
+                NavigationLink(destination: EmailLoginView()){
                     Text("이메일 로그인")
                 }
                 .bold()
