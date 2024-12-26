@@ -20,9 +20,7 @@ struct JoinView: View {
                     .padding(32)
                     .foregroundStyle(.mdGray90)
                 
-                Button {
-                    // action
-                } label: {
+                NavigationLink(destination: EmailJoinEmailInputView()){
                     Text("이메일 회원가입")
                 }
                 .bold()
