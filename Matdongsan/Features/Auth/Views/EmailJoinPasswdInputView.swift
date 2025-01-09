@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct EmailJoinEmailInputView: View {
+struct EmailJoinPasswdInputView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var email = ""
+    @State private var passwd = ""
     @State private var isvalid = true // true, false 분기 처리
     
     var body: some View {
         VStack {
             HStack{
-                Text("이메일을 입력해주세요")
+                Text("비밀번호를 입력해주세요")
                     .fontWeight(.semibold)
                     .foregroundStyle(.mdGray90)
                     .font(.title2)
@@ -24,7 +24,7 @@ struct EmailJoinEmailInputView: View {
                 Spacer()
             }
             
-            TextField("이메일", text: $email)
+            TextField("비밀번호 (영문+숫자+특수문자 8자 이상)", text: $passwd)
                 .frame(height: 48)
                 .padding(.leading, 24.0)
                 .background(.mdCoolgray10)
@@ -41,11 +41,11 @@ struct EmailJoinEmailInputView: View {
             
             HStack {
                 if isvalid {
-                    Text("가입 가능한 이메일입니다.")
+                    Text("가입 가능한 비밀번호입니다.")
                         .font(.footnote)
                         .foregroundColor(.mdCyan40)
                 } else {
-                    Text("올바른 이메일을 입력해주세요.")
+                    Text("영문, 숫자, 특수문자를 조합한 8자 이상, 20자 이하의 비밀번호 를 입력해주세요.")
                         .font(.footnote)
                         .foregroundColor(.mdRed)
                 }
@@ -54,7 +54,9 @@ struct EmailJoinEmailInputView: View {
             
             Spacer()
             
-            NavigationLink(destination: EmailJoinPasswdInputView()){
+            Button {
+                // action
+            } label: {
                 Text("다음")
             }
             .bold()
@@ -76,12 +78,11 @@ struct EmailJoinEmailInputView: View {
                 }
                 .tint(.mdCoolgray80)
                 .padding(10)
-
             }
         })
     }
 }
 
 #Preview {
-    EmailJoinEmailInputView()
+    EmailJoinPasswdInputView()
 }
