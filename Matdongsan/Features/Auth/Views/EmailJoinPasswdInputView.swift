@@ -58,9 +58,9 @@ struct EmailJoinPasswdInputView: View {
                 // action
             } label: {
                 Text("다음")
+                    .frame(maxWidth: .infinity, maxHeight: 50)
             }
             .bold()
-            .frame(width: 360, height: 50)
             .background(.mdCoolgray80)
             .cornerRadius(15)
             .foregroundColor(.white)

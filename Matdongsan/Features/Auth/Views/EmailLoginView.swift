@@ -75,10 +75,10 @@ struct EmailLoginView: View {
                     self.isfailed.toggle() // temp
                 } label: {
                     Text("로그인")
+                        .frame(maxWidth: .infinity, maxHeight: 52)
                 }
                 .foregroundColor(.white)
                 .bold()
-                .frame(width: 360, height: 52)
                 .background(.mdCoolgray80)
                 .cornerRadius(12)
                 .padding(.bottom, 18)
