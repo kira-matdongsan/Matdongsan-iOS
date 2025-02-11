@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct ProfileSettingView: View {
+    
+    @ObservedObject private var profileSettingViewModel: ProfileSettingViewModel
+    
+    init() {
+        self.profileSettingViewModel = ProfileSettingViewModel()
+        self.profileSettingViewModel.getUserProfile()
+    }
+    
     var body: some View {
         ZStack{
             Color(.mdCoolgray10)
@@ -42,7 +50,7 @@ struct ProfileSettingView: View {
                         .padding(.leading, 80)
                     }
                     HStack{
-                        Text("nickname")
+                        Text(self.profileSettingViewModel.nickname)
                             .fontWeight(.medium)
                         Button {
                             // TODO
@@ -67,7 +75,7 @@ struct ProfileSettingView: View {
                         Text("로그인 정보")
                             .fontWeight(.regular)
                         Spacer()
-                        Text("Email@domain.com")
+                        Text(self.profileSettingViewModel.email)
                             .tint(.mdSkyBlue50)
                         Image(systemName: "chevron.right")
                     }
