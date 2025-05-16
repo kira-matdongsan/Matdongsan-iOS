@@ -12,7 +12,6 @@ struct EmailJoinEmailInputView: View {
     @State private var email = ""
     @State private var isvalid = true // true, false 분기 처리
     
-    
     var body: some View {
         VStack {
             HStack{
