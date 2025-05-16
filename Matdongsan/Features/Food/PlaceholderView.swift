@@ -10,6 +10,7 @@ import SwiftUI
 struct PlaceholderView: View {
     var body: some View {
         
+        
         VStack (spacing: 16) {
             Image("modal-icon")
                 .frame(width: 48, height: 48)
