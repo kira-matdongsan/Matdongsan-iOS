@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "recipe-icon 1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "recipe-icon 3.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

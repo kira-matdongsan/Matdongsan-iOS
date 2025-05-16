@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CD59D7F12D30B2980068E31C /* Exceptions for "Matdongsan" folder in "Matdongsan" target */ = {
+		CDDE06FA2DD72736008A0625 /* Exceptions for "Matdongsan" folder in "Matdongsan" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -28,7 +28,7 @@
 		CDAEFB1E2D113F6400C4353F /* Matdongsan */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				CD59D7F12D30B2980068E31C /* Exceptions for "Matdongsan" folder in "Matdongsan" target */,
+				CDDE06FA2DD72736008A0625 /* Exceptions for "Matdongsan" folder in "Matdongsan" target */,
 			);
 			path = Matdongsan;
 			sourceTree = "<group>";

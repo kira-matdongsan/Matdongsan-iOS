@@ -11,7 +11,7 @@ struct JoinView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Image(.맛동산아이콘)
+                Image("맛동산 아이콘")
                     .padding(40)
                     .background(.mdCoolgray80)
                     .cornerRadius(20)
