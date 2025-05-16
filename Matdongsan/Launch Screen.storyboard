@@ -16,12 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
-                                <rect key="frame" x="0.0" y="832" width="393" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchImage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rj4-DA-Mlr">
                                 <rect key="frame" x="10" y="128" width="373" height="646"/>
                             </imageView>
@@ -29,11 +23,8 @@
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" name="mdGray80"/>
                         <constraints>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="Rj4-DA-Mlr" secondAttribute="trailing" constant="10" id="EBB-aM-ge9"/>
                             <constraint firstItem="Rj4-DA-Mlr" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="10" id="QzY-TC-rzB"/>
-                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="SfN-ll-jLj"/>
-                            <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="Rj4-DA-Mlr" secondAttribute="bottom" constant="10" id="b4O-5T-8pc"/>
                             <constraint firstItem="Rj4-DA-Mlr" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="10" id="hoV-uW-vtz"/>
                         </constraints>

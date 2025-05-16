@@ -79,7 +79,7 @@ struct FoodRecipeCell: View {
                             .resizable()
                             .frame(width: 78, height: 78)
                         
-                        Image("cornfirst")
+                        Image("corn02")
                             .resizable()
                             .frame(width: 78, height: 78)
                         
