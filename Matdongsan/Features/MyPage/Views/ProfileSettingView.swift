@@ -64,7 +64,6 @@ struct ProfileSettingView: View {
                 .background(.white)
                 .cornerRadius(16)
                 .padding(.vertical, 10)
-//                .clipped()
 
                 
                 //--//

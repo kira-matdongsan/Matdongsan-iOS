@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NidThirdPartyLogin
 
 struct LoginView: View {
     var body: some View {
@@ -32,7 +33,37 @@ struct LoginView: View {
         
                 
                 Button {
-                    // action
+                    // 네이버 아이디로 로그인
+                    NidOAuth.shared.requestLogin { result in
+                        switch result {
+                        case .success(let loginResult):
+                            print("Access Token: ", loginResult.accessToken.tokenString)
+                            print("Refresh Token: ", loginResult.refreshToken.tokenString)
+
+                            // get profile (temp)
+                            NidOAuth.shared.getUserProfile(accessToken: loginResult.accessToken.tokenString) { result in
+                                switch result {
+                                  case .success(let profileResult):
+                                    print(profileResult)
+                                    
+                                    guard let profileResultDict = try? JSONSerialization.data(withJSONObject: profileResult) else { return }
+                                    
+                                    
+                                    guard let userProfile: UserProfile = try? JSONDecoder().decode(UserProfile.self, from: profileResultDict) else { return }
+                                    
+                                    print(userProfile)
+                                    
+                                  case .failure(let error):
+                                    print("Error: ", error.localizedDescription)
+                                }
+                            }
+                            
+
+                        case .failure(let error):
+                            print("Error: ", error.localizedDescription)
+                        }
+                    }
+                    
                 } label: {
                     Image("naverBtn")
                         .resizable()
@@ -49,6 +80,34 @@ struct LoginView: View {
                 
                 Button {
                     // action
+                    // 카카오톡 실행 가능 여부 확인
+//                    if (UserApi.isKakaoTalkLoginAvailable()) {
+//                        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+//                            if let error = error {
+//                                print(error)
+//                            }
+//                            else {
+//                                print("loginWithKakaoTalk() success.")
+//
+//                                // 성공 시 동작 구현
+//                                _ = oauthToken
+//                            }
+//                        }
+//                    } else {
+//                        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+//                            if let error = error {
+//                                print(error)
+//                            }
+//                            else {
+//                                print("loginWithKakaoAccount() success.")
+//
+//                                // 성공 시 동작 구현
+//                                _ = oauthToken
+//                                
+//
+//                            }
+//                        }
+//                    }
                 } label: {
                     Image("kakaoBtn")
                         .resizable()
@@ -81,17 +140,17 @@ struct LoginView: View {
                 .font(.callout)
                 .tint(.mdGray100)
             }
-            .toolbar(content: {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        // TODO
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .tint(.black)
-                    }
-                    .padding(10)
-                }
-            })
+//            .toolbar(content: {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Button {
+//                        // TODO
+//                    } label: {
+//                        Image(systemName: "chevron.backward")
+//                            .tint(.black)
+//                    }
+//                    .padding(10)
+//                }
+//            })
         }
     }
 }

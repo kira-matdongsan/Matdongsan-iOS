@@ -62,17 +62,17 @@ struct JoinView: View {
                 .foregroundColor(.white)
                 .padding(.bottom, 48)
             }
-            .toolbar(content: {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        // TODO
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .tint(.black)
-                    }
-                    .padding(10)
-                }
-            })
+//            .toolbar(content: {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Button {
+//                        // TODO
+//                    } label: {
+//                        Image(systemName: "chevron.backward")
+//                            .tint(.black)
+//                    }
+//                    .padding(10)
+//                }
+//            })
         }
     }
 }

@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "스플래시 3.png",
+      "filename" : "wifi.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "스플래시 4.png",
+      "filename" : "wifi 1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "스플래시 5.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
