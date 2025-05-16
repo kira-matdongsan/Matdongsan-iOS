@@ -17,16 +17,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchImage" translatesAutoresizingMaskIntoConstraints="NO" id="Rj4-DA-Mlr">
-                                <rect key="frame" x="10" y="128" width="373" height="646"/>
+                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" name="mdGray80"/>
                         <constraints>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="Rj4-DA-Mlr" secondAttribute="trailing" constant="10" id="EBB-aM-ge9"/>
-                            <constraint firstItem="Rj4-DA-Mlr" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="10" id="QzY-TC-rzB"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="Rj4-DA-Mlr" secondAttribute="bottom" constant="10" id="b4O-5T-8pc"/>
-                            <constraint firstItem="Rj4-DA-Mlr" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="10" id="hoV-uW-vtz"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="Rj4-DA-Mlr" secondAttribute="trailing" id="EBB-aM-ge9"/>
+                            <constraint firstItem="Rj4-DA-Mlr" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="QzY-TC-rzB"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="Rj4-DA-Mlr" secondAttribute="bottom" id="b4O-5T-8pc"/>
+                            <constraint firstItem="Rj4-DA-Mlr" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="hoV-uW-vtz"/>
                         </constraints>
                     </view>
                 </viewController>
