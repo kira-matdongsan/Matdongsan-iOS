@@ -149,6 +149,8 @@
 /* Begin XCBuildConfiguration section */
 		CDAEFB282D113F6700C4353F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CDAEFB1E2D113F6400C4353F /* Matdongsan */;
+			baseConfigurationReferenceRelativePath = .xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
