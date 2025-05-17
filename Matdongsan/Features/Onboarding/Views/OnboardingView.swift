@@ -21,8 +21,9 @@ struct OnboardingView: View {
                         .font(.title2)
 
                     LazyHStack {
-                        Image("맛동산 아이콘")
-                        Image("맛동산 아이콘")
+                        Image("mds_icon")
+                        Image("mds_icon")
+                        Image("mds_icon")
                     }
                     
                     NavigationLink(destination: JoinView()){

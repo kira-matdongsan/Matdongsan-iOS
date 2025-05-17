@@ -12,7 +12,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Image("맛동산 아이콘")
+                Image("mds_icon")
                     .padding(40)
                     .background(.mdCoolgray80)
                     .cornerRadius(20)
