@@ -16,7 +16,7 @@ struct JoinCompletionView: View {
                 .opacity(0.2)
             VStack{
                 VStack{
-                    Image("회원가입완료_로고")
+                    Image("joinCompletion")
                     Text("회원가입이\n완료되었습니다.")
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
