@@ -38,7 +38,8 @@ struct FoodDetailInfoView: View {
                     HStack {
                         Text("\(food) 자세히 알아보기")
                         Spacer()
-                        Text("+")
+                        Image(systemName: "plus")
+                            .foregroundStyle(.mdCoolgray30)
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 4)
@@ -74,7 +75,7 @@ struct FoodDetailInfoView: View {
                         Text("\(food) 자세히 알아보기")
                             .foregroundStyle(.mdCoolgray90)
                         Spacer()
-                        Text("+")
+                        Image(systemName: "chevron.up")
                             .foregroundStyle(.mdCoolgray30)
                     }
                     .padding(.vertical, 12)
