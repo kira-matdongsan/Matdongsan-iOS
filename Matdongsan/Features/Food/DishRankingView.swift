@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DishRankingView: View {
     
-    let items = Array(1..<14)
+    let items = Array(1..<13)
     let columns = [GridItem(.flexible())]
     
     var body: some View {
@@ -29,6 +29,15 @@ struct DishRankingView: View {
             
             VStack (spacing: 8) {
                 HStack{
+                    HStack (spacing: 4) {
+                        Text("투표기간 | 25.07.07~25.07.13")
+                    }
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 8)
+                    .background(.mdCoolgray10.opacity(0.5))
+                    .cornerRadius(16)
+                    .foregroundStyle(.mdWarmGray70)
+                    .font(.system(size: 13))
                     Spacer()
                     HStack (spacing: 4) {
                         Text("\(1)명 참여중")
@@ -52,36 +61,57 @@ struct DishRankingView: View {
                         
                         LazyVGrid(columns: columns, spacing: 0) {
                             ForEach(pageItems, id: \.self) { item in
-                                HStack (spacing: 8) {
-                                    VStack {
-                                        if Int(item) == 1 {
-                                            Image("Trophy")
-                                                .resizable()
-                                                .scaledToFit()
+                                if item == items.last {
+                                    HStack {
+                                        VStack (alignment: .leading, spacing: 8) {
+                                            Text("좋아하는 제철요리가 여기 없나요?")
+                                                .font(.system(size: 13))
+                                            
+                                            Text("제철요리 등록하기")
+                                                .font(.system(size: 16))
+                                                .bold()
                                         }
-                                        Text("\(item)")
+                                        Spacer()
+                                        Image("add_food_img")
+                                            .frame(height: 60)
                                     }
-                                    .frame(width: 26)
-                                    .font(.system(size: 15))
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 12)
+                                    .background(.mdYellow)
+                                    .cornerRadius(12)
                                     
-                                    Image("cornfirst")
-                                        .resizable()
-                                        .frame(width: 72, height: 72)
-                                        .cornerRadius(8)
-
-                                    VStack (alignment:.leading, spacing: 8) {
-                                        Text("\(6)명이 선택했어요.")
-                                            .padding(4)
-                                            .font(.system(size: 13))
-                                            .fontWeight(.thin)
-                                            .background(.mdCoolgray10)
+                                } else {
+                                    HStack (spacing: 8) {
+                                        VStack {
+                                            if Int(item) == 1 {
+                                                Image("Trophy")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                            }
+                                            Text("\(item)")
+                                        }
+                                        .frame(width: 26)
+                                        .font(.system(size: 15))
+                                        
+                                        Image("cornfirst")
+                                            .resizable()
+                                            .frame(width: 72, height: 72)
                                             .cornerRadius(8)
-                                            .foregroundStyle(.mdWarmGray70)
-                                        Text("찐옥수수")
-                                            .font(.system(size: 15))
-                                            .bold()
+
+                                        VStack (alignment:.leading, spacing: 8) {
+                                            Text("\(6)명이 선택했어요.")
+                                                .padding(4)
+                                                .font(.system(size: 13))
+                                                .fontWeight(.thin)
+                                                .background(.mdCoolgray10)
+                                                .cornerRadius(8)
+                                                .foregroundStyle(.mdWarmGray70)
+                                            Text("찐옥수수")
+                                                .font(.system(size: 15))
+                                                .bold()
+                                        }
+                                        Spacer()
                                     }
-                                    Spacer()
                                 }
                             }
                             .padding(.horizontal, 8)
