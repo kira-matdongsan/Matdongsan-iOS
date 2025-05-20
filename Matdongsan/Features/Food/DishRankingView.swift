@@ -36,8 +36,6 @@ struct DishRankingView: View {
                     .padding(.horizontal, 8)
                     .background(.mdCoolgray10.opacity(0.5))
                     .cornerRadius(16)
-                    .foregroundStyle(.mdWarmGray70)
-                    .font(.system(size: 13))
                     Spacer()
                     HStack (spacing: 4) {
                         Text("\(1)명 참여중")
@@ -47,9 +45,9 @@ struct DishRankingView: View {
                     .padding(.horizontal, 8)
                     .background(.mdYellow20)
                     .cornerRadius(16)
-                    .foregroundStyle(.mdWarmGray70)
-                    .font(.system(size: 13))
                 }
+                .foregroundStyle(.mdWarmGray70)
+                .font(.system(size: 13))
                 .padding(.horizontal, 8)
                 
                 TabView {
