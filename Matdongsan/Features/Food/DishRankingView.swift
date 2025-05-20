@@ -56,6 +56,8 @@ struct DishRankingView: View {
                                     VStack {
                                         if Int(item) == 1 {
                                             Image("Trophy")
+                                                .resizable()
+                                                .scaledToFit()
                                         }
                                         Text("\(item)")
                                     }
@@ -82,14 +84,14 @@ struct DishRankingView: View {
                                     Spacer()
                                 }
                             }
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, 8)
                             .padding(.vertical, 8)
                         }
                         .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                .tabViewStyle(.page(indexDisplayMode: .always))
-                .frame(height: 310) // temp
+                .tabViewStyle(.page(indexDisplayMode: .never)) // temp
+                .frame(height: 264) // temp
                 
             }
         }

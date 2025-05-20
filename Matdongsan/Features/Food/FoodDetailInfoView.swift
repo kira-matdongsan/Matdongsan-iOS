@@ -65,10 +65,14 @@ struct FoodDetailInfoView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
+                .background()
+                .cornerRadius(16)
+                .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
             } else {
                 VStack (alignment: .leading) {
                     HStack {
                         Text("\(food) 자세히 알아보기")
+                            .foregroundStyle(.mdCoolgray90)
                         Spacer()
                         Text("+")
                             .foregroundStyle(.mdCoolgray30)
@@ -132,14 +136,14 @@ struct FoodDetailInfoView: View {
                 .padding(.horizontal, 32)
                 .padding(.bottom, 16)
                 .foregroundStyle(.mdCoolgray50)
-
-
+                .background{
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(.white)
+                        .stroke(.mdCoolgray20)
+                }
             }
         }
-        .background()
-        .cornerRadius(16)
-        .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
-        .padding(.horizontal, 16)
+        .padding([.horizontal, .bottom], 16)
         .onTapGesture {
             fold.toggle()
         }
