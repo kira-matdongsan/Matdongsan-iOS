@@ -61,7 +61,6 @@ struct FoodCardView: View {
                     .padding(16) // horizon
                 }
                 .background()
-                .frame(width: .infinity, height: .infinity)
                 .cornerRadius(24)
                 .shadow(color: .mdCoolgray20, radius: 4, x: 1, y: 2)
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 0.0, y: 1.0, z: 0.0))

@@ -136,7 +136,6 @@ struct FoodDetailInfoView: View {
 
             }
         }
-        .frame(width: UIScreen.main.bounds.size.width-32, height: .infinity) //temp
         .background()
         .cornerRadius(16)
         .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
@@ -149,5 +148,7 @@ struct FoodDetailInfoView: View {
 }
 
 #Preview {
-    FoodDetailInfoView()
+    ScrollView {
+        FoodDetailInfoView()
+    }
 }
