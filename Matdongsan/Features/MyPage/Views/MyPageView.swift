@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MyPageView: View {
     @State private var favoriteFoods: [Food] = [
-        Food(name: "사과", month: 1),
-        Food(name: "딸기", month: 5),
-        Food(name: "바나나", month: 1),
-        Food(name: "포도", month: 5),
-        Food(name: "천혜향", month: 1),
-        Food(name: "금귤", month: 5)]
+        Food(id: 1, name: "사과"),
+        Food(id: 2, name: "딸기"),
+        Food(id: 3, name: "바나나"),
+        Food(id: 4, name: "포도"),
+        Food(id: 5, name: "2"),
+        Food(id: 6, name: "3")]
     private let settings:[String] = ["공지사항", "이용약관", "앱 정보", "오픈소스"]
     private let accountMenu:[String] = ["로그아웃", "회원탈퇴"]
     

@@ -10,20 +10,25 @@ import Foundation
 struct Food: Codable, Hashable, Identifiable {
     var id: Int64                   // 제철음식 ID
     var name: String                // 제철음식명
-    var englishName: String         // 제철음식명 영문
+    var englishName: String = ""    // 제철음식명 영문
     var isFeatured: Bool = false    // 공개 여부
-    var lastFeaturedAt: Date        // 마지막(최근) 공개일
-    var imageUrl: String            // 대표 이미지 URL
-    var subtitle: String            // 소제목
-    var description: String         // 설명
+//    var lastFeaturedAt: Date        // 마지막(최근) 공개일
+//    var imageUrl: String            // 대표 이미지 URL
+//    var subtitle: String            // 소제목
+//    var description: String         // 설명
 //    var seasonMonths: []          // 제철시기
-    var regions: String             // 주요 산지
-    var benefits: String            // 효능
-    var buyingTips: String          // 구입요령
-    var preparationTips: String     // 손질요령
+//    var regions: String             // 주요 산지
+//    var benefits: String            // 효능
+//    var buyingTips: String          // 구입요령
+//    var preparationTips: String     // 손질요령
 //    var nutrients: Nutrients      // 영양성분
-    var createdAt: Date
-    var updatedAt: Date
+//    var createdAt: Date
+//    var updatedAt: Date
+    
+    init(id: Int64, name: String) {
+        self.id = id
+        self.name = name
+    }
 }
 
 /*
