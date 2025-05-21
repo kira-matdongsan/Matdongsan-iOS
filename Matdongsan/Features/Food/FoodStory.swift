@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct FoodStory: View {
-    
-    private var stories:[Any] = ["story", "place", "review"]
+    @State var selectedCategory:String = "전체"
+    private var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
+    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
+    @State var selectedSort:String = "최신순"
+    private var sorts:[String] = ["최신순", "좋아요순"]
     
     var body: some View {
         VStack (spacing: 16) {
@@ -28,27 +31,49 @@ struct FoodStory: View {
             
             // 필터
             HStack (spacing: 8) {
-                Button {
-                    // TODO
+                Menu {
+                    ForEach(sorts, id: \.self) { item in
+                        Button {
+                            selectedSort = item
+                        } label: {
+                            HStack (spacing: 4) {
+                                Text(item)
+                                    .tint(.mdCoolgray60)
+                                Image(selectedSort == item ? "checked_icon" : "unchecked_icon")
+                            }
+                        }
+                    }
                 } label: {
-                    Text("최신순")
+                    Text(selectedSort)
                     Image("arrow-circle-down")
                 }
                 .tint(.mdCoolgray60)
                 .padding(4)
                 .background(.mdCoolgray10.opacity(0.5))
                 .cornerRadius(4)
+
                 
-                Button {
-                    // TODO
-                } label: {
-                    Text("전체")
-                    Image("arrow-circle-down")
-                }
-                .tint(.mdCoolgray60)
-                .padding(4)
-                .background(.mdCoolgray10.opacity(0.5))
-                .cornerRadius(4)
+//                Menu {
+//                    ForEach(stories, id: \.self) { item in
+//                        Button {
+//                            selectedCategory = item
+//                        } label: {
+//                            HStack (spacing: 4) {
+//                                Text(item)
+//                                    .tint(.mdCoolgray60)
+//                                Image(selectedCategory == item ? "checked_icon" : "unchecked_icon")
+//                            }
+//                        }
+//                    }
+//                } label: {
+//                    Text(selectedCategory)
+//                    Image("arrow-circle-down")
+//                }
+//                .tint(.mdCoolgray60)
+//                .padding(4)
+//                .background(.mdCoolgray10.opacity(0.5))
+//                .cornerRadius(4)
+//                .menuStyle(MenuButtonStyle())
                 
                 Spacer()
                 
