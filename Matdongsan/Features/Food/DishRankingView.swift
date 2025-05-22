@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DishRankingView: View {
     
-    let items:[Int] = Array(1..<4)
+    let items:[Int] = Array(1..<9)
     let columns = [GridItem(.flexible())]
     @State var gridSize:CGSize = .zero
     
@@ -70,17 +70,18 @@ struct DishRankingView: View {
                             .padding(.vertical, 8)
                         }
                         .fixedSize(horizontal: false, vertical: true)
-                        .background(
-                            GeometryReader { innerGeometry in
+                        .background(alignment: .center) {
+                            GeometryReader { geometry in
                                 Color.clear
                                     .onAppear {
-                                        gridSize = innerGeometry.size
+                                        gridSize = geometry.size
                                     }
-                                    .onChange(of: innerGeometry.size) {
-                                        gridSize = innerGeometry.size
+                                    .onChange(of: geometry.size) {
+                                        gridSize = geometry.size
                                     }
                             }
-                        )
+                        }
+                            
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never)) // temp
