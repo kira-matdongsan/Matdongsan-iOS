@@ -93,7 +93,7 @@ struct DishRankingView: View {
 }
 
 #Preview {
-    DishRankingView(gridSize: CGSizeMake(320, 320))
+    DishRankingView(gridSize: CGSizeMake(.infinity, .infinity))
 }
 
 struct AddingBanner: View {
