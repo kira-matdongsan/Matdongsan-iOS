@@ -129,7 +129,7 @@ struct FoodPlaceCell: View {
         .padding(.vertical, 12)
         .background(.white)
         .cornerRadius(16)
-        .shadow(color: .mdCoolgray10, radius: 6, x: 1, y: 2)
+        .shadow(color: .mdCoolgray10, radius: 8, x: 1, y: 2)
     }
 }
 
