@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "joinCompletion.svg",
+      "filename" : "checked_icon.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "joinCompletion.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "joinCompletion.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

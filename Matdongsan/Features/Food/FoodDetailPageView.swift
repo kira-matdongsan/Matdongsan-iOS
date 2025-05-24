@@ -14,7 +14,6 @@ struct FoodDetailPageView: View {
                 FoodCardView()
                 FoodDetailInfoView()
                 CustomDivider()
-                    .padding(.vertical, 16)
                 DishRankingView()
                 CustomDivider()
                 FoodStory()

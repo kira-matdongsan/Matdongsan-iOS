@@ -54,3 +54,4 @@ Carthage/Build/
 # *.plist
 
 *.xcconfig
+Matdongsan/Resources/.DS_Store

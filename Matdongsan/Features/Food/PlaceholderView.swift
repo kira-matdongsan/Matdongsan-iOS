@@ -28,6 +28,7 @@ struct PlaceholderView: View {
             .background(.mdCoolgray10)
             .cornerRadius(8)
         }
+        .font(.system(size: 15))
         .padding(.vertical, 32)
         .frame(maxWidth: .infinity)
         .background(.white)

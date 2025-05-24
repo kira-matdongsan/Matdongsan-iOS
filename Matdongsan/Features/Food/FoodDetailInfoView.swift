@@ -38,7 +38,8 @@ struct FoodDetailInfoView: View {
                     HStack {
                         Text("\(food) 자세히 알아보기")
                         Spacer()
-                        Text("+")
+                        Image(systemName: "plus")
+                            .foregroundStyle(.mdCoolgray30)
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 4)
@@ -65,12 +66,16 @@ struct FoodDetailInfoView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
+                .background()
+                .cornerRadius(16)
+                .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
             } else {
                 VStack (alignment: .leading) {
                     HStack {
                         Text("\(food) 자세히 알아보기")
+                            .foregroundStyle(.mdCoolgray90)
                         Spacer()
-                        Text("+")
+                        Image(systemName: "chevron.up")
                             .foregroundStyle(.mdCoolgray30)
                     }
                     .padding(.vertical, 12)
@@ -132,15 +137,14 @@ struct FoodDetailInfoView: View {
                 .padding(.horizontal, 32)
                 .padding(.bottom, 16)
                 .foregroundStyle(.mdCoolgray50)
-
-
+                .background{
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(.white)
+                        .stroke(.mdCoolgray20)
+                }
             }
         }
-        .frame(width: UIScreen.main.bounds.size.width-32, height: .infinity) //temp
-        .background()
-        .cornerRadius(16)
-        .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
-        .padding(.horizontal, 16)
+        .padding([.horizontal, .bottom], 16)
         .onTapGesture {
             fold.toggle()
         }
@@ -149,5 +153,7 @@ struct FoodDetailInfoView: View {
 }
 
 #Preview {
-    FoodDetailInfoView()
+    ScrollView {
+        FoodDetailInfoView()
+    }
 }

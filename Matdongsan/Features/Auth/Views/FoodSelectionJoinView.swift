@@ -10,12 +10,12 @@ import SwiftUI
 struct FoodSelectionJoinView: View {
     @State private var selectedFoods: [Food] = []
     @State private var foods: [Food] = [
-        Food(name: "사과", month: 1),
-        Food(name: "딸기", month: 5),
-        Food(name: "바나나", month: 1),
-        Food(name: "포도", month: 5),
-        Food(name: "2", month: 1),
-        Food(name: "3", month: 5)]
+        Food(id: 1, name: "사과"),
+        Food(id: 2, name: "딸기"),
+        Food(id: 3, name: "바나나"),
+        Food(id: 4, name: "포도"),
+        Food(id: 5, name: "2"),
+        Food(id: 6, name: "3")]
     let columns = [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)]
     
     var body: some View {
@@ -46,7 +46,7 @@ struct FoodSelectionJoinView: View {
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 100, height: 80)
                                     HStack{
-                                        Text("\(food.month)월")
+                                        Text("\(7)월")
                                             .padding(5)
                                             .background(.mdCoolgray20)
                                             .fontWeight(.semibold)
