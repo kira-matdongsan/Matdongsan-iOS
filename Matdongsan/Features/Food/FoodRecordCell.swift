@@ -64,7 +64,7 @@ struct FoodRecordCell: View {
                 HStack {
                     Image("note-text")
                     Text(title)
-                        .font(.system(size: 15))
+                        .font(.system(size: 14))
                 }
                 
                 Text(content)

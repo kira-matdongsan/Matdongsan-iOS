@@ -83,7 +83,7 @@ struct FoodPlaceCell: View {
                     .font(.system(size: 14))
 
                 Text(review)
-                    .font(.system(size: 16))
+                    .font(.system(size: 15))
                     .fontWeight(.thin)
                     .foregroundStyle(.mdCoolgray90)
 

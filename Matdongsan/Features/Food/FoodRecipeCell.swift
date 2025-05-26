@@ -66,7 +66,7 @@ struct FoodRecipeCell: View {
                         .font(.system(size: 16))
 
                     Text(instructions)
-                        .font(.system(size: 15))
+                        .font(.system(size: 14))
                         .fontWeight(.thin)
                         .foregroundStyle(.mdCoolgray90)
                         .lineSpacing(1.6)
