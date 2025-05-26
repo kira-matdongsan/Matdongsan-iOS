@@ -14,7 +14,7 @@ struct FoodDetailPageView: View {
                 FoodCardView()
                 FoodDetailInfoView()
                 CustomDivider()
-                DishRankingView(gridSize: CGSizeMake(320, 320)) // temp
+                DishRankingView()
                 CustomDivider()
                 FoodStory()
             }

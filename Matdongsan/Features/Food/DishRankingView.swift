@@ -9,9 +9,10 @@ import SwiftUI
 
 struct DishRankingView: View {
     
-    let items:[Int] = Array(1..<9)
+    let items:[Int] = Array(1..<20)
     let columns = [GridItem(.flexible())]
-    @State var gridSize:CGSize = .zero
+    @State var currentHeight:CGFloat = 360
+    @State var selectedTab = 0
     
     var body: some View {
         VStack (spacing: 16) {
@@ -51,13 +52,13 @@ struct DishRankingView: View {
                 .font(.system(size: 13))
                 .padding(.horizontal, 8)
                 
-                TabView {
+                TabView (selection: $selectedTab) {
                     // 한 페이지에 3개씩 묶어서 보여줌
                     ForEach(0..<(items.count % 3 == 0 ? items.count/3 : items.count/3+1), id: \.self) { pageIndex in
                         let start = pageIndex * 3
                         let end = min(start + 3, items.count)
                         let pageItems = items[start..<end]
-                        
+
                         LazyVGrid(columns: columns, spacing: 0) {
                             ForEach(pageItems, id: \.self) { item in
                                 if item == items.last {
@@ -73,19 +74,20 @@ struct DishRankingView: View {
                         .background(alignment: .center) {
                             GeometryReader { geometry in
                                 Color.clear
-                                    .onAppear {
-                                        gridSize = geometry.size
-                                    }
-                                    .onChange(of: geometry.size) {
-                                        gridSize = geometry.size
-                                    }
+                                    .preference(key: ViewHeightKey.self, value: [pageIndex: geometry.size.height])
                             }
                         }
-                            
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never)) // temp
-                .frame(height: gridSize.height)
+                .frame(height: currentHeight)
+                .onPreferenceChange(ViewHeightKey.self) { newHeights in
+                    if let selectedHeight = newHeights[selectedTab] {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            currentHeight = selectedHeight
+                        }
+                    }
+                }
             }
         }
         .padding(16)
@@ -93,7 +95,15 @@ struct DishRankingView: View {
 }
 
 #Preview {
-    DishRankingView(gridSize: CGSizeMake(.infinity, .infinity))
+    DishRankingView()
+}
+
+struct ViewHeightKey: PreferenceKey {
+    static var defaultValue: [Int: CGFloat] = [:]
+
+    static func reduce(value: inout [Int: CGFloat], nextValue: () -> [Int: CGFloat]) {
+        value.merge(nextValue()) { $1 }
+    }
 }
 
 struct AddingBanner: View {
