@@ -46,12 +46,13 @@ struct FoodDetailInfoView: View {
                     .background(.mdCoolgray10)
                     .cornerRadius(8)
                     .font(.system(size: 16))
+
                     
                     HStack {
                         ForEach(detailCategories, id: \.self) { category in
                             Text("\(category)")
                                 .fixedSize()
-                                .padding(.horizontal, 7)
+                                .padding(.horizontal, 6)
                                 .padding(.vertical, 4)
                                 .background{
                                     RoundedRectangle(cornerRadius: 24)
@@ -62,6 +63,7 @@ struct FoodDetailInfoView: View {
                                 .font(.system(size: 15))
                         }
                     }
+                    .frame(maxWidth: .infinity)
 
                 }
                 .padding(.horizontal, 16)
@@ -69,6 +71,8 @@ struct FoodDetailInfoView: View {
                 .background()
                 .cornerRadius(16)
                 .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
+                .padding([.horizontal, .bottom], 16)
+
             } else {
                 VStack (alignment: .leading) {
                     HStack {
@@ -142,9 +146,10 @@ struct FoodDetailInfoView: View {
                         .fill(.white)
                         .stroke(.mdCoolgray20)
                 }
+                .padding([.horizontal, .bottom], 16)
+
             }
         }
-        .padding([.horizontal, .bottom], 16)
         .onTapGesture {
             fold.toggle()
         }
