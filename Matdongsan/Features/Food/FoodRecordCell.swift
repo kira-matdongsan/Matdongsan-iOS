@@ -102,8 +102,7 @@ struct FoodRecordCell: View {
                 Button {
                     // TODO
                 } label: {
-                    Image(systemName: "ellipsis")
-                        .imageScale(.large)
+                    Image("vertical-ellipsis")
                         .foregroundStyle(.mdCoolgray50)
                 }
             }
