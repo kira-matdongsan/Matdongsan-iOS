@@ -99,6 +99,11 @@ struct DishRankingView: View {
                         }
                     }
                 }
+                .popover(isPresented: $isPresentedImageView) {
+                    ImageGridView(isPresented: $isPresentedImageView)
+                        .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+                        .presentationCompactAdaptation(.fullScreenCover)
+                }
             }
         }
         .padding(16)
