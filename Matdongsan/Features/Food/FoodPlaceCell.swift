@@ -83,7 +83,7 @@ struct FoodPlaceCell: View {
                     .font(.system(size: 14))
 
                 Text(review)
-                    .font(.system(size: 16))
+                    .font(.system(size: 15))
                     .fontWeight(.thin)
                     .foregroundStyle(.mdCoolgray90)
 
@@ -117,9 +117,7 @@ struct FoodPlaceCell: View {
                 Button {
                     // TODO
                 } label: {
-                    Image(systemName: "ellipsis")
-                        .imageScale(.large)
-                        .foregroundStyle(.mdCoolgray50)
+                    Image("vertical-ellipsis")
                 }
             }
             .padding(.vertical, 1)
