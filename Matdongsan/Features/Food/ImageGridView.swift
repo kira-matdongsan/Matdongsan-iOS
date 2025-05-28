@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImageGridView: View {
     @Binding var isPresented:Bool
-    var images:[String] = ["corn", "corn", "corn"]
+    var images:[String] = ["corn", "launchImage", "corn"]
 
     var body: some View {
         VStack {
@@ -38,10 +38,10 @@ struct ImageGridView: View {
             ScrollView(.horizontal) {
                 HStack (spacing: 10) {
                     ForEach(Array(images.enumerated()), id: \.offset) { i, image in
-                        Image("corn")
+                        Image(image)
                             .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: UIScreen.main.bounds.width-90, height: UIScreen.main.bounds.width-90)
-                            .scaledToFit()
                             .cornerRadius(10)
                             .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                             .scrollTransition { content, phase in
