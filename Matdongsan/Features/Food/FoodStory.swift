@@ -11,9 +11,15 @@ struct FoodStory: View {
     @State var selectedCategory:String = "전체"
     private var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
     var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
+    
     @State var selectedSortIndex:Int = 0
     @State var selectedSort:String = "최신순"
+    @State var isPopoverSort:Bool = false
+    
+    @State var selectedFilterIndex:Int = 0
+    @State var selectedFilter:String = "전체"
     @State var isPopoverFilter:Bool = false
+    
     
     var body: some View {
         ZStack {
@@ -30,11 +36,10 @@ struct FoodStory: View {
                     }
                 }
                 
-                // 필터
                 HStack (spacing: 8) {
-                    
+                    // 정렬
                     Button {
-                        isPopoverFilter.toggle()
+                        isPopoverSort.toggle()
                     } label: {
                         HStack (spacing: 4) {
                             Text(selectedSort)
@@ -46,8 +51,23 @@ struct FoodStory: View {
                         .cornerRadius(4)
                     }
                     
+                    // 필터
+                    Button {
+                        isPopoverFilter.toggle()
+                    } label: {
+                        HStack (spacing: 4) {
+                            Text(selectedFilter)
+                                .tint(.mdCoolgray60)
+                            Image("arrow-circle-down")
+                        }
+                        .padding(4)
+                        .background(.mdCoolgray10.opacity(0.5))
+                        .cornerRadius(4)
+                    }
+                    
                     Spacer()
                     
+                    // 작성
                     Button {
                         // TODO
                     } label: {
@@ -73,6 +93,19 @@ struct FoodStory: View {
             .padding(.horizontal, 8)
             .padding(16)
             
+            // 정렬 메뉴
+            if isPopoverSort {
+                Color.black.opacity(0.001)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        isPopoverSort = false
+                    }
+                    .zIndex(99)
+                SortDropdownView(selectedSortIdx: $selectedSortIndex, isPresenting: $isPopoverSort, selectedSort: $selectedSort)
+                    .zIndex(100)
+                    .position(x: 70, y: 120) // temp
+            }
+            
             // 필터 메뉴
             if isPopoverFilter {
                 Color.black.opacity(0.001)
@@ -81,9 +114,9 @@ struct FoodStory: View {
                         isPopoverFilter = false
                     }
                     .zIndex(99)
-                FilterDropdownView(selectedSortIdx: $selectedSortIndex, isPresenting: $isPopoverFilter, selectedSort: $selectedSort)
+                FilterDropdownView(selectedIdx: $selectedFilterIndex, isPresenting: $isPopoverFilter, selectedItem: $selectedFilter)
                     .zIndex(100)
-                    .position(x: 70, y: 120) // temp
+                    .position(x: 155, y: 160) // temp
             }
         }
     }

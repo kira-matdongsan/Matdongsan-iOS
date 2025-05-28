@@ -34,9 +34,9 @@ struct SortDropdownView: View {
                 }
 
                 if i != sorts.count-1 {
-                    Divider()
-                        .frame(height: 5) // 안나와..
-                        .gridCellUnsizedAxes(.horizontal)
+                    Rectangle()
+                        .frame(height:1)
+                        .foregroundStyle(.mdCoolgray20)
                 }
             }
             
