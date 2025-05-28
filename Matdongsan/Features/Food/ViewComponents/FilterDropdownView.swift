@@ -32,7 +32,6 @@ struct FilterDropdownView: View {
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
                 .onTapGesture {
-                    
                     selectedIdx = i
                     selectedItem = categories[selectedIdx]
                     isPresenting = false
