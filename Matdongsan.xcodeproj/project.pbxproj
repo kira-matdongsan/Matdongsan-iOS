@@ -270,6 +270,8 @@
 		};
 		CDAEFB2B2D113F6700C4353F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CDAEFB1E2D113F6400C4353F /* Matdongsan */;
+			baseConfigurationReferenceRelativePath = .xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

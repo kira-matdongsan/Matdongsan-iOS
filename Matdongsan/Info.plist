@@ -19,10 +19,34 @@
 					<key>UISceneConfigurationName</key>
 					<string>Default Configuration</string>
 					<key>UISceneDelegateClassName</key>
-					<string>$(Development_name).SceneDelegate</string>
+					<string>$(DEVELOPMENT_NAME).SceneDelegate</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
+	<key>NidAppName</key>
+	<string>matdongsan</string>
+	<key>NidClientID</key>
+	<string>$(NID_CLIENT_ID)</string>
+	<key>NidClientSecret</key>
+	<string>$(NID_CLIENT_SECRET)</string>
+	<key>NidUrlScheme</key>
+	<string>$(NID_URL_SCHEME)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>matdongsan</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(NID_URL_SCHEME)</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>naversearchapp</string>
+		<string>naversearchthirdlogin</string>
+	</array>
 </dict>
 </plist>
