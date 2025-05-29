@@ -9,40 +9,47 @@ import SwiftUI
 
 struct FilterDropdownView: View {
     
-    var sorts:[String] = ["최신순", "좋아요순"]
-    @Binding var selectedSortIdx:Int
+    var categories:[String] = ["전체", "레시피", "플레이스","제철기록"]
+    @Binding var selectedIdx:Int
     @Binding var isPresenting:Bool
-    @Binding var selectedSort:String
+    @Binding var selectedItem:String
+    var storyIconMap:[String:String] = ["레시피":"recipe-line-icon", "플레이스":"place-line-icon", "제철기록":"record-line-icon"]
     
     var body: some View {
         LazyVGrid(columns: [GridItem()], spacing: 0) {
-            ForEach(Array(sorts.enumerated()), id: \.offset) { i, sort in
-                HStack {
-                    Text(sort)
-                        .font(.system(size: 15))
-                        .foregroundStyle(i == selectedSortIdx ? .mdCoolgray80 : .mdCoolgray60)
-                    Spacer()
-                    Image(i == selectedSortIdx ? "checked_icon" : "unchecked_icon")
-                }
-                .frame(height: 28)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .onTapGesture {
-                    selectedSortIdx = i
-                    selectedSort = sorts[selectedSortIdx]
-                    isPresenting = false
+            ForEach(Array(categories.enumerated()), id: \.offset) { i, category in
+                Button {
+                    selectedIdx = i
+                    selectedItem = categories[selectedIdx]
+                    withAnimation(.easeIn(duration: 0.07), {
+                        isPresenting = false
+                    })
+                } label: {
+                    HStack {
+                        if i != 0 {
+                            Image(storyIconMap[category] ?? "")
+                        }
+                        Text(category)
+                            .font(.system(size: 15))
+                            .foregroundStyle(i == selectedIdx ? .mdCoolgray80 : .mdCoolgray60)
+                        Spacer()
+                        Image(i == selectedIdx ? "checked_icon" : "unchecked_icon")
+                    }
+                    .frame(height: 28)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
                 }
 
-                if i != sorts.count-1 {
-                    Divider()
-                        .frame(height: 5) // 안나와..
-                        .gridCellUnsizedAxes(.horizontal)
+                if i != categories.count-1 {
+                    Rectangle()
+                        .frame(height:1)
+                        .foregroundStyle(.mdCoolgray20)
                 }
             }
             
         }
-        .frame(width:106)
         .background()
+        .frame(width:120)
         .cornerRadius(8)
         .clipped()
         .shadow(color: .mdCoolgray20, radius: 10, x: 0, y: 4)
@@ -51,5 +58,5 @@ struct FilterDropdownView: View {
 }
 
 #Preview {
-    FilterDropdownView(selectedSortIdx: .constant(0), isPresenting: .constant(true), selectedSort: .constant("최신순"))
+    FilterDropdownView(selectedIdx: .constant(0), isPresenting: .constant(true), selectedItem: .constant("전체"))
 }

@@ -13,6 +13,7 @@ struct DishRankingView: View {
     let columns = [GridItem(.flexible())]
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
+    @State var isPresentedImageView:Bool = false
     
     var body: some View {
         VStack (spacing: 16) {
@@ -62,9 +63,19 @@ struct DishRankingView: View {
                         LazyVGrid(columns: columns, spacing: 0) {
                             ForEach(pageItems, id: \.self) { item in
                                 if item == items.last {
-                                    AddingBanner()
+                                    Button {
+                                        // TODO
+                                    } label: {
+                                        AddingBanner()
+                                    }
                                 } else {
-                                    DishCell(item: item)
+                                    Button {
+                                        // TODO
+                                        isPresentedImageView.toggle()
+                                    } label: {
+                                        DishCell(item: item)
+                                    }
+                                    // TODO Button style
                                 }
                             }
                             .padding(.horizontal, 8)
@@ -87,6 +98,11 @@ struct DishRankingView: View {
                             currentHeight = selectedHeight
                         }
                     }
+                }
+                .popover(isPresented: $isPresentedImageView) {
+                    ImageGridView(isPresented: $isPresentedImageView)
+                        .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+                        .presentationCompactAdaptation(.fullScreenCover)
                 }
             }
         }
@@ -126,6 +142,7 @@ struct AddingBanner: View {
         .background(.mdYellow)
         .cornerRadius(12)
         .padding(.vertical, 8)
+        .foregroundStyle(.mdCoolgray90)
     }
 }
 
@@ -164,5 +181,7 @@ struct DishCell: View {
             }
             Spacer()
         }
+        .foregroundStyle(.mdCoolgray90)
+
     }
 }
