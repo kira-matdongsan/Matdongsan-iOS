@@ -17,22 +17,7 @@ struct SortDropdownView: View {
     var body: some View {
         LazyVGrid(columns: [GridItem()], spacing: 0) {
             ForEach(Array(sorts.enumerated()), id: \.offset) { i, sort in
-                HStack {
-                    Text(sort)
-                        .font(.system(size: 15))
-                        .foregroundStyle(i == selectedSortIdx ? .mdCoolgray80 : .mdCoolgray60)
-                    Spacer()
-                    Image(i == selectedSortIdx ? "checked_icon" : "unchecked_icon")
-                }
-                .frame(height: 28)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .onTapGesture {
-                    selectedSortIdx = i
-                    selectedSort = sorts[selectedSortIdx]
-                    isPresenting = false
-                }
-
+                MenuButtonView(selectedSortIdx: $selectedSortIdx, selectedSort: $selectedSort, isPresenting: $isPresenting, sort: sort, index: i)
                 if i != sorts.count-1 {
                     Rectangle()
                         .frame(height:1)

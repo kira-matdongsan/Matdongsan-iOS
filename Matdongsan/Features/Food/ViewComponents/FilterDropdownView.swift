@@ -18,23 +18,26 @@ struct FilterDropdownView: View {
     var body: some View {
         LazyVGrid(columns: [GridItem()], spacing: 0) {
             ForEach(Array(categories.enumerated()), id: \.offset) { i, category in
-                HStack {
-                    if i != 0 {
-                        Image(storyIconMap[category] ?? "")
-                    }
-                    Text(category)
-                        .font(.system(size: 15))
-                        .foregroundStyle(i == selectedIdx ? .mdCoolgray80 : .mdCoolgray60)
-                    Spacer()
-                    Image(i == selectedIdx ? "checked_icon" : "unchecked_icon")
-                }
-                .frame(height: 28)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .onTapGesture {
+                Button {
                     selectedIdx = i
                     selectedItem = categories[selectedIdx]
-                    isPresenting = false
+                    withAnimation(.easeIn(duration: 0.07), {
+                        isPresenting = false
+                    })
+                } label: {
+                    HStack {
+                        if i != 0 {
+                            Image(storyIconMap[category] ?? "")
+                        }
+                        Text(category)
+                            .font(.system(size: 15))
+                            .foregroundStyle(i == selectedIdx ? .mdCoolgray80 : .mdCoolgray60)
+                        Spacer()
+                        Image(i == selectedIdx ? "checked_icon" : "unchecked_icon")
+                    }
+                    .frame(height: 28)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
                 }
 
                 if i != categories.count-1 {
