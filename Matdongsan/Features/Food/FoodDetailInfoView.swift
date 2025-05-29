@@ -46,9 +46,10 @@ struct FoodDetailInfoView: View {
                     .background(.mdCoolgray10)
                     .cornerRadius(8)
                     .font(.system(size: 16))
+                    .frame(width: UIScreen.main.bounds.width-64)
 
                     
-                    HStack {
+                    LazyHGrid(rows:[GridItem()]) {
                         ForEach(detailCategories, id: \.self) { category in
                             Text("\(category)")
                                 .fixedSize()
@@ -63,7 +64,8 @@ struct FoodDetailInfoView: View {
                                 .font(.system(size: 15))
                         }
                     }
-                    .frame(maxWidth: .infinity)
+                    .gridCellUnsizedAxes(.horizontal)
+                    .frame(width: UIScreen.main.bounds.width-64)
 
                 }
                 .padding(.horizontal, 16)
@@ -72,6 +74,7 @@ struct FoodDetailInfoView: View {
                 .cornerRadius(16)
                 .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
                 .padding([.horizontal, .bottom], 16)
+
 
             } else {
                 VStack (alignment: .leading) {
@@ -153,6 +156,7 @@ struct FoodDetailInfoView: View {
         .onTapGesture {
             fold.toggle()
         }
+
         
     }
 }
