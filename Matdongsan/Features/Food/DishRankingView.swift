@@ -100,9 +100,13 @@ struct DishRankingView: View {
                     }
                 }
                 .popover(isPresented: $isPresentedImageView) {
-                    ImageGridView(isPresented: $isPresentedImageView)
-                        .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
-                        .presentationCompactAdaptation(.fullScreenCover)
+                    if #available(iOS 18.0, *) {
+                        ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0))
+                            .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+                            .presentationCompactAdaptation(.fullScreenCover)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }
         }

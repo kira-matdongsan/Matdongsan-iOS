@@ -15,8 +15,9 @@ struct FoodRecordCell: View {
     private var content: String = "길가에 트럭을 보면 그냥 지나치지 못하고 항상 옥수수를 사먹는데 이태원 길가에 있던 옥수수 사장님이 개시 손님이라고 해서 뭔가 기분이 좋았당! 집에 가서 먹으려고 했는데 못참고 길옥수수를 했다."
     @State private var isLiked: Bool = false
     private var likeCnt: Int = 0
-
-
+    var images:[String] = ["corn", "launchImage", "corn"]
+    @State var isClicked = false
+    @State var selectedId = 0
     
     var body: some View {
         VStack {
@@ -42,22 +43,29 @@ struct FoodRecordCell: View {
             Divider()
             
             HStack {
-                LazyHGrid(rows: [GridItem()]) {
-                    Image("cornfirst")
-                        .resizable()
-                        .frame(width: 78, height: 78)
-                    
-                    Image("cornfirst")
-                        .resizable()
-                        .frame(width: 78, height: 78)
-                    
-                    Image("cornfirst")
-                        .resizable()
-                        .frame(width: 78, height: 78)
-                    
+                LazyHGrid(rows: [GridItem()], spacing: 6) {
+                    ForEach(Array(images.enumerated()), id: \.offset) { i, imageName in
+                        Image(imageName)
+                            .resizable()
+                            .frame(width: 78, height: 78)
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                selectedId = i
+                                isClicked.toggle()
+                            }
+                    }
                 }
                 .frame(height: 78)
                 Spacer()
+            }
+            .popover(isPresented: $isClicked) {
+                if #available(iOS 18.0, *) {
+                    ImageGridView(isPresented: $isClicked, selectedId: $selectedId)
+                        .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+                        .presentationCompactAdaptation(.fullScreenCover)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
             
             VStack (alignment: .leading, spacing: 8) {
