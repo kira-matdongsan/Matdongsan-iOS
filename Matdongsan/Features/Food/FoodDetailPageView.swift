@@ -9,14 +9,16 @@ import SwiftUI
 
 struct FoodDetailPageView: View {
     var body: some View {
-        ScrollView {
-            VStack (spacing: 16) {
-                FoodCardView()
-                FoodDetailInfoView()
-                CustomDivider()
-                DishRankingView()
-                CustomDivider()
-                FoodStory()
+        NavigationStack {
+            ScrollView {
+                VStack (spacing: 16) {
+                    FoodCardView()
+                    FoodDetailInfoView()
+                    CustomDivider()
+                    DishRankingView()
+                    CustomDivider()
+                    FoodStory()
+                }
             }
         }
     }
