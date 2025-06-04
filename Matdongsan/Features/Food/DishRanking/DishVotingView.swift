@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct DishVotingView: View {
     
@@ -15,7 +16,8 @@ struct DishVotingView: View {
     
     var dishName:String = "찐옥수수"
     @State var votingEnabled:Bool = false
-    var addedImgs:[String] = ["corn", "corn"]
+    var addedImgs:[String] = [] // ["corn", "corn"]
+    @State var items:[PhotosPickerItem] = []
 
     var body: some View {
         VStack {
@@ -39,18 +41,22 @@ struct DishVotingView: View {
             
                     VStack {
                         if addedImgs.isEmpty {
-                            VStack (spacing: 8) {
-                                Image("add")
-                                Text("사진 추가하기 (선택)")
-                                    .foregroundStyle(.mdCoolgray90)
-                                    .font(.footnote)
-                                
-                                Group {
-                                    Text("\(0)/5")
-                                    Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
+                            PhotosPicker(selection: $items,
+                                         matching: .images) {
+                                VStack (spacing: 8) {
+                                    Image("add")
+                                    Text("사진 추가하기 (선택)")
+                                        .foregroundStyle(.mdCoolgray90)
+                                        .font(.footnote)
+                                    
+                                    Group {
+                                        Text("\(0)/5")
+                                        Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
+                                    }
+                                    .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
+                                    .font(.caption2)
                                 }
-                                .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
-                                .font(.caption2)
+                                .frame(width: proxy.size.width-90)
                             }
                         } else {
                             // 이미지 추가 후
@@ -61,15 +67,15 @@ struct DishVotingView: View {
                                     .foregroundStyle(.mdCoolgray90)
                                 
                                 LazyVStack (alignment: .leading) {
-                                    LazyVGrid(columns: [GridItem(.flexible(minimum: 10, maximum: 76)), GridItem(.flexible(minimum: 10, maximum: 76)), GridItem(.flexible(minimum: 10, maximum: 76)), GridItem(.flexible(minimum: 10, maximum: 76))]) {
-                                        ForEach(0..<5) { i in
+                                    LazyVGrid(columns: [GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68))]) {
+                                        ForEach(0..<3) { i in
                                             ZStack (alignment: .topTrailing) {
                                                 Image(i != 10 ? "cornfirst" : "corn")
                                                     .resizable()
                                                     .clipShape(RoundedRectangle(cornerRadius: 8))
                                                 
                                                 Button {
-                                                    
+                                                    // 이미지 삭제
                                                 } label: {
                                                     Image("close-circle-black")
                                                         .frame(width: 24, height: 24)
@@ -175,6 +181,7 @@ struct DishVotingView: View {
         }
     }
 }
+
 
 #Preview {
     DishVotingView()
