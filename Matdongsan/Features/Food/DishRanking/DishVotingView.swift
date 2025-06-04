@@ -15,6 +15,7 @@ struct DishVotingView: View {
     
     var dishName:String = "찐옥수수"
     @State var votingEnabled:Bool = false
+    var addedImgs:[String] = ["corn", "corn"]
 
     var body: some View {
         VStack {
@@ -35,21 +36,78 @@ struct DishVotingView: View {
                     .background(.mdGray80)
                     .cornerRadius(16)
                     .padding(24)
-                    
-                    VStack (spacing: 8) {
-                        Image("add")
-                        Text("사진 추가하기 (선택)")
-                            .foregroundStyle(.mdCoolgray90)
-                            .font(.footnote)
-                        
-                        Group {
-                            Text("\(0)/\(5)")
-                            Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
+            
+                    VStack {
+                        if addedImgs.isEmpty {
+                            VStack (spacing: 8) {
+                                Image("add")
+                                Text("사진 추가하기 (선택)")
+                                    .foregroundStyle(.mdCoolgray90)
+                                    .font(.footnote)
+                                
+                                Group {
+                                    Text("\(0)/5")
+                                    Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
+                                }
+                                .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
+                                .font(.caption2)
+                            }
+                        } else {
+                            // 이미지 추가 후
+                            VStack (spacing: 8) {
+                                Text("사진 추가하기")
+                                    .frame(width: proxy.size.width-48-32, alignment: .leading)
+                                    .font(.footnote)
+                                    .foregroundStyle(.mdCoolgray90)
+                                
+                                LazyVStack (alignment: .leading) {
+                                    LazyVGrid(columns: [GridItem(.flexible(minimum: 10, maximum: 76)), GridItem(.flexible(minimum: 10, maximum: 76)), GridItem(.flexible(minimum: 10, maximum: 76)), GridItem(.flexible(minimum: 10, maximum: 76))]) {
+                                        ForEach(0..<5) { i in
+                                            ZStack (alignment: .topTrailing) {
+                                                Image(i != 10 ? "cornfirst" : "corn")
+                                                    .resizable()
+                                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                                
+                                                Button {
+                                                    
+                                                } label: {
+                                                    Image("close-circle-black")
+                                                        .frame(width: 24, height: 24)
+                                                        .padding(4)
+                                                }
+                                            }
+                                            .frame(width: 68, height: 68)
+                                        }
+                                        
+                                        if 1..<5 ~= addedImgs.count {
+                                            Button {
+                                                // 이미지 추가
+                                            } label: {
+                                                Image("add-bw")
+                                                    .frame(width: 24, height: 24)
+                                                    .padding(4)
+                                            }
+                                            .frame(width: 68, height: 68)
+                                            .background(Color.mdCoolgray20)
+                                            .cornerRadius(8)
+                                        }
+                                    }
+                                    .fixedSize()
+                                    .frame(alignment: .leading) // temp
+                                    .padding(.vertical, 12)
+                                }
+
+                                Group {
+                                    Text("투표에 사용한 사진은 ‘마이페이지 > 내활동'에서 삭제할 수 있어요.")
+                                    Divider()
+                                    Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
+                                }
+                                .font(.caption2)
+                                .foregroundStyle(.mdCoolgray70)
+                            }
                         }
-                        .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
-                        .font(.caption2)
-                            
                     }
+                    .padding(.horizontal, 12)
                     .padding(.vertical, 15)
                     .frame(maxWidth: proxy.size.width)
                     .background()
@@ -62,6 +120,7 @@ struct DishVotingView: View {
                     Button {
                         //
                         votingEnabled.toggle()
+                        
                     } label: {
                         Text("투표하기")
                             .font(.subheadline)
