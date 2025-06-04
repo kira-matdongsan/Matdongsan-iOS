@@ -20,6 +20,9 @@ struct FoodPlaceCell: View {
     @State private var isLiked: Bool = false
     private var likeCnt: Int = 0
     
+    var images:[String] = ["corn", "launchImage", "corn"]
+    @State var isClicked = false
+    
     var body: some View {
         VStack {
             HStack (spacing: 8) {
@@ -74,6 +77,18 @@ struct FoodPlaceCell: View {
                     Image("cornfirst")
                         .resizable()
                         .frame(width: 78, height: 78)
+                        .onTapGesture {
+                            isClicked.toggle()
+                        }
+                        .popover(isPresented: $isClicked) {
+                            if #available(iOS 18.0, *) {
+                                ImageGridView(isPresented: $isClicked, selectedId: .constant(0))
+                                    .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+                                    .presentationCompactAdaptation(.fullScreenCover)
+                            } else {
+                                // Fallback on earlier versions
+                            }
+                        }
                 }
                 .frame(height: 78) // temp
             }
@@ -128,6 +143,7 @@ struct FoodPlaceCell: View {
         .background(.white)
         .cornerRadius(16)
         .shadow(color: .mdCoolgray10, radius: 8, x: 1, y: 2)
+        
     }
 }
 

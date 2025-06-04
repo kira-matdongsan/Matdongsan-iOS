@@ -17,6 +17,10 @@ struct FoodRecipeCell: View {
     @State private var isLiked: Bool = false
     private var likeCnt: Int = 0
     
+    var images:[String] = ["corn", "launchImage", "corn"]
+    @State var isClicked = false
+    @State var selectedId = 0
+    
     var body: some View {
         VStack {
             HStack (spacing: 8) {
@@ -74,22 +78,29 @@ struct FoodRecipeCell: View {
                 
                 
                 HStack {
-                    LazyHGrid(rows: [GridItem()]) {
-                        Image("cornfirst")
-                            .resizable()
-                            .frame(width: 78, height: 78)
-                        
-                        Image("corn02")
-                            .resizable()
-                            .frame(width: 78, height: 78)
-                        
-                        Image("cornfirst")
-                            .resizable()
-                            .frame(width: 78, height: 78)
-                        
+                    LazyHGrid(rows: [GridItem()], spacing: 6) {
+                        ForEach(Array(images.enumerated()), id: \.offset) { i, imageName in
+                            Image(imageName)
+                                .resizable()
+                                .frame(width: 78, height: 78)
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    selectedId = i
+                                    isClicked.toggle()
+                                }
+                        }
                     }
                     .frame(height: 78)
                     Spacer()
+                }
+                .popover(isPresented: $isClicked) {
+                    if #available(iOS 18.0, *) {
+                        ImageGridView(isPresented: $isClicked, selectedId: $selectedId)
+                            .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+                            .presentationCompactAdaptation(.fullScreenCover)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }
             

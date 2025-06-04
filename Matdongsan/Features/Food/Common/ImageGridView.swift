@@ -7,9 +7,12 @@
 
 import SwiftUI
 
+@available(iOS 18.0, *)
 struct ImageGridView: View {
     @Binding var isPresented:Bool
     var images:[String] = ["corn", "launchImage", "corn"]
+    @Binding var selectedId:Int
+    @State var position:ScrollPosition = .init(id: 0)
 
     var body: some View {
         VStack {
@@ -49,6 +52,7 @@ struct ImageGridView: View {
                                     .scaleEffect(y: phase.isIdentity ? 1 : 0.8)
                                     .opacity(phase.isIdentity ? 1 : 0.8)
                             }
+                            .id(i)
                     }
                 }
                 .scrollTargetLayout()
@@ -56,13 +60,21 @@ struct ImageGridView: View {
             .contentMargins(.horizontal, 45, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
             .scrollIndicators(.hidden)
-        
+            .scrollPosition($position)
+            
             Spacer()
+        }
+        .onAppear {
+            position.scrollTo(id: selectedId)
         }
     }
 }
 
 #Preview {
-    ImageGridView(isPresented: .constant(true))
-        .background(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+    if #available(iOS 18.0, *) {
+        ImageGridView(isPresented: .constant(true), selectedId: .constant(0))
+            .background(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+    } else {
+        // Fallback on earlier versions
+    }
 }
