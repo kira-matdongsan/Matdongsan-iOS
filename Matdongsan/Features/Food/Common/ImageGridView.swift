@@ -9,6 +9,7 @@ import SwiftUI
 
 @available(iOS 18.0, *)
 struct ImageGridView: View {
+    // 스토리인지, 요리인지 구별해서 신고하기 띄워야함 -> Enum으로 처리할까봐
     @Binding var isPresented:Bool
     var images:[String] = ["corn", "launchImage", "corn"]
     @Binding var selectedId:Int
@@ -16,17 +17,16 @@ struct ImageGridView: View {
 
     var body: some View {
         VStack {
-            Spacer()
-            
             HStack(spacing: 8) {
                 Spacer()
                 Text("옥수수")
                     .padding(6)
-                    .background(Color(uiColor: UIColor(hexCode: "F4F4F4")).opacity(0.1))
+                    .background(Color(uiColor: UIColor(hexCode: "F4F4F4")).opacity(0.1)
+                        .blur(radius: 10))
                     .cornerRadius(10)
                     .font(.callout)
                     .foregroundStyle(.white)
-
+                
                 Button {
                     isPresented.toggle()
                 } label: {
@@ -61,8 +61,6 @@ struct ImageGridView: View {
             .scrollTargetBehavior(.viewAligned)
             .scrollIndicators(.hidden)
             .scrollPosition($position)
-            
-            Spacer()
         }
         .onAppear {
             position.scrollTo(id: selectedId)
@@ -72,8 +70,11 @@ struct ImageGridView: View {
 
 #Preview {
     if #available(iOS 18.0, *) {
-        ImageGridView(isPresented: .constant(true), selectedId: .constant(0))
-            .background(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
+        ZStack {
+            Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4)
+            ImageGridView(isPresented: .constant(true), selectedId: .constant(0))
+        }
+        .ignoresSafeArea()
     } else {
         // Fallback on earlier versions
     }

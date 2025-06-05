@@ -117,9 +117,18 @@ struct DishRankingView: View {
                     }
                     .popover(isPresented: $isPresentedImageView) {
                         if #available(iOS 18.0, *) {
-                            ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0))
-                                .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
-                                .presentationCompactAdaptation(.fullScreenCover)
+                            ZStack {
+                                Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4)
+                                    .ignoresSafeArea()
+                                    .onTapGesture {
+                                        isPresentedImageView.toggle()
+                                    }
+                                
+                                ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0))
+                                    .presentationBackground(.ultraThinMaterial.opacity(0.5))
+                                    .presentationCompactAdaptation(.fullScreenCover)
+                            }
+
                         } else {
                             // Fallback on earlier versions
                         }
