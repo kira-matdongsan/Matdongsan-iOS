@@ -10,7 +10,7 @@ import PhotosUI
 
 @MainActor
 final class PhotoPickerViewModel: ObservableObject {
-    @Published private(set) var selectedImages:[UIImage] = [] // (set) ??
+    @Published private(set) var selectedImages:[UIImage] = []
     @Published var imgSelection:[PhotosPickerItem] = [] {
         didSet {
             withAnimation(.easeInOut(duration: 0.5)) {
@@ -53,7 +53,9 @@ struct DishVotingView: View {
     @StateObject private var viewModel = PhotoPickerViewModel()
 
     var dishName:String = "찐옥수수"
-    @State var votingEnabled:Bool = false
+    var votingEnabled:Bool {
+        !viewModel.selectedImages.isEmpty
+    }
 
     var body: some View {
         VStack {
@@ -165,9 +167,32 @@ struct DishVotingView: View {
                     Spacer()
  
                     Button {
-                        //
-                        votingEnabled.toggle()
-                        
+                        // 이미지 업로드
+                        // 1. presigned urls 받기
+                        let requestDto = PresignedUrlsRequestDto(fileType: FileType.DISH.rawValue, fileNames: (0..<viewModel.selectedImages.count).map { "\($0).png" })
+                        Task {
+                            do {
+                                try APIService().getImgPresignedUrls(requestDto) { response in
+                                    let imgUrls:[ImageUrlResponse] = response.contents
+                                    for (i, imgUrl) in imgUrls.enumerated() {
+                                        // 2. S3에 이미지 업로드
+                                        guard let imageData = viewModel.selectedImages[i].pngData() else { continue }
+                                        do {
+                                            try APIService().uploadImgtoS3(imgUrl.presignedUrl, imageData) {
+                                                // s3에 이미지 업로드 완료
+                                                // TODO : access url로 post하기
+                                                print(imgUrl.accessUrl)
+                                                print("success")
+                                            }
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                }
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
                     } label: {
                         Text("투표하기")
                             .font(.subheadline)
@@ -186,6 +211,7 @@ struct DishVotingView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationTitle("제철요리 투표하기")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
