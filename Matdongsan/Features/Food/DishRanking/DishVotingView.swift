@@ -8,42 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-@MainActor
-final class PhotoPickerViewModel: ObservableObject {
-    @Published private(set) var selectedImages:[UIImage] = []
-    @Published var imgSelection:[PhotosPickerItem] = [] {
-        didSet {
-            withAnimation(.easeInOut(duration: 0.5)) {
-                selectedImages.removeAll()
-                setImages(from: imgSelection)
-            }
-        }
-    }
-    
-    private func setImages(from selection: [PhotosPickerItem]) {
-        if selection.isEmpty { return }
-        
-        // convert to uiImage
-        Task {
-            for selectedImage in selection {
-                if let data = try? await selectedImage.loadTransferable(type: Data.self) {
-                    if let uiImage = UIImage(data: data) {
-                        selectedImages.append(uiImage)
-                    }
-                }
-            }
-        }
-    }
-    
-    // 이미지 순서 바꿀 수 있게 하는 것도 필요하지 않을까
-    // 이걸 통해서 지우게 할지, 아님 그냥 바로 지우게 할지
-    func deleteImage(_ targetIndex:Int) {
-        Task {
-            imgSelection.remove(at: targetIndex)
-        }
-    }
-}
-
 struct DishVotingView: View {
     
     // 둘의 차이점 궁금
@@ -107,43 +71,44 @@ struct DishVotingView: View {
                                     .foregroundStyle(.mdCoolgray90)
                                 
                                 LazyVStack (alignment: .leading) {
-                                    LazyVGrid(columns: [GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68))]) {
-                                        
-                                        ForEach(0..<viewModel.selectedImages.count, id: \.self) { i in
-                                            ZStack (alignment: .topTrailing) {
-                                                Image(uiImage: viewModel.selectedImages[i])
-                                                    .resizable()
-                                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                                
-                                                Button {
-                                                    // 이미지 삭제
-                                                    viewModel.imgSelection.remove(at: i)
-                                                } label: {
-                                                    Image("close-circle-black")
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        LazyVGrid(columns: [GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68))]) {
+                                            
+                                            ForEach(0..<viewModel.selectedImages.count, id: \.self) { i in
+                                                ZStack (alignment: .topTrailing) {
+                                                    Image(uiImage: viewModel.selectedImages[i])
+                                                        .resizable()
+                                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                                    
+                                                    Button {
+                                                        // 이미지 삭제
+                                                        viewModel.imgSelection.remove(at: i)
+                                                    } label: {
+                                                        Image("close-circle-black")
+                                                            .frame(width: 24, height: 24)
+                                                            .padding(4)
+                                                    }
+                                                }
+                                                .frame(width: 68, height: 68)
+                                            }
+                                            
+                                            if 1..<5 ~= viewModel.selectedImages.count {
+                                                PhotosPicker(selection: $viewModel.imgSelection,
+                                                             maxSelectionCount: 5,
+                                                             matching: .images) {
+                                                    Image("add-bw")
                                                         .frame(width: 24, height: 24)
                                                         .padding(4)
                                                 }
+                                                 .frame(width: 68, height: 68)
+                                                 .background(Color.mdCoolgray20)
+                                                 .cornerRadius(8)
                                             }
-                                            .frame(width: 68, height: 68)
                                         }
-                                        
-                                        if 1..<5 ~= viewModel.selectedImages.count {
-                                            PhotosPicker(selection: $viewModel.imgSelection,
-                                                         maxSelectionCount: 5,
-                                                         matching: .images) {
-                                                Image("add-bw")
-                                                    .frame(width: 24, height: 24)
-                                                    .padding(4)
-                                            }
-                                             .frame(width: 68, height: 68)
-                                             .background(Color.mdCoolgray20)
-                                             .cornerRadius(8)
-                                        }
+                                        .fixedSize()
+                                        .frame(alignment: .leading) // temp
+                                        .padding(.vertical, 12)
                                     }
-                                    .fixedSize()
-                                    .frame(alignment: .leading) // temp
-                                    .padding(.vertical, 12)
-                                    .animation(.easeInOut(duration: 0.5))
                                 }
 
                                 Group {
@@ -193,6 +158,8 @@ struct DishVotingView: View {
                                 print(error.localizedDescription)
                             }
                         }
+                        self.presentationMode.wrappedValue.dismiss()
+
                     } label: {
                         Text("투표하기")
                             .font(.subheadline)
@@ -205,7 +172,7 @@ struct DishVotingView: View {
                             .padding(.horizontal, 15)
                             .padding(.bottom, 24)
                     }
-
+                    .disabled(!votingEnabled)
                 }
             }
         }

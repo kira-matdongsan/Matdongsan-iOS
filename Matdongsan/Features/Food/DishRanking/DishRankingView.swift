@@ -64,11 +64,10 @@ struct DishRankingView: View {
                             LazyVGrid(columns: columns, spacing: 0) {
                                 ForEach(pageItems, id: \.self) { item in
                                     if item == items.last {
-                                        Button {
-                                            // TODO
-                                        } label: {
+                                        NavigationLink(destination: NewDishVotingView()) {
                                             AddingBanner()
                                         }
+                                        
                                     } else {
                                         HStack {
                                             Button {
@@ -77,7 +76,6 @@ struct DishRankingView: View {
                                                 DishCell(item: item)
                                             }
                                             // TODO Button style
-                                            
                                             
                                             NavigationLink(destination: DishVotingView(), label: {
                                                 Text("투표하기")
