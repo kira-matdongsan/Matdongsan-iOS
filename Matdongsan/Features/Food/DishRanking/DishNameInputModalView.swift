@@ -14,6 +14,7 @@ struct DishNameInputModalView: View {
     var enableAdding:Bool {
         !input.isEmpty
     }
+    let characterLimit:Int = 22
     
     var body: some View {
         VStack (spacing: 16) {
@@ -36,6 +37,12 @@ struct DishNameInputModalView: View {
                             .foregroundStyle(.mdCoolgray20)
                     )
                     .font(.caption)
+                    .onChange(of: input) { _, newValue in
+                        if newValue.count > characterLimit {
+                            input = String(newValue.prefix(characterLimit))
+                        }
+                    }
+                    // paste 경우는 처리하지 않겠습니다. (당당)
                 
                 VStack (alignment: .leading, spacing: 2) {
                     Text("- 제철음식과 관련된 요리가 아닐 경우 등록되지 않을 수 있습니다.")
