@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Combine
 
 struct NewDishVotingView: View {
     
@@ -18,6 +19,7 @@ struct NewDishVotingView: View {
     var foodEngName:String = "corn"
     @State var dishName:String = ""
     @State var isPresentAlert:Bool = false
+    @State var isPresentCompletionAlert:Bool = false
     
     @StateObject private var viewModel = PhotoPickerViewModel()
     
@@ -96,6 +98,9 @@ struct NewDishVotingView: View {
                                             .foregroundStyle(.mdYellow40)
                                             .font(.caption)
                                             .fontWeight(.semibold)
+                                            .onTapGesture {
+                                                isPresentAlert.toggle()
+                                            }
                                         Image("close-circle-gray")
                                             .frame(width:16, height:16)
                                             .onTapGesture {
@@ -225,6 +230,13 @@ struct NewDishVotingView: View {
                                                     // TODO : access url로 post하기
                                                     print(imgUrl.accessUrl)
                                                     print("success")
+                                                    
+                                                    // 업로딩 완료 팝업
+                                                    isPresentCompletionAlert.toggle()
+                                                    
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 300) {
+                                                        self.presentationMode.wrappedValue.dismiss()
+                                                    }
                                                 }
                                             } catch {
                                                 print(error.localizedDescription)
@@ -262,7 +274,16 @@ struct NewDishVotingView: View {
                         isPresentAlert.toggle()
                     }
                 
-                DishNameInputModalView(isPresent: $isPresentAlert, dishName: $dishName)
+                DishNameInputModalView(isPresent: $isPresentAlert, dishName: $dishName, input: dishName)
+                    .padding(.horizontal, 12) // temp 뒷배경 padding에 영향
+            }
+            
+            if isPresentCompletionAlert {
+                Color.mdGray50
+                    .opacity(0.1)
+                    .ignoresSafeArea()
+                
+                VotingCompletionModalView(dishName: dishName, isPresent: $isPresentCompletionAlert)
                     .padding(24)
             }
         }

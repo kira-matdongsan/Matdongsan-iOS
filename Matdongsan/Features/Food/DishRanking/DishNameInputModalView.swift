@@ -11,6 +11,7 @@ struct DishNameInputModalView: View {
     @Binding var isPresent:Bool
     @Binding var dishName:String
     @State var input:String = ""
+    @FocusState var isFocused:Bool
     var enableAdding:Bool {
         !input.isEmpty
     }
@@ -36,12 +37,14 @@ struct DishNameInputModalView: View {
                             .stroke()
                             .foregroundStyle(.mdCoolgray20)
                     )
+//                    .textFieldStyle(.roundedBorder)
                     .font(.caption)
                     .onChange(of: input) { _, newValue in
                         if newValue.count > characterLimit {
                             input = String(newValue.prefix(characterLimit))
                         }
                     }
+                    .focused($isFocused)
                     // paste 경우는 처리하지 않겠습니다. (당당)
                 
                 VStack (alignment: .leading, spacing: 2) {
@@ -74,6 +77,12 @@ struct DishNameInputModalView: View {
         .padding(16)
         .background()
         .cornerRadius(16)
+        .onDisappear {
+            dishName = input
+        }
+        .onAppear {
+            isFocused = true
+        }
     }
 }
 
