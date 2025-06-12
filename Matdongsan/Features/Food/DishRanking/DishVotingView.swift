@@ -14,10 +14,12 @@ struct DishVotingView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @StateObject private var viewModel = PhotoPickerViewModel()
+
     var dishName:String = "찐옥수수"
-    @State var votingEnabled:Bool = false
-    var addedImgs:[String] = [] // ["corn", "corn"]
-    @State var items:[PhotosPickerItem] = []
+    var votingEnabled:Bool {
+        !viewModel.selectedImages.isEmpty
+    }
 
     var body: some View {
         VStack {
@@ -40,11 +42,12 @@ struct DishVotingView: View {
                     .padding(24)
             
                     VStack {
-                        if addedImgs.isEmpty {
-                            PhotosPicker(selection: $items,
+                        if viewModel.selectedImages.isEmpty {
+                            PhotosPicker(selection: $viewModel.imgSelection,
+                                         maxSelectionCount: 5,
                                          matching: .images) {
                                 VStack (spacing: 8) {
-                                    Image("add")
+                                    Image("add-by")
                                     Text("사진 추가하기 (선택)")
                                         .foregroundStyle(.mdCoolgray90)
                                         .font(.footnote)
@@ -56,8 +59,9 @@ struct DishVotingView: View {
                                     .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
                                     .font(.caption2)
                                 }
-                                .frame(width: proxy.size.width-90)
+                                .frame(maxWidth: .infinity)
                             }
+                            
                         } else {
                             // 이미지 추가 후
                             VStack (spacing: 8) {
@@ -67,40 +71,44 @@ struct DishVotingView: View {
                                     .foregroundStyle(.mdCoolgray90)
                                 
                                 LazyVStack (alignment: .leading) {
-                                    LazyVGrid(columns: [GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68))]) {
-                                        ForEach(0..<3) { i in
-                                            ZStack (alignment: .topTrailing) {
-                                                Image(i != 10 ? "cornfirst" : "corn")
-                                                    .resizable()
-                                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                                
-                                                Button {
-                                                    // 이미지 삭제
-                                                } label: {
-                                                    Image("close-circle-black")
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        LazyVGrid(columns: [GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68)), GridItem(.flexible(minimum: 68, maximum: 68))]) {
+                                            
+                                            ForEach(0..<viewModel.selectedImages.count, id: \.self) { i in
+                                                ZStack (alignment: .topTrailing) {
+                                                    Image(uiImage: viewModel.selectedImages[i])
+                                                        .resizable()
+                                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                                    
+                                                    Button {
+                                                        // 이미지 삭제
+                                                        viewModel.imgSelection.remove(at: i)
+                                                    } label: {
+                                                        Image("close-circle-black")
+                                                            .frame(width: 24, height: 24)
+                                                            .padding(4)
+                                                    }
+                                                }
+                                                .frame(width: 68, height: 68)
+                                            }
+                                            
+                                            if 1..<5 ~= viewModel.selectedImages.count {
+                                                PhotosPicker(selection: $viewModel.imgSelection,
+                                                             maxSelectionCount: 5,
+                                                             matching: .images) {
+                                                    Image("add-bw")
                                                         .frame(width: 24, height: 24)
                                                         .padding(4)
                                                 }
+                                                 .frame(width: 68, height: 68)
+                                                 .background(Color.mdCoolgray20)
+                                                 .cornerRadius(8)
                                             }
-                                            .frame(width: 68, height: 68)
                                         }
-                                        
-                                        if 1..<5 ~= addedImgs.count {
-                                            Button {
-                                                // 이미지 추가
-                                            } label: {
-                                                Image("add-bw")
-                                                    .frame(width: 24, height: 24)
-                                                    .padding(4)
-                                            }
-                                            .frame(width: 68, height: 68)
-                                            .background(Color.mdCoolgray20)
-                                            .cornerRadius(8)
-                                        }
+                                        .fixedSize()
+                                        .frame(alignment: .leading) // temp
+                                        .padding(.vertical, 12)
                                     }
-                                    .fixedSize()
-                                    .frame(alignment: .leading) // temp
-                                    .padding(.vertical, 12)
                                 }
 
                                 Group {
@@ -124,9 +132,34 @@ struct DishVotingView: View {
                     Spacer()
  
                     Button {
-                        //
-                        votingEnabled.toggle()
-                        
+                        // 이미지 업로드
+                        // 1. presigned urls 받기
+                        let requestDto = PresignedUrlsRequestDto(fileType: FileType.DISH.rawValue, fileNames: (0..<viewModel.selectedImages.count).map { "\($0).png" })
+                        Task {
+                            do {
+                                try APIService().getImgPresignedUrls(requestDto) { response in
+                                    let imgUrls:[ImageUrlResponse] = response.contents
+                                    for (i, imgUrl) in imgUrls.enumerated() {
+                                        // 2. S3에 이미지 업로드
+                                        guard let imageData = viewModel.selectedImages[i].pngData() else { continue }
+                                        do {
+                                            try APIService().uploadImgtoS3(imgUrl.presignedUrl, imageData) {
+                                                // s3에 이미지 업로드 완료
+                                                // TODO : access url로 post하기
+                                                print(imgUrl.accessUrl)
+                                                print("success")
+                                            }
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                }
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                        self.presentationMode.wrappedValue.dismiss()
+
                     } label: {
                         Text("투표하기")
                             .font(.subheadline)
@@ -139,48 +172,30 @@ struct DishVotingView: View {
                             .padding(.horizontal, 15)
                             .padding(.bottom, 24)
                     }
-
+                    .disabled(!votingEnabled)
                 }
             }
         }
         .navigationBarBackButtonHidden()
+        .navigationTitle("제철요리 투표하기")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem {
-                VStack (spacing: 10) {
-                    Spacer()
-                    HStack {
-                        Button {
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image("back-arrow")
-                                .frame(width: 18, height: 24)
-                        }
-                        
-                        Spacer()
-
-                        Text("제철요리 투표하기")
-                            .font(.headline)
-                        
-                        Spacer()
-                        
-                        Button {
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image("close-circle")
-                                .frame(width: 24, height: 24)
-                        }
-                    }
-                    .padding(.horizontal, 24)
-                    
-                    Rectangle()
-                        .fill(Color.mdCoolgray10)
-                        .frame(width: UIScreen.main.bounds.width ,height: 1)
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    self.presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image("close-circle")
+                        .frame(width: 24, height: 24)
                 }
-                .frame(width: UIScreen.main.bounds.width)
             }
+//                    Rectangle()
+//                        .fill(Color.mdCoolgray10)
+//                        .frame(width: UIScreen.main.bounds.width ,height: 1)
         }
     }
 }
+
+
 
 
 #Preview {

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FoodDetailPageView: View {
+    @State var isBlurred:Bool = false // temp
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -19,6 +21,7 @@ struct FoodDetailPageView: View {
                     CustomDivider()
                     FoodStory()
                 }
+                .blur(radius: isBlurred ? 4 : 0)
             }
         }
     }

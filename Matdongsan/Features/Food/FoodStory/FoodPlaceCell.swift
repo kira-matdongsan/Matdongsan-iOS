@@ -82,9 +82,17 @@ struct FoodPlaceCell: View {
                         }
                         .popover(isPresented: $isClicked) {
                             if #available(iOS 18.0, *) {
-                                ImageGridView(isPresented: $isClicked, selectedId: .constant(0))
-                                    .presentationBackground(Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4))
-                                    .presentationCompactAdaptation(.fullScreenCover)
+                                ZStack {
+                                    Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4)
+                                        .ignoresSafeArea()
+                                        .onTapGesture {
+                                            isClicked.toggle()
+                                        }
+                                    
+                                    ImageGridView(isPresented: $isClicked, selectedId: .constant(0))
+                                        .presentationBackground(Color.clear.opacity(0.01))
+                                        .presentationCompactAdaptation(.fullScreenCover)
+                                }
                             } else {
                                 // Fallback on earlier versions
                             }

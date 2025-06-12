@@ -57,7 +57,7 @@ struct TestingHome: View {
                     .background(.mdCoolgray50)
                     .cornerRadius(12)
                 }
-            }
+                            }
             .ignoresSafeArea()
 
         }

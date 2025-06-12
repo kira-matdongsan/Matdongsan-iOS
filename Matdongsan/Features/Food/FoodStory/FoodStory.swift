@@ -68,9 +68,7 @@ struct FoodStory: View {
                     Spacer()
                     
                     // 작성
-                    Button {
-                        // TODO
-                    } label: {
+                    NavigationLink(destination: FoodRecordWriteView()) {
                         Text("작성하기")
                         Image("message-edit")
                     }
@@ -78,6 +76,7 @@ struct FoodStory: View {
                     .padding(4)
                     .background(.mdCoolgray10.opacity(0.5))
                     .cornerRadius(4)
+                    
                 }
                 .font(.system(size: 15))
                 
