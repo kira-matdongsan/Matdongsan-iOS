@@ -129,7 +129,7 @@ struct NewDishVotingView: View {
                                              matching: .images) {
                                     VStack (spacing: 8) {
                                         Image("add-by")
-                                        Text("사진 추가하기 (선택)")
+                                        Text("사진 추가하기")
                                             .foregroundStyle(.mdCoolgray90)
                                             .font(.footnote)
                                             .bold()
