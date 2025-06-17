@@ -247,7 +247,7 @@ struct NewDishVotingView: View {
                                     print(error.localizedDescription)
                                 }
                             }
-                            self.presentationMode.wrappedValue.dismiss()
+                            isPresentCompletionAlert = true
                         } label: {
                             Text("투표하기")
                                 .font(.subheadline)
@@ -267,15 +267,7 @@ struct NewDishVotingView: View {
             .blur(radius: isPresentAlert ? 4 : 0)
             
             if isPresentAlert {
-                Color.mdGray50
-                    .opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isPresentAlert.toggle()
-                    }
-                
                 DishNameInputModalView(isPresent: $isPresentAlert, dishName: $dishName, input: dishName)
-                    .padding(.horizontal, 12) // temp 뒷배경 padding에 영향
             }
             
             if isPresentCompletionAlert {
@@ -283,8 +275,12 @@ struct NewDishVotingView: View {
                     .opacity(0.1)
                     .ignoresSafeArea()
                 
-                VotingCompletionModalView(dishName: dishName, isPresent: $isPresentCompletionAlert)
+                VotingCompletionModalView(dishName: dishName, isPresent: $isPresentCompletionAlert, img: viewModel.selectedImages.first)
                     .padding(24)
+                    .onDisappear {
+                        // 완료 모달 닫힐때 등록하기 화면도 닫히게
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
             }
         }
         .navigationBarBackButtonHidden()
