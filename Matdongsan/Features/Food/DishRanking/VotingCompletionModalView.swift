@@ -10,6 +10,7 @@ import SwiftUI
 struct VotingCompletionModalView: View {
     var dishName:String = ""
     @Binding var isPresent:Bool
+    var img:UIImage?
     
     var body: some View {
         // width 280
@@ -21,7 +22,7 @@ struct VotingCompletionModalView: View {
             Divider()
             
             ZStack {
-                Image("cornfirst")
+                Image(uiImage: img ?? UIImage(named: "cornfirst")!) // temp
                     .resizable()
                 Color.black.opacity(0.2)
                 HStack (spacing: 4) {
@@ -29,7 +30,7 @@ struct VotingCompletionModalView: View {
                         .foregroundStyle(.mdWarmGray80)
                         .font(.caption)
                         .fontWeight(.semibold)
-                    Image("checked-icon-y")
+                    Image("checked-icon-trans")
                         .frame(width:16, height:16)
                 }
                 .padding(.horizontal, 16)
@@ -63,5 +64,5 @@ struct VotingCompletionModalView: View {
 }
 
 #Preview {
-    VotingCompletionModalView(dishName: "군옥수수", isPresent: .constant(true))
+    VotingCompletionModalView(dishName: "군옥수수", isPresent: .constant(true), img: UIImage(named: "cornfirst")!)
 }
