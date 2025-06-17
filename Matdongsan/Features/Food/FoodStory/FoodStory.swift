@@ -10,7 +10,13 @@ import SwiftUI
 struct FoodStory: View {
     @State var selectedCategory:String = "전체"
     private var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
-    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
+//    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
+    @State var colorMap:[String:UIColor] = [
+        "레시피":UIColor.mdOrange40,
+        "플레이스":UIColor.mdGreen40,
+        "제철기록":UIColor.mdTeal40,
+        "전체":UIColor.mdCoolgray10
+    ]
     
     @State var selectedSortIndex:Int = 0
     @State var selectedSort:String = "최신순"
@@ -47,7 +53,7 @@ struct FoodStory: View {
                             Image("arrow-circle-down")
                         }
                         .padding(4)
-                        .background(.mdCoolgray10.opacity(0.5))
+                        .background(.mdCoolgray10) //.opacity(0.5) temp
                         .cornerRadius(4)
                     }
                     
@@ -57,11 +63,11 @@ struct FoodStory: View {
                     } label: {
                         HStack (spacing: 4) {
                             Text(selectedFilter)
-                                .tint(.mdCoolgray60)
-                            Image("arrow-circle-down")
+                                .tint(selectedFilter == "전체" ? .mdCoolgray60 : .white)
+                            Image(selectedFilter == "전체" ? "arrow-circle-down" : "arrow-circle-down-w" )
                         }
                         .padding(4)
-                        .background(.mdCoolgray10.opacity(0.5))
+                        .background(Color(uiColor: colorMap[selectedFilter] ?? .mdCoolgray10))
                         .cornerRadius(4)
                     }
                     

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Combine
 
 struct FoodRecordWriteView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -17,9 +18,10 @@ struct FoodRecordWriteView: View {
         !content.isEmpty // temp 날짜는 선택?
     }
     @FocusState var isFocused:Bool
-
+    
     @State var content:String = "제철음식에 대한 기록을 남길 수 있어요."
-    @State var date:Date = Date(timeIntervalSinceNow: 60)
+    @State var date:Date = Date(timeIntervalSinceNow: 48*60*60) // temp
+    @State var initialSelected:Bool = false
     
     @StateObject private var viewModel = PhotoPickerViewModel()
     
@@ -28,21 +30,21 @@ struct FoodRecordWriteView: View {
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }
-
+    
     
     var body: some View {
-        VStack {
-            Text("\(foodName) \(foodEngName)")
-                .foregroundStyle(.mdCoolgray80)
-                .font(.callout)
-                .bold()
-                .padding(8)
-                .background(.mdYellow30)
-                .cornerRadius(16)
-        }
-        .padding(16)
-        
-        ZStack {
+        VStack(spacing: 0) {
+            VStack {
+                Text("\(foodName) \(foodEngName)")
+                    .foregroundStyle(.mdCoolgray80)
+                    .font(.callout)
+                    .bold()
+                    .padding(8)
+                    .background(.mdYellow30)
+                    .cornerRadius(16)
+            }
+            .padding(16)
+            
             ScrollView {
                 // 기록 TF? TV?
                 VStack (spacing: 8) {
@@ -51,7 +53,7 @@ struct FoodRecordWriteView: View {
                         HStack {
                             Image("menu-board")
                                 .frame(width: 18, height: 18)
-                            Text(date > Date() ? "언제 기록인가요? (선택)" : "\(dateFormatter.string(from: date))")
+                            Text(initialSelected ? "\(dateFormatter.string(from: date))" : "언제 기록인가요? (선택)")
                                 .font(.caption)
                                 .foregroundStyle(.mdCoolgray90)
                                 .overlay {
@@ -60,6 +62,12 @@ struct FoodRecordWriteView: View {
                                         .labelsHidden()
                                         .opacity(0.02)
                                         .contentShape(Rectangle())
+                                        .onReceive(Just(date)) {
+                                            print($0)
+                                            if $0 <= Date() {
+                                                initialSelected = true
+                                            }
+                                        }
                                 }
                         }
                         .padding(.vertical, 4)
@@ -105,7 +113,7 @@ struct FoodRecordWriteView: View {
                 VStack {
                     if viewModel.selectedImages.isEmpty {
                         PhotosPicker(selection: $viewModel.imgSelection,
-                                     maxSelectionCount: 5,
+                                     maxSelectionCount: 10,
                                      matching: .images) {
                             VStack (spacing: 8) {
                                 Image("add-by")
@@ -128,7 +136,6 @@ struct FoodRecordWriteView: View {
                         // 이미지 추가 후
                         VStack (spacing: 8) {
                             Text("사진 추가하기")
-                            //                            .frame(width: proxy.size.width-48-32, alignment: .leading)
                                 .font(.footnote)
                                 .foregroundStyle(.mdCoolgray90)
                             
@@ -186,46 +193,39 @@ struct FoodRecordWriteView: View {
                 .background()
                 .cornerRadius(16)
                 .padding(24)
-                
-                // 등록하기 버튼
-                Button {
-                    
-                } label: {
-                    Text("등록하기")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
-                        .padding(.vertical, 14)
-                        .frame(maxWidth: .infinity)
-                        .background(isCompletable ? .mdSkyBlue50 : .mdCoolgray20)
-                        .cornerRadius(8)
-                        .padding(.horizontal, 15)
-                        .padding(.bottom, 24)
-                }
-                .disabled(!isCompletable)
             }
             .background(Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
-            .navigationBarBackButtonHidden()
-            .navigationTitle("제철기록 작성하기")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image("close-circle")
-                            .frame(width: 24, height: 24)
-                    }
-                }
-            }
             
-            if isFocused {
-                Color.white
-                    .opacity(0.01)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isFocused.toggle()
-                    }
+            // 등록하기 버튼
+            Button {
+                
+            } label: {
+                Text("등록하기")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
+                    .padding(.vertical, 14)
+                    .frame(maxWidth: .infinity)
+                    .background(isCompletable ? .mdSkyBlue50 : .mdCoolgray20)
+                    .cornerRadius(8)
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 24)
+                    .background(Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
+            }
+            .disabled(!isCompletable)
+            
+        }
+        .navigationBarBackButtonHidden()
+        .navigationTitle("제철기록 작성하기")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    self.presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image("close-circle")
+                        .frame(width: 24, height: 24)
+                }
             }
         }
     }

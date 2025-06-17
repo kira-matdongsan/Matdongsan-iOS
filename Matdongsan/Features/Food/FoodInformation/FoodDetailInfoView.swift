@@ -48,7 +48,6 @@ struct FoodDetailInfoView: View {
                     .font(.system(size: 16))
                     .frame(width: UIScreen.main.bounds.width-64)
 
-                    
                     LazyHGrid(rows:[GridItem()]) {
                         ForEach(detailCategories, id: \.self) { category in
                             Text("\(category)")
@@ -66,7 +65,6 @@ struct FoodDetailInfoView: View {
                     }
                     .gridCellUnsizedAxes(.horizontal)
                     .frame(width: UIScreen.main.bounds.width-64)
-
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -74,7 +72,9 @@ struct FoodDetailInfoView: View {
                 .cornerRadius(16)
                 .shadow(color: .mdCoolgray20, radius: 4, x:1, y:2)
                 .padding([.horizontal, .bottom], 16)
-
+                .onTapGesture {
+                    fold.toggle()
+                }
 
             } else {
                 VStack (alignment: .leading) {
@@ -87,6 +87,12 @@ struct FoodDetailInfoView: View {
                     }
                     .padding(.vertical, 12)
                     .font(.system(size: 16))
+                    .background()
+                    .onTapGesture {
+                        withAnimation(.none) {
+                            fold.toggle()
+                        }
+                    }
                     
                     ForEach(detailCategories, id: \.self) { category in
                         let title = category == "효능" ? "\(food)의 효능" : category
@@ -153,11 +159,6 @@ struct FoodDetailInfoView: View {
 
             }
         }
-        .onTapGesture {
-            fold.toggle()
-        }
-
-        
     }
 }
 
