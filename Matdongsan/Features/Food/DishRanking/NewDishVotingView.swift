@@ -132,7 +132,7 @@ struct NewDishVotingView: View {
                                         Text("사진 추가하기")
                                             .foregroundStyle(.mdCoolgray90)
                                             .font(.footnote)
-                                            .bold()
+                                            .fontWeight(.semibold)
                                         
                                         Group {
                                             Text("\(0)/5")
@@ -151,6 +151,7 @@ struct NewDishVotingView: View {
                                         .frame(width: proxy.size.width-48-32, alignment: .leading)
                                         .font(.footnote)
                                         .foregroundStyle(.mdCoolgray90)
+                                        .fontWeight(.semibold)
                                     
                                     LazyVStack (alignment: .leading) {
                                         withAnimation(.easeInOut(duration: 0.5)) {
@@ -196,6 +197,8 @@ struct NewDishVotingView: View {
                                     Group {
                                         Text("투표에 사용한 사진은 ‘마이페이지 > 내활동'에서 삭제할 수 있어요.")
                                         Divider()
+                                        Text("\(viewModel.selectedImages.count)/5")
+                                            .foregroundStyle(.mdCoolgray40)
                                         Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                                     }
                                     .font(.caption2)

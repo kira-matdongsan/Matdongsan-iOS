@@ -135,9 +135,13 @@ struct FoodRecordWriteView: View {
                     } else {
                         // 이미지 추가 후
                         VStack (spacing: 8) {
-                            Text("사진 추가하기")
-                                .font(.footnote)
-                                .foregroundStyle(.mdCoolgray90)
+                            HStack {
+                                Text("사진 추가하기")
+                                    .font(.footnote)
+                                    .foregroundStyle(.mdCoolgray90)
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
                             
                             LazyVStack (alignment: .leading) {
                                 withAnimation(.easeInOut(duration: 0.5)) {
@@ -176,14 +180,17 @@ struct FoodRecordWriteView: View {
                                     }
                                     .fixedSize()
                                     .frame(alignment: .leading) // temp
-                                    .padding(.vertical, 12)
+                                    .padding(.vertical, 8)
                                 }
                             }
                             
                             Divider()
-                            Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
-                                .font(.caption2)
-                                .foregroundStyle(.mdCoolgray70)
+                            Group {
+                                Text("\(viewModel.selectedImages.count)/10")
+                                Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
+                            }
+                            .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
+                            .font(.caption2)
                         }
                     }
                 }
