@@ -12,6 +12,9 @@ import Combine
 struct FoodRecordWriteView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    let characterLimit:Int = 500
+    let imgSelectionLimit:Int = 10
+
     var foodName:String = "옥수수"
     var foodEngName:String = "corn"
     var isCompletable:Bool {
@@ -19,7 +22,7 @@ struct FoodRecordWriteView: View {
     }
     @FocusState var isFocused:Bool
     
-    @State var content:String = "제철음식에 대한 기록을 남길 수 있어요."
+    @State var content:String = ""
     @State var date:Date = Date(timeIntervalSinceNow: 48*60*60) // temp
     @State var initialSelected:Bool = false
     
@@ -87,17 +90,32 @@ struct FoodRecordWriteView: View {
                                 .fill(Color.clear)
                                 .stroke(.mdCoolgray10)
                         )
+                        .overlay(alignment: .topLeading, content: {
+                            if !isFocused && content.isEmpty {
+                                Text("제철음식에 대한 기록을 남길 수 있어요.")
+                                    .foregroundStyle(.mdCoolgray60)
+                                    .font(.caption)
+                                    .padding(10)
+                            }
+                        })
                         .frame(height: 144)
                         .scrollIndicators(.visible)
                         .focused($isFocused)
                         .onSubmit {
                             isFocused = false
                         }
+                        .onChange(of: content) { _, newContent in
+                            if newContent.count > characterLimit {
+                                content = String(newContent.prefix(characterLimit))
+                            }
+                        }
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                     
                     
                     HStack {
                         Spacer()
-                        Text("\(0)자 | 500자")
+                        Text("\(content.count)자 | 500자")
                             .font(.caption)
                             .foregroundStyle(.mdCoolgray70)
                     }
@@ -108,12 +126,15 @@ struct FoodRecordWriteView: View {
                 .background()
                 .cornerRadius(16)
                 .padding([.horizontal, .top], 24)
+                .onTapGesture {
+                    isFocused = false
+                }
                 
                 // 사진
                 VStack {
                     if viewModel.selectedImages.isEmpty {
                         PhotosPicker(selection: $viewModel.imgSelection,
-                                     maxSelectionCount: 10,
+                                     maxSelectionCount: imgSelectionLimit,
                                      matching: .images) {
                             VStack (spacing: 8) {
                                 Image("add-by")
@@ -123,7 +144,7 @@ struct FoodRecordWriteView: View {
                                     .bold()
                                 
                                 Group {
-                                    Text("\(0)/10")
+                                    Text("\(0)/\(imgSelectionLimit)")
                                     Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                                 }
                                 .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
@@ -165,9 +186,9 @@ struct FoodRecordWriteView: View {
                                             .frame(width: 68, height: 68)
                                         }
                                         
-                                        if 1..<5 ~= viewModel.selectedImages.count {
+                                        if 1..<imgSelectionLimit ~= viewModel.selectedImages.count {
                                             PhotosPicker(selection: $viewModel.imgSelection,
-                                                         maxSelectionCount: 5,
+                                                         maxSelectionCount: imgSelectionLimit,
                                                          matching: .images) {
                                                 Image("add-bw")
                                                     .frame(width: 24, height: 24)
@@ -222,6 +243,7 @@ struct FoodRecordWriteView: View {
             .disabled(!isCompletable)
             
         }
+        .ignoresSafeArea(.keyboard)
         .navigationBarBackButtonHidden()
         .navigationTitle("제철기록 작성하기")
         .navigationBarTitleDisplayMode(.inline)
@@ -234,6 +256,16 @@ struct FoodRecordWriteView: View {
                         .frame(width: 24, height: 24)
                 }
             }
+            
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button ("닫기") {
+                    isFocused = false
+                }
+            }
+        }
+        .onTapGesture {
+            isFocused = false
         }
     }
 }

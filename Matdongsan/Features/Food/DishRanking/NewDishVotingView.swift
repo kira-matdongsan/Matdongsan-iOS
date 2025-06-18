@@ -15,6 +15,7 @@ struct NewDishVotingView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    let imgSelectionLimit:Int = 5
     var foodName:String = "옥수수"
     var foodEngName:String = "corn"
     @State var dishName:String = ""
@@ -125,7 +126,7 @@ struct NewDishVotingView: View {
                         VStack {
                             if viewModel.selectedImages.isEmpty {
                                 PhotosPicker(selection: $viewModel.imgSelection,
-                                             maxSelectionCount: 5,
+                                             maxSelectionCount: imgSelectionLimit,
                                              matching: .images) {
                                     VStack (spacing: 8) {
                                         Image("add-by")
@@ -135,7 +136,7 @@ struct NewDishVotingView: View {
                                             .fontWeight(.semibold)
                                         
                                         Group {
-                                            Text("\(0)/5")
+                                            Text("\(0)/\(imgSelectionLimit)")
                                             Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                                         }
                                         .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
@@ -175,9 +176,9 @@ struct NewDishVotingView: View {
                                                     .frame(width: 68, height: 68)
                                                 }
                                                 
-                                                if 1..<5 ~= viewModel.selectedImages.count {
+                                                if 1..<imgSelectionLimit ~= viewModel.selectedImages.count {
                                                     PhotosPicker(selection: $viewModel.imgSelection,
-                                                                 maxSelectionCount: 5,
+                                                                 maxSelectionCount: imgSelectionLimit,
                                                                  matching: .images) {
                                                         Image("add-bw")
                                                             .frame(width: 24, height: 24)
@@ -197,7 +198,7 @@ struct NewDishVotingView: View {
                                     Group {
                                         Text("투표에 사용한 사진은 ‘마이페이지 > 내활동'에서 삭제할 수 있어요.")
                                         Divider()
-                                        Text("\(viewModel.selectedImages.count)/5")
+                                        Text("\(viewModel.selectedImages.count)/\(imgSelectionLimit)")
                                             .foregroundStyle(.mdCoolgray40)
                                         Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                                     }
