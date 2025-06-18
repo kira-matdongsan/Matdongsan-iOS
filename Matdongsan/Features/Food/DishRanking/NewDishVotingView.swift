@@ -232,11 +232,7 @@ struct NewDishVotingView: View {
                                                     print("success")
                                                     
                                                     // 업로딩 완료 팝업
-                                                    isPresentCompletionAlert.toggle()
-                                                    
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 300) {
-                                                        self.presentationMode.wrappedValue.dismiss()
-                                                    }
+                                                    isPresentCompletionAlert = true
                                                 }
                                             } catch {
                                                 print(error.localizedDescription)
@@ -247,7 +243,7 @@ struct NewDishVotingView: View {
                                     print(error.localizedDescription)
                                 }
                             }
-                            isPresentCompletionAlert = true
+                            isPresentCompletionAlert = true // temp
                         } label: {
                             Text("투표하기")
                                 .font(.subheadline)
