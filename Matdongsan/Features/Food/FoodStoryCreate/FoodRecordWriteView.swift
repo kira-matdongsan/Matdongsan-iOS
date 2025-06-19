@@ -14,7 +14,7 @@ struct FoodRecordWriteView: View {
     
     let characterLimit:Int = 500
     let imgSelectionLimit:Int = 10
-
+    
     var foodName:String = "옥수수"
     var foodEngName:String = "corn"
     var isCompletable:Bool {
@@ -23,7 +23,7 @@ struct FoodRecordWriteView: View {
     @FocusState var isFocused:Bool
     
     @State var content:String = ""
-    @State var date:Date = Date(timeIntervalSinceNow: 48*60*60) // temp
+    @State var date:Date = Date() // temp
     @State var initialSelected:Bool = false
     
     @StateObject private var viewModel = PhotoPickerViewModel()
@@ -33,7 +33,6 @@ struct FoodRecordWriteView: View {
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }
-    
     
     var body: some View {
         VStack(spacing: 0) {
@@ -57,7 +56,7 @@ struct FoodRecordWriteView: View {
                             Image("menu-board")
                                 .frame(width: 18, height: 18)
                             Text(initialSelected ? "\(dateFormatter.string(from: date))" : "언제 기록인가요? (선택)")
-                                .font(.caption)
+                                .font(.footnote)
                                 .foregroundStyle(.mdCoolgray90)
                                 .overlay {
                                     DatePicker("", selection: $date, in: ...Date(), displayedComponents: .date)
@@ -83,7 +82,7 @@ struct FoodRecordWriteView: View {
                     // 기록
                     TextEditor(text: $content)
                         .foregroundStyle(.mdCoolgray90)
-                        .font(.caption)
+                        .font(.footnote)
                         .padding(5)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
@@ -94,7 +93,7 @@ struct FoodRecordWriteView: View {
                             if !isFocused && content.isEmpty {
                                 Text("제철음식에 대한 기록을 남길 수 있어요.")
                                     .foregroundStyle(.mdCoolgray60)
-                                    .font(.caption)
+                                    .font(.footnote)
                                     .padding(10)
                             }
                         })
