@@ -74,7 +74,7 @@ struct FoodStory: View {
                     Spacer()
                     
                     // 작성
-                    NavigationLink(destination: FoodRecordWriteView()) {
+                    NavigationLink(destination: FoodPlaceWriteView()) {
                         Text("작성하기")
                         Image("message-edit")
                     }
