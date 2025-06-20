@@ -9,8 +9,10 @@ import SwiftUI
 import PhotosUI
 
 struct PhotoAddView: View {
-    @Binding var viewModel:PhotoPickerViewModel
+    @ObservedObject var viewModel:PhotoPickerViewModel
     var imgSelectionLimit:Int = 0
+//    static let gridItem:GridItem = GridItem(.flexible(minimum: 68, maximum: 68))
+//    let gridItems:[GridItem] = Array<GridItem>(repeating: gridItem, count: 4)
     
     var body: some View {
         // 사진
@@ -90,7 +92,7 @@ struct PhotoAddView: View {
                     
                     Divider()
                     Group {
-                        Text("\(viewModel.selectedImages.count)/10")
+                        Text("\(viewModel.selectedImages.count)/\(imgSelectionLimit)")
                         Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                     }
                     .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
@@ -103,10 +105,9 @@ struct PhotoAddView: View {
         .frame(maxWidth: .infinity)
         .background()
         .cornerRadius(16)
-        .padding(24)
     }
 }
 
 #Preview {
-    PhotoAddView(viewModel: .constant(PhotoPickerViewModel()), imgSelectionLimit: 10)
+    PhotoAddView(viewModel: PhotoPickerViewModel(), imgSelectionLimit: 10)
 }
