@@ -18,12 +18,12 @@ struct FoodRecordWriteView: View {
     var foodName:String = "옥수수"
     var foodEngName:String = "corn"
     var isCompletable:Bool {
-        !content.isEmpty // temp 날짜는 선택?
+        !content.isEmpty
     }
     @FocusState var isFocused:Bool
     
     @State var content:String = ""
-    @State var date:Date = Date() // temp
+    @State var date:Date = Date()
     @State var initialSelected:Bool = false
     @State var showing:Bool = false
         
