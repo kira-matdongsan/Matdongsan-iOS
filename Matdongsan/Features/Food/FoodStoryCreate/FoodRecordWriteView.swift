@@ -10,8 +10,6 @@ import PhotosUI
 import Combine
 
 struct FoodRecordWriteView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     let characterLimit:Int = 500
     let imgSelectionLimit:Int = 10
     
@@ -28,6 +26,8 @@ struct FoodRecordWriteView: View {
     @State var showing:Bool = false
         
     @StateObject private var viewModel = PhotoPickerViewModel()
+    
+    @EnvironmentObject var navigationManager:NavigationManager
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -159,7 +159,7 @@ struct FoodRecordWriteView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        self.presentationMode.wrappedValue.dismiss()
+                        navigationManager.pop()
                     } label: {
                         Image("close-circle")
                             .frame(width: 24, height: 24)

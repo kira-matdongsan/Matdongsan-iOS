@@ -10,19 +10,19 @@ import SwiftUI
 struct FoodDetailPageView: View {
     @State var isBlurred:Bool = false // temp
     
+    @EnvironmentObject private var navigationManager:NavigationManager
+    
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack (spacing: 16) {
-                    FoodCardView()
-                    FoodDetailInfoView()
-                    CustomDivider()
-                    DishRankingView()
-                    CustomDivider()
-                    FoodStory()
-                }
-                .blur(radius: isBlurred ? 4 : 0)
+        ScrollView {
+            VStack (spacing: 16) {
+                FoodCardView()
+                FoodDetailInfoView()
+                CustomDivider()
+                DishRankingView()
+                CustomDivider()
+                FoodStory()
             }
+            .blur(radius: isBlurred ? 4 : 0)
         }
     }
 }

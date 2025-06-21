@@ -16,7 +16,7 @@ struct Place {
 }
 
 struct FoodPlaceWriteView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var navigationManager:NavigationManager
     
     let characterLimit:Int = 500
     let imgSelectionLimit:Int = 10
@@ -26,7 +26,6 @@ struct FoodPlaceWriteView: View {
     var isCompletable:Bool {
         !content.isEmpty // TODO
     }
-    
     
     var tempPlace:Place = Place(placeName: "토오베", placeCategory: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층")
     var place:Place? = nil
@@ -207,7 +206,7 @@ struct FoodPlaceWriteView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    navigationManager.pop()
                 } label: {
                     Image("close-circle")
                         .frame(width: 24, height: 24)
