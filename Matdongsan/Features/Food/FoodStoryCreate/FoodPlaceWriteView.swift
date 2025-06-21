@@ -29,7 +29,7 @@ struct FoodPlaceWriteView: View {
     
     var tempPlace:Place = Place(placeName: "토오베", placeCategory: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층")
     var place:Place? = nil
-
+    
     @FocusState var isFocused:Bool
     
     @State var content:String = ""
@@ -63,6 +63,7 @@ struct FoodPlaceWriteView: View {
                             
                             if place == nil {
                                 Button {
+                                    navigationManager.navigate(to: AppRoute.placeSearch)
                                 } label: {
                                     HStack {
                                         Text("플레이스 검색하기")
@@ -179,7 +180,7 @@ struct FoodPlaceWriteView: View {
                 .padding(24)
             }
             .background(isFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
-
+            
             // 등록하기 버튼
             Button {
                 
