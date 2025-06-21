@@ -66,7 +66,13 @@ struct TestingHome: View {
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
                 case .detailView:
-                    FoodDetailPageView()
+                    if #available(iOS 18.0, *) {
+                        FoodDetailPageView()
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                case .placeSearch:
+                    PlaceSearchView()
                 case .record:
                     FoodRecordWriteView()
                 case .recipe:
