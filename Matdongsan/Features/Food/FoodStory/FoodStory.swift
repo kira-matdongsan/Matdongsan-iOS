@@ -87,6 +87,7 @@ struct FoodStory: View {
                     .padding(4)
                     .background(.mdCoolgray10.opacity(0.5))
                     .cornerRadius(4)
+                    .sensoryFeedback(.selection, trigger: showStorySheet)
                     
                 }
                 .font(.system(size: 15))
