@@ -76,7 +76,7 @@ struct TestingHome: View {
                 case .record:
                     FoodRecordWriteView()
                 case .recipe:
-                    Text("123")
+                    FoodRecipeWriteView()
                 case .place:
                     FoodPlaceWriteView()
                 default:

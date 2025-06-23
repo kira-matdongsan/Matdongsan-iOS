@@ -95,7 +95,7 @@ struct FoodDetailInfoView: View {
                     .font(.system(size: 16))
                     .background()
                     .onTapGesture {
-                        withAnimation(.easeInOut) {
+                        withAnimation(.easeIn) {
                             fold.toggle()
                         }
                     }

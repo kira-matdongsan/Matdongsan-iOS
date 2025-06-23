@@ -116,8 +116,7 @@ struct FoodRecordWriteView: View {
                                 }
                                 .font(.caption)
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 15)
+                            .padding(16)
                             .frame(maxWidth: .infinity)
                             .background()
                             .cornerRadius(16)

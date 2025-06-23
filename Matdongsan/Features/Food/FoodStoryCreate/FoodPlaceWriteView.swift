@@ -116,11 +116,11 @@ struct FoodPlaceWriteView: View {
                             .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
                         }
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 15)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
                     .frame(maxWidth: .infinity)
                     .background()
-                    .cornerRadius(16)
+                    .cornerRadius(8)
                     
                     // 리뷰
                     VStack (spacing: 8) {
@@ -165,8 +165,7 @@ struct FoodPlaceWriteView: View {
                         }
                         .font(.caption)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 15)
+                    .padding(16)
                     .frame(maxWidth: .infinity)
                     .background()
                     .cornerRadius(16)

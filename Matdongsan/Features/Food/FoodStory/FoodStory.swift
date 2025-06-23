@@ -124,7 +124,8 @@ struct FoodStory: View {
                     .padding(.bottom, 24)
                     
                     Button {
-                        
+                        showStorySheet = false
+                        navigationManager.navigate(to: AppRoute.recipe)
                     } label: {
                         HStack (spacing: 10) {
                             Image("recipe-icon")
