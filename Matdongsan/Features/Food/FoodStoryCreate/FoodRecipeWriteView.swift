@@ -32,8 +32,6 @@ struct FoodRecipeWriteView: View {
     @State var ingreInput:String = ""
     @State var ingredients:[String] = []
     @State var content:String = ""
-    @State var initialSelected:Bool = false
-    @State var showing:Bool = false
     
     @StateObject private var viewModel = PhotoPickerViewModel()
     
@@ -70,8 +68,7 @@ struct FoodRecipeWriteView: View {
                         .padding(.horizontal, 10)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke()
-                                .foregroundStyle(isTitleFocused ? .mdCoolgray30 : .mdCoolgray10)
+                                .stroke(isTitleFocused ? .mdCoolgray30 : .mdCoolgray10)
                         )
                         .font(.caption)
                         .onChange(of: title) { _, newValue in
@@ -93,6 +90,7 @@ struct FoodRecipeWriteView: View {
                     .onTapGesture {
                         isRecipeFocused = false
                         isTitleFocused = false
+                        isIngreFocused = false
                     }
                     
                     // 재료
@@ -115,6 +113,9 @@ struct FoodRecipeWriteView: View {
                             .font(.footnote)
                             .foregroundStyle(.mdCoolgray90)
                             .autocorrectionDisabled()
+                            .onSubmit {
+                                isIngreFocused = false
+                            }
                             
                             Spacer()
                             
@@ -139,8 +140,10 @@ struct FoodRecipeWriteView: View {
                         }
                         .padding(.horizontal, 10)
                         .padding(.vertical, 8)
-                        .background(RoundedRectangle(cornerRadius: 8)
-                            .stroke(.mdCoolgray10))
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(isIngreFocused ? .mdCoolgray30 : .mdCoolgray10)
+                        )
                         
                         LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], spacing: 8) {
                             ForEach(Array(ingredients.enumerated()), id: \.offset) { (idx,ingrednt) in
@@ -229,6 +232,8 @@ struct FoodRecipeWriteView: View {
                     .cornerRadius(16)
                     .onTapGesture {
                         isRecipeFocused = false
+                        isIngreFocused = false
+                        isTitleFocused = false
                     }
                     
                     // 사진
@@ -236,7 +241,7 @@ struct FoodRecipeWriteView: View {
                 }
                 .padding(24)
             }
-            .background(isRecipeFocused || isTitleFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
+            .background(isRecipeFocused || isTitleFocused || isIngreFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
             
             // 등록하기 버튼
             Button {
@@ -252,7 +257,7 @@ struct FoodRecipeWriteView: View {
                     .cornerRadius(8)
                     .padding(.horizontal, 15)
                     .padding(.vertical, 24)
-                    .background(isRecipeFocused || isTitleFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
+                    .background(isRecipeFocused || isTitleFocused || isIngreFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
             }
             .disabled(!isCompletable)
             
@@ -276,12 +281,14 @@ struct FoodRecipeWriteView: View {
                 Button ("닫기") {
                     isRecipeFocused = false
                     isTitleFocused = false
+                    isIngreFocused = false
                 }
             }
         }
         .onTapGesture {
             isRecipeFocused = false
             isTitleFocused = false
+            isIngreFocused = false
         }
         
     }
