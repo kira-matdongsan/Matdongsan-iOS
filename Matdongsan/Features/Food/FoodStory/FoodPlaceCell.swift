@@ -15,7 +15,7 @@ struct FoodPlaceCell: View {
     private var place_name:String = "토오베"
     private var category:String = "차 전문점"
     private var address:String = "서울특별시 종로구 관훈동 118-36 3층"
-    private var review:String = "여름시즌에만 한정 판매하는 옥수수 빙수를 꼭 먹어보세요"
+    private var review:String = "여름시즌에만 한정 판매하는 옥수수 빙수를 꼭 먹어보세요. 정말 맛있습니다!!! 그치만 주말엔 웨이팅이.."
     
     @State private var isLiked: Bool = false
     private var likeCnt: Int = 0
@@ -109,6 +109,7 @@ struct FoodPlaceCell: View {
                     .font(.system(size: 15))
                     .fontWeight(.thin)
                     .foregroundStyle(.mdCoolgray90)
+                    .lineSpacing(1.8)
 
             }
             .padding(.horizontal, 16)

@@ -64,6 +64,8 @@ struct DishNameInputModalView: View {
                             }
                         }
                         .focused($isFocused)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                     // paste 경우는 처리하지 않겠습니다. (당당)
                     
                     VStack (alignment: .leading, spacing: 2) {

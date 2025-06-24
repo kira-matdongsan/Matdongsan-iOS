@@ -9,8 +9,8 @@ import SwiftUI
 
 struct FoodStory: View {
     @State var selectedCategory:String = "전체"
-    private var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
-//    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
+    var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
+    //    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
     @State var colorMap:[String:UIColor] = [
         "레시피":UIColor.mdOrange40,
         "플레이스":UIColor.mdGreen40,
@@ -26,6 +26,9 @@ struct FoodStory: View {
     @State var selectedFilter:String = "전체"
     @State var isPopoverFilter:Bool = false
     
+    @State var showStorySheet:Bool = false
+    
+    @EnvironmentObject var navigationManager:NavigationManager
     
     var body: some View {
         ZStack {
@@ -74,7 +77,9 @@ struct FoodStory: View {
                     Spacer()
                     
                     // 작성
-                    NavigationLink(destination: FoodRecordWriteView()) {
+                    Button {
+                        showStorySheet.toggle()
+                    } label: {
                         Text("작성하기")
                         Image("message-edit")
                     }
@@ -82,6 +87,7 @@ struct FoodStory: View {
                     .padding(4)
                     .background(.mdCoolgray10.opacity(0.5))
                     .cornerRadius(4)
+                    .sensoryFeedback(.selection, trigger: showStorySheet)
                     
                 }
                 .font(.system(size: 15))
@@ -97,6 +103,104 @@ struct FoodStory: View {
             }
             .padding(.horizontal, 8)
             .padding(16)
+            .sheet(isPresented: $showStorySheet) {
+                VStack {
+                    Rectangle()
+                        .fill(Color.mdCoolgray30)
+                        .frame(width: 40, height: 4)
+                        .cornerRadius(3)
+                        .padding(.bottom, 18)
+                        .padding(.top, 16)
+                    HStack {
+                        Text("제철음식 이야기")
+                            .bold()
+                        Spacer()
+                        Button {
+                            showStorySheet = false
+                        } label: {
+                            Image("close-circle")
+                        }
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.bottom, 24)
+                    
+                    Button {
+                        showStorySheet = false
+                        navigationManager.navigate(to: AppRoute.recipe)
+                    } label: {
+                        HStack (spacing: 10) {
+                            Image("recipe-icon")
+                                .resizable()
+                                .frame(width: 48, height: 48)
+                            VStack (alignment:.leading, spacing: 4) {
+                                Text("레시피")
+                                    .font(.callout)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.mdCoolgray90)
+                                Text("제철음식으로 만드는 나만의 레시피")
+                                    .font(.footnote)
+                                    .foregroundStyle(.mdCoolgray60)
+                            }
+                            Spacer()
+                        }
+                        .padding(4)
+                    }
+                    
+                    Divider()
+                    
+                    Button {
+                        showStorySheet = false
+                        navigationManager.navigate(to: AppRoute.record)
+                    } label: {
+                        HStack (spacing: 10) {
+                            Image("record-icon")
+                                .resizable()
+                                .frame(width: 48, height: 48)
+                            VStack (alignment:.leading, spacing: 4) {
+                                Text("제철기록")
+                                    .font(.callout)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.mdCoolgray90)
+                                Text("기록하고 싶은 나만의 제철음식 이야기")
+                                    .font(.footnote)
+                                    .foregroundStyle(.mdCoolgray60)
+                            }
+                            Spacer()
+                        }
+                        .padding(4)
+                    }
+                    
+                    Divider()
+                    
+                    Button {
+                        showStorySheet = false
+                        navigationManager.navigate(to: AppRoute.place)
+                    } label: {
+                        HStack (spacing: 10) {
+                            Image("place-icon")
+                                .resizable()
+                                .frame(width: 48, height: 48)
+                            VStack (alignment:.leading, spacing: 4) {
+                                Text("플레이스")
+                                    .font(.callout)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.mdCoolgray90)
+                                Text("제철음식을 맛볼 수 있는 공간 소개")
+                                    .font(.footnote)
+                                    .foregroundStyle(.mdCoolgray60)
+                            }
+                            Spacer()
+                        }
+                        .padding(4)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .presentationDetents([.height(300)])
+                .presentationCornerRadius(32)
+            }
             
             // 정렬 메뉴
             if isPopoverSort {
@@ -130,5 +234,6 @@ struct FoodStory: View {
 #Preview {
     ScrollView {
         FoodStory()
+            .environmentObject(NavigationManager())
     }
 }

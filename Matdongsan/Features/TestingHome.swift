@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct TestingHome: View {
+    @StateObject private var navigationManager = NavigationManager()
+    
     var body: some View {
-        NavigationStack  {
+        NavigationStack(path: $navigationManager.path)  {
             ZStack {
                 Color(.mdGray80)
                 
@@ -28,9 +30,11 @@ struct TestingHome: View {
                         .cornerRadius(24)
                         .padding(8)
                     
-
+                    
                     Group {
-                        NavigationLink(destination: FoodDetailPageView()) {
+                        Button {
+                            navigationManager.navigate(to: AppRoute.detailView)
+                        } label: {
                             Text("🌽 옥수수 제철음식 상세화면")
                         }
                         
@@ -46,7 +50,7 @@ struct TestingHome: View {
                         NavigationLink(destination: OnboardingView()) {
                             Text("😆 온보딩")
                                 .frame(maxWidth: 300)
-
+                            
                         }
                     }
                     .font(.subheadline)
@@ -57,10 +61,28 @@ struct TestingHome: View {
                     .background(.mdCoolgray50)
                     .cornerRadius(12)
                 }
-                            }
+            }
             .ignoresSafeArea()
-
+            .navigationDestination(for: AppRoute.self) { route in
+                switch route {
+                case .detailView:
+                    if #available(iOS 18.0, *) {
+                        FoodDetailPageView()
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                case .placeSearch:
+                    PlaceSearchView()
+                case .record:
+                    FoodRecordWriteView()
+                case .recipe:
+                    FoodRecipeWriteView()
+                case .place:
+                    FoodPlaceWriteView()
+                }
+            }
         }
+        .environmentObject(navigationManager)
     }
 }
 
