@@ -79,8 +79,6 @@ struct TestingHome: View {
                     FoodRecipeWriteView()
                 case .place:
                     FoodPlaceWriteView()
-                default:
-                    Text("Error")
                 }
             }
         }
