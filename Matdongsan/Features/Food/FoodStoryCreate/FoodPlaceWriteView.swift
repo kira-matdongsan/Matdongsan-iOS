@@ -9,12 +9,6 @@ import SwiftUI
 import PhotosUI
 import Combine
 
-struct Place {
-    var placeName:String
-    var placeCategory:String
-    var address:String
-}
-
 struct FoodPlaceWriteView: View {
     @EnvironmentObject var navigationManager:NavigationManager
     
@@ -28,7 +22,7 @@ struct FoodPlaceWriteView: View {
     }
     
     var tempPlace:Place = Place(placeName: "토오베", placeCategory: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층")
-    var place:Place? = nil
+    @State var place:Place?
     
     @FocusState var isFocused:Bool
     
@@ -223,6 +217,7 @@ struct FoodPlaceWriteView: View {
         .onTapGesture {
             isFocused = false
         }
+//        .environmentObject($place)
     }
 }
 

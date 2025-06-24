@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct Place:Hashable {
+    
+    var placeName:String
+    var placeCategory:String
+    var address:String
+    
+}
