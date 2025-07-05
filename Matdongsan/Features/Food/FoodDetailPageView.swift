@@ -30,6 +30,19 @@ struct FoodDetailPageView: View {
             .blur(radius: isBlurred ? 4 : 0)
         }
         .scrollPosition($position)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("옥수수")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    navigationManager.pop()
+                } label: {
+                    Image("back-arrow")
+                        .frame(width: 24, height: 24)
+                }
+            }
+        }
     }
 }
 

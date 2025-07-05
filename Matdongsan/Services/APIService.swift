@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct APIService {
     let baseURL:String = "https://mds.hyeinisfree.me"
@@ -34,8 +35,28 @@ struct APIService {
             print("error")
             return
         }
-        
+                
         // request network call
+//        URLSession.shared.dataTaskPublisher(for: urlRequest)
+//            .tryMap { output -> Data in
+//                print("try map")
+//                guard let httpResponse = output.response as? HTTPURLResponse,
+//                      httpResponse.statusCode == 200 else {
+//                    throw URLError(.badServerResponse)
+//                }
+//                return output.data
+//            }
+//            .decode(type: ResponseDto<PresignedUrlsResponseDto>.self, decoder: JSONDecoder())
+//            .sink { completion in
+//                print("completion")
+//                if case .failure(let error) = completion {
+//                    print("Error: \(error)")
+//                }
+//            } receiveValue: { response in
+//                print("receiveValue")
+//                completionHandler(response.data)
+//            }
+
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 print("error \(error.debugDescription)")
