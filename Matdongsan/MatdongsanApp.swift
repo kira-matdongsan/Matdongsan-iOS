@@ -33,7 +33,7 @@ struct MatdongsanApp: App {
 
     var body: some Scene {
         WindowGroup {
-            OnboardingView() // 실행안되는듯
+            MainTabView() // 실행안되는듯
         }
     }
 }
