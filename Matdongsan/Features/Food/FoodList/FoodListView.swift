@@ -17,6 +17,7 @@ struct FoodListView: View {
     var rightBtnDisable:Bool {
         month == currentMonth || month == 12
     }
+    @State var isClicked:Bool = false
     var foodList:[Food] = [Food(id: 1, name: "옥수수"), Food(id: 2, name: "복숭아"), Food(id: 3, name: "옥수수"), Food(id: 4, name: "복숭아"), Food(id: 5, name: "옥수수"), Food(id: 6, name: "복숭아"), Food(id: 7, name: "옥수수"), Food(id: 8, name: "복숭아")]
     
     var body: some View {
@@ -90,8 +91,13 @@ struct FoodListView: View {
                                                 .cornerRadius(8)
                                         }
                                         Spacer()
-                                        Image(systemName: "heart")
-                                            .foregroundStyle(.mdCoolgray20)
+                                        Button {
+                                            isClicked.toggle()
+                                        } label : {
+                                            Image(isClicked ? "heart-sk" :  "heart-empty")
+                                                .resizable()
+                                                .frame(width: 20, height: 19)
+                                        }
                                     }
                                     .padding(8)
                                     .background(.white)
