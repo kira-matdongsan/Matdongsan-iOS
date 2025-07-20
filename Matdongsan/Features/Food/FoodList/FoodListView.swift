@@ -9,7 +9,14 @@ import SwiftUI
 
 struct FoodListView: View {
     
-    var month:Int = 7; // default
+    var currentMonth:Int = 7 // now로
+    @State var month:Int = 7 // default
+    var leftBtnDisable:Bool {
+        month == 1
+    }
+    var rightBtnDisable:Bool {
+        month == currentMonth || month == 12
+    }
     var foodList:[Food] = [Food(id: 1, name: "옥수수"), Food(id: 2, name: "복숭아"), Food(id: 3, name: "옥수수"), Food(id: 4, name: "복숭아"), Food(id: 5, name: "옥수수"), Food(id: 6, name: "복숭아"), Food(id: 7, name: "옥수수"), Food(id: 8, name: "복숭아")]
     
     var body: some View {
@@ -92,9 +99,15 @@ struct FoodListView: View {
                                 }
                             }, header: {
                                 HStack {
-                                    Image("arrow-left")
-                                        .resizable()
-                                        .frame(width: 16, height: 16)
+                                    Button {
+                                        month -= 1
+                                    } label: {
+                                        Image(leftBtnDisable ? "arrow-left-20" : "arrow-left-30")
+                                            .resizable()
+                                            .frame(width: 16, height: 16)
+                                    }
+                                    .disabled(leftBtnDisable)
+                                    
                                     
                                     ZStack {
                                         Image("star-sk")
@@ -105,9 +118,14 @@ struct FoodListView: View {
                                             .font(.footnote)
                                     }
                                     
-                                    Image("arrow-right")
-                                        .resizable()
-                                        .frame(width: 16, height: 16)
+                                    Button {
+                                        month += 1
+                                    } label: {
+                                        Image(rightBtnDisable ? "arrow-right-20" : "arrow-right-30")
+                                            .resizable()
+                                            .frame(width: 16, height: 16)
+                                    }
+                                    .disabled(rightBtnDisable)
                                 }
                                 .padding(16)
                                 .frame(maxWidth: .infinity)
