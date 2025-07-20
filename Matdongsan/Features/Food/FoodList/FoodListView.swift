@@ -61,29 +61,9 @@ struct FoodListView: View {
                             .cornerRadius(8)
                             .padding(16)
                         }
-                        
-                        ScrollView {
-                            VStack (spacing: 8) {
-                                HStack {
-                                    Image("arrow-left")
-                                        .resizable()
-                                        .frame(width: 16, height: 16)
-                                    
-                                    ZStack {
-                                        Image("star-sk")
-                                            .resizable()
-                                            .frame(width: 43, height: 43)
-                                        Text("\(month)월")
-                                            .foregroundStyle(.white)
-                                            .font(.footnote)
-                                    }
-                                    
-                                    Image("arrow-right")
-                                        .resizable()
-                                        .frame(width: 16, height: 16)
-                                }
-                                .padding(16)
-                                
+
+                        LazyVStack (spacing: 8, pinnedViews: [.sectionHeaders]) {
+                            Section(content: {
                                 ForEach(foodList, id: \.id) { food in
                                     HStack (spacing: 8) {
                                         Image("cornfirst")
@@ -110,9 +90,32 @@ struct FoodListView: View {
                                     .background(.white)
                                     .cornerRadius(8)
                                 }
-                            }
-                            .padding(.horizontal, 24)
+                            }, header: {
+                                HStack {
+                                    Image("arrow-left")
+                                        .resizable()
+                                        .frame(width: 16, height: 16)
+                                    
+                                    ZStack {
+                                        Image("star-sk")
+                                            .resizable()
+                                            .frame(width: 43, height: 43)
+                                        Text("\(month)월")
+                                            .foregroundStyle(.white)
+                                            .font(.footnote)
+                                    }
+                                    
+                                    Image("arrow-right")
+                                        .resizable()
+                                        .frame(width: 16, height: 16)
+                                }
+                                .padding(16)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.mdCoolgray10)
+
+                            })
                         }
+                        .padding(.horizontal, 24)
                         .background(Color.mdCoolgray10)
                     }
                 }
