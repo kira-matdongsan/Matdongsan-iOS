@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject private var navigationManager:NavigationManager
+
     var body: some View {
         
-        NavigationStack {
-            VStack {
-                Text("Home")
-                
-                NavigationLink {
-                    FoodDetailPageView()
-                } label: {
-                    Text("제철음식 상세화면")
-                }
+        VStack {
+            Text("Home")
+            
+            Button {
+                navigationManager.navigate(to: .detailView)
+            } label: {
+                Text("제철음식 상세화면")
             }
         }
     }

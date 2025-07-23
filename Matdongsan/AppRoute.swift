@@ -8,6 +8,7 @@
 import Foundation
 
 enum AppRoute:Hashable {
+    case homeView
     case detailView
     case placeSearch
     case record

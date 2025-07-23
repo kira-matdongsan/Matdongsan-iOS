@@ -33,6 +33,11 @@ struct TestingHome: View {
                     
                     Group {
                         Button {
+                            navigationManager.navigate(to: AppRoute.homeView)
+                        } label: {
+                            Text("🏠 홈화면")
+                        }
+                        Button {
                             navigationManager.navigate(to: AppRoute.detailView)
                         } label: {
                             Text("🌽 옥수수 제철음식 상세화면")
@@ -65,6 +70,8 @@ struct TestingHome: View {
             .ignoresSafeArea()
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
+                case .homeView:
+                    HomeView()
                 case .detailView:
                     if #available(iOS 18.0, *) {
                         FoodDetailPageView()
