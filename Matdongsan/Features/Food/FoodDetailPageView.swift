@@ -43,7 +43,7 @@ struct FoodDetailPageView: View {
                 }
             }
         }
-        
+        .toolbar(.hidden, for: .tabBar) 
     }
 }
 
