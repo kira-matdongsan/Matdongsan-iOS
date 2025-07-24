@@ -97,7 +97,7 @@ struct FoodCardView: View {
                 .shadow(color: .mdCoolgray20, radius: 4, x: 1, y: 2)
             }
         }
-        .padding(.horizontal, 16)
+        .padding([.horizontal, .top], 16)
         .scaleEffect(scale)
         .rotation3DEffect(.degrees(flip ? 180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.2)
         .animation(.easeInOut(duration: 0.4), value: flip)

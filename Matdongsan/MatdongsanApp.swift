@@ -31,6 +31,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MatdongsanApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
+    init() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = UIColor.white // 원하는 배경색
+        navBarAppearance.shadowColor = .clear
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor.white // 원하는 배경색
+        tabBarAppearance.shadowColor = .clear
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
+    
     var body: some Scene {
         WindowGroup {
             MainTabView() // 실행안되는듯
