@@ -86,6 +86,8 @@ struct TestingHome: View {
                     FoodRecipeWriteView()
                 case .place:
                     FoodPlaceWriteView()
+                case .search:
+                    SearchView()
                 }
             }
         }
