@@ -22,7 +22,7 @@ struct FoodListView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack (spacing: 0) {
                 ZStack {
                     Text("제철음식")
                         .bold()
@@ -36,6 +36,8 @@ struct FoodListView: View {
                         }
                     }
                 }
+                .padding(.bottom, 10)
+                .background(Color.white)
                 
                 ScrollView {
                     VStack (spacing: 0) {
@@ -43,7 +45,7 @@ struct FoodListView: View {
                             Image("corn_bg")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(maxWidth:.infinity, maxHeight: 280)
+                                .frame(width: UIScreen.main.bounds.width, height: 280)
                             
                             HStack {
                                 VStack (alignment: .leading) {
@@ -139,11 +141,12 @@ struct FoodListView: View {
 
                             })
                         }
-                        .padding(.horizontal, 24)
+                        .padding([.horizontal, .bottom], 24)
                         .background(Color.mdCoolgray10)
                     }
                 }
             }
+            .background(Color.mdCoolgray10)
         }
     }
 }
