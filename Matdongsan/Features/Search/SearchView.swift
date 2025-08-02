@@ -51,7 +51,7 @@ struct SearchView: View {
             .padding([.leading, .vertical], 16)
             .background(
                 Color.white
-                    .shadow(color: Color(uiColor: UIColor(hexCode: "F2F4F8")), radius: 5, x: 0, y: 4)
+                    .shadow(color: Color.mdCoolgray10, radius: 5, x: 0, y: 4)
             )
             
             

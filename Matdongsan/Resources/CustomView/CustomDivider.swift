@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct CustomDivider: View {
+    var opacity: CGFloat = 1.0
+    
     var body: some View {
         Rectangle()
             .frame(maxHeight: 8)
             .foregroundStyle(.mdCoolgray10)
+            .opacity(opacity)
         
     }
 }
