@@ -66,16 +66,18 @@ struct HomeView: View {
                     WeeklyRecordView()
                         .padding(.bottom, 16)
                     
-                    CustomDivider()
+                    CustomDivider(opacity: 0.5)
                         .padding(.vertical, 16)
                     
                     // 투표결과
-                    VoteResultView(voteResult: dummyVoteResult) // data temp
+                    VoteResultView(voteResult: dummyVoteResult)
                     
-                    CustomDivider()
+                    CustomDivider(opacity: 0.5)
                         .padding(.vertical, 16)
 
                     // 제철 시세
+                    FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
+
                 }
             }
         }

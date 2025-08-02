@@ -241,7 +241,7 @@ struct FoodRecipeWriteView: View {
                 }
                 .padding(24)
             }
-            .background(isRecipeFocused || isTitleFocused || isIngreFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
+            .background(isRecipeFocused || isTitleFocused || isIngreFocused ? Color.mdCoolgray10 : Color.mdCoolgray10.opacity(0.5))
             
             // 등록하기 버튼
             Button {
@@ -257,7 +257,7 @@ struct FoodRecipeWriteView: View {
                     .cornerRadius(8)
                     .padding(.horizontal, 15)
                     .padding(.vertical, 24)
-                    .background(isRecipeFocused || isTitleFocused || isIngreFocused ? Color.mdCoolgray10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
+                    .background(isRecipeFocused || isTitleFocused || isIngreFocused ? Color.mdCoolgray10 : Color.mdCoolgray10.opacity(0.5))
             }
             .disabled(!isCompletable)
             

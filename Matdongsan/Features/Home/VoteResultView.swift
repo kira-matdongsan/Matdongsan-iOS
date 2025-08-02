@@ -30,7 +30,7 @@ struct VoteResultView: View {
                 ForEach(voteResult.results, id: \.id) { item in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(item.isFirst ? .mdYellow10 : Color(uiColor: UIColor(hexCode: "F2F4F8", alpha: 0.5)))
+                            .fill(item.isFirst ? .mdYellow10 : Color.mdCoolgray10.opacity(0.5))
                             .strokeBorder(item.isFirst ? .mdYellow30 : .clear)
                         UnevenRoundedRectangle(topLeadingRadius: 12, bottomLeadingRadius: 12, bottomTrailingRadius: item.percentage == 100.0 ? 12 : 0, topTrailingRadius: item.percentage == 100.0 ? 12 : 0)
                             .fill(item.isFirst ? .mdYellow30 : .mdCoolgray20)
