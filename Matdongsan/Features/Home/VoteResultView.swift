@@ -52,7 +52,7 @@ struct VoteResultView: View {
                         }
                         .padding(.horizontal, 16)
                     }
-                    .frame(height: 52)
+                    .frame(height: 50)
                 }
             }
         }

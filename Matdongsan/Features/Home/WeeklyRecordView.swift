@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeeklyRecordView: View {
-    let items:[Int] = Array(1..<11)
+    let items:[Int] = Array(1...14)
     let weekday:[String] = ["일", "월", "화", "수", "목", "금", "토"]
     let columns = [GridItem(.flexible())]
     let today = 4
@@ -16,7 +16,7 @@ struct WeeklyRecordView: View {
     @State var selectedWeek = 0
     
     var body: some View {
-        VStack (spacing: 24){
+        VStack (spacing: 16){
             HStack {
                 Text("\(month)월 제철기록장")
                     .foregroundStyle(.white)
@@ -44,15 +44,17 @@ struct WeeklyRecordView: View {
                     let end = min(start + 7, items.count)
                     let pageItems = items[start..<end]
                     
-                    LazyHGrid(rows: columns, alignment: .top, spacing: 8) {
+                    HStack(alignment: .top, spacing: 8) {
                         ForEach(Array(pageItems.enumerated()), id: \.offset) { idx, date in
                             VStack {
                                 VStack (spacing: 20) {
                                     Text("\(date)")
                                     Text(weekday[idx])
                                 }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 78)
                                 .background(date == today ? .mdYellow40 : .mdGray70)
                                 .cornerRadius(24)
                                 .foregroundStyle(date == today  ? .mdGray90 : .white)
@@ -64,16 +66,12 @@ struct WeeklyRecordView: View {
                                         .foregroundStyle(.mdYellow30)
                                 }
                             }
-                            
                         }
                     }
-                    .frame(width: UIScreen.main.bounds.width)
-//                    .padding(.horizontal, 8)
-//                    .padding(.vertical, 8)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(width: UIScreen.main.bounds.width)
+            .frame(width: UIScreen.main.bounds.width - 8)
             
             HStack (spacing: 8) {
                 Image("medal")
@@ -92,9 +90,9 @@ struct WeeklyRecordView: View {
             .padding(8)
             .background(.mdGray70)
             .cornerRadius(16)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 4)
         }
-        .frame(height: 230)
+        .frame(height: 205)
         .padding(.vertical, 24)
         .background(.mdWarmGray80)
         .cornerRadius(24)
