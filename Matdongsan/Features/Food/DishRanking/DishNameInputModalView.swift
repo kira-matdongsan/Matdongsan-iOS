@@ -40,13 +40,12 @@ struct DishNameInputModalView: View {
                 
                 
                 Text("제철요리 등록하기")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.mdCoolgray90)
                 
                 VStack (alignment: .leading, spacing: 8) {
                     Text("제철요리 이름")
-                        .font(.footnote)
+                        .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(.mdCoolgray90)
                     
                     TextField("제철요리 이름을 입력해 주세요. (최대 22자)", text: $input)
@@ -57,7 +56,7 @@ struct DishNameInputModalView: View {
                                 .stroke()
                                 .foregroundStyle(.mdCoolgray20)
                         )
-                        .font(.caption)
+                        .font(.system(size: 12, weight: .light))
                         .onChange(of: input) { _, newValue in
                             if newValue.count > characterLimit {
                                 input = String(newValue.prefix(characterLimit))
@@ -70,11 +69,11 @@ struct DishNameInputModalView: View {
                     
                     VStack (alignment: .leading, spacing: 2) {
                         Text("- 제철음식과 관련된 요리가 아닐 경우 등록되지 않을 수 있습니다.")
-                            .font(.caption2)
+                            .font(.system(size: 11, weight: .regular))
                             .foregroundStyle(.mdCoolgray50)
                         
                         Text("- 제철요리 이름을 정확히 입력해주세요")
-                            .font(.caption2)
+                            .font(.system(size: 11, weight: .regular))
                             .foregroundStyle(.mdRed)
                     }
                 }
@@ -85,8 +84,7 @@ struct DishNameInputModalView: View {
                 } label: {
                     Text("추가하기")
                         .frame(width: UIScreen.main.bounds.width - 90) //temp
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(enableAdding ? .white : .mdCoolgray60)
                 }
                 .frame(maxWidth: .infinity)

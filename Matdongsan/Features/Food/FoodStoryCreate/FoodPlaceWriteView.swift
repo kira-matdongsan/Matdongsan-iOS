@@ -35,8 +35,7 @@ struct FoodPlaceWriteView: View {
             VStack {
                 Text("\(foodName) \(foodEngName)")
                     .foregroundStyle(.mdCoolgray80)
-                    .font(.callout)
-                    .bold()
+                    .font(.system(size: 16, weight: .bold))
                     .padding(8)
                     .background(.mdYellow30)
                     .cornerRadius(16)
@@ -50,8 +49,7 @@ struct FoodPlaceWriteView: View {
                         HStack {
                             Text("플레이스")
                                 .foregroundStyle(.mdCoolgray90)
-                                .font(.footnote)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 13, weight: .semibold))
                             
                             Spacer()
                             
@@ -62,7 +60,7 @@ struct FoodPlaceWriteView: View {
                                     HStack {
                                         Text("플레이스 검색하기")
                                             .foregroundStyle(.mdCoolgray60)
-                                            .font(.caption)
+                                            .font(.system(size: 12, weight: .semibold))
                                         Image("add-square")
                                             .frame(width: 16, height: 16)
                                     }
@@ -85,14 +83,13 @@ struct FoodPlaceWriteView: View {
                                 VStack (alignment: .leading, spacing: 4) {
                                     HStack (alignment: .bottom, spacing: 8){
                                         Text(place?.placeName ?? "")
-                                            .font(.subheadline)
-                                            .fontWeight(.semibold)
+                                            .font(.system(size: 14, weight: .semibold))
                                         Text(place?.placeCategory ?? "")
-                                            .font(.footnote)
+                                            .font(.system(size: 13, weight: .regular))
                                         Spacer()
                                     }
                                     Text(place?.address ?? "")
-                                        .font(.caption)
+                                        .font(.system(size: 12, weight: .regular))
                                 }
                                 .foregroundStyle(.mdCoolgray90)
                                 
@@ -120,7 +117,7 @@ struct FoodPlaceWriteView: View {
                     VStack (spacing: 8) {
                         TextEditor(text: $content)
                             .foregroundStyle(.mdCoolgray90)
-                            .font(.footnote)
+                            .font(.system(size: 12, weight: .regular))
                             .padding(5)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
@@ -131,7 +128,7 @@ struct FoodPlaceWriteView: View {
                                 if !isFocused && content.isEmpty {
                                     Text("플레이스를 추천하는 이유를 알려주세요.(선택)")
                                         .foregroundStyle(.mdCoolgray60)
-                                        .font(.footnote)
+                                        .font(.system(size: 12, weight: .light))
                                         .padding(10)
                                 }
                             })
@@ -157,7 +154,7 @@ struct FoodPlaceWriteView: View {
                             Text("| \(characterLimit)자")
                                 .foregroundStyle(.mdCoolgray40)
                         }
-                        .font(.caption)
+                        .font(.system(size: 12, weight: .regular))
                     }
                     .padding(16)
                     .frame(maxWidth: .infinity)
@@ -179,8 +176,7 @@ struct FoodPlaceWriteView: View {
                 
             } label: {
                 Text("등록하기")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
                     .padding(.vertical, 14)
                     .frame(maxWidth: .infinity)

@@ -29,11 +29,11 @@ struct PlaceSearchView: View {
             HStack {
                 TextField(text: $searchKeyword) {
                     Text("플레이스를 입력해주세요.")
-                        .font(.footnote)
+                        .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(.mdCoolgray50)
                 }
                 .foregroundStyle(.white)
-                .font(.caption)
+                .font(.system(size: 13, weight: .semibold))
                 .onSubmit({
                     isFocused = false
                     // 검색 API 호출
@@ -73,14 +73,13 @@ struct PlaceSearchView: View {
                             VStack (alignment: .leading, spacing: 4) {
                                 HStack (alignment: .bottom, spacing: 8){
                                     Text(result.placeName)
-                                        .font(.subheadline)
-                                        .fontWeight(.semibold)
+                                        .font(.system(size: 14, weight: .semibold))
                                     Text(result.placeCategory)
-                                        .font(.footnote)
+                                        .font(.system(size: 13, weight: .regular))
                                     Spacer()
                                 }
                                 Text(result.address)
-                                    .font(.caption)
+                                    .font(.system(size: 12, weight: .regular))
                             }
                             .foregroundStyle(.mdCoolgray90)
                             
@@ -111,8 +110,7 @@ struct PlaceSearchView: View {
                 navigationManager.pop()
             } label: {
                 Text("추가하기")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
                     .padding(.vertical, 14)
                     .frame(maxWidth: .infinity)

@@ -41,8 +41,7 @@ struct FoodRecordWriteView: View {
                 VStack {
                     Text("\(foodName) \(foodEngName)")
                         .foregroundStyle(.mdCoolgray80)
-                        .font(.callout)
-                        .bold()
+                        .font(.system(size: 16, weight: .bold))
                         .padding(8)
                         .background(.mdYellow30)
                         .cornerRadius(16)
@@ -59,9 +58,20 @@ struct FoodRecordWriteView: View {
                                     HStack {
                                         Image("menu-board")
                                             .frame(width: 18, height: 18)
-                                        Text(initialSelected ? "\(dateFormatter.string(from: date))" : "언제 기록인가요? (선택)")
-                                            .font(.footnote)
-                                            .foregroundStyle(.mdCoolgray90)
+                                        if initialSelected {
+                                            Text("\(dateFormatter.string(from: date))")
+                                                .font(.system(size: 12, weight: .regular))
+                                                .foregroundStyle(.mdCoolgray90)
+                                        } else {
+                                            HStack {
+                                                Text("언제 기록인가요?")
+                                                    .font(.system(size: 12, weight: .regular))
+                                                    .foregroundStyle(.mdCoolgray90)
+                                                Text("(선택)")
+                                                    .font(.system(size: 11, weight: .regular))
+                                                    .foregroundStyle(.mdCoolgray50)
+                                            }
+                                        }
                                     }
                                     .padding(.vertical, 4)
                                     .padding(.horizontal, 10)
@@ -77,7 +87,7 @@ struct FoodRecordWriteView: View {
                                 // 기록
                                 TextEditor(text: $content)
                                     .foregroundStyle(.mdCoolgray90)
-                                    .font(.footnote)
+                                    .font(.system(size: 12, weight: .regular))
                                     .padding(5)
                                     .background(
                                         RoundedRectangle(cornerRadius: 8)
@@ -88,7 +98,7 @@ struct FoodRecordWriteView: View {
                                         if !isFocused && content.isEmpty {
                                             Text("제철음식에 대한 기록을 남길 수 있어요.")
                                                 .foregroundStyle(.mdCoolgray60)
-                                                .font(.footnote)
+                                                .font(.system(size: 12, weight: .light))
                                                 .padding(10)
                                         }
                                     })
@@ -114,7 +124,7 @@ struct FoodRecordWriteView: View {
                                     Text("| \(characterLimit)자")
                                         .foregroundStyle(.mdCoolgray40)
                                 }
-                                .font(.caption)
+                                .font(.system(size: 12, weight: .regular))
                             }
                             .padding(16)
                             .frame(maxWidth: .infinity)
@@ -137,8 +147,7 @@ struct FoodRecordWriteView: View {
                     
                 } label: {
                     Text("등록하기")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
                         .padding(.vertical, 14)
                         .frame(maxWidth: .infinity)

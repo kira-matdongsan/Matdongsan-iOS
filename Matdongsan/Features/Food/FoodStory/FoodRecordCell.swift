@@ -27,11 +27,11 @@ struct FoodRecordCell: View {
                 VStack (alignment: .leading, spacing: 2) {
                     Text(nickname)
                         .foregroundStyle(.mdCoolgray90)
-                        .font(.system(size: 15))
+                        .font(.system(size: 14))
                     Text(createdAt)
                         .foregroundStyle(.mdCoolgray30)
                         .fontWeight(.light)
-                        .font(.system(size: 13))
+                        .font(.system(size: 11))
                 }
                 
                 Spacer()
@@ -80,13 +80,12 @@ struct FoodRecordCell: View {
                 HStack {
                     Image("note-text")
                     Text(title)
-                        .font(.system(size: 14))
+                        .font(.system(size: 12, weight: .semibold))
                 }
                 
                 Text(content)
-                    .fontWeight(.thin)
                     .foregroundStyle(.mdCoolgray90)
-                    .font(.system(size: 15))
+                    .font(.system(size: 12, weight: .light))
                     .lineSpacing(1.8)
 
             }
@@ -107,12 +106,12 @@ struct FoodRecordCell: View {
                         .imageScale(.large)
                         .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
                         .imageScale(.large)
-                        .foregroundStyle(.mdCoolgray50)
+                        .foregroundStyle(.mdCoolgray40)
                 }
                 
                 Text("\(likeCnt)")
-                    .font(.callout)
-                    .foregroundStyle(.mdCoolgray50)
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.mdCoolgray40)
                 
                 Spacer()
                 

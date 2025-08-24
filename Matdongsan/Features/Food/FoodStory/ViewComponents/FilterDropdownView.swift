@@ -30,7 +30,7 @@ struct FilterDropdownView: View {
                             Image(storyIconMap[category] ?? "")
                         }
                         Text(category)
-                            .font(.system(size: 15))
+                            .font(.system(size: 14))
                             .foregroundStyle(i == selectedIdx ? .mdCoolgray80 : .mdCoolgray60)
                         Spacer()
                         Image(i == selectedIdx ? "checked_icon" : "unchecked_icon")

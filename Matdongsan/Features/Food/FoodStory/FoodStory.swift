@@ -35,12 +35,11 @@ struct FoodStory: View {
             VStack (spacing: 16) {
                 VStack (alignment: .leading, spacing: 4) {
                     Text("나의 제철음식 이야기")
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
+                        .font(.system(size: 16, weight: .bold))
                     HStack {
                         Text("제철음식과 관련된 이야기를 공유해주세요")
                             .foregroundStyle(.mdCoolgray60)
-                            .font(.system(size: 14))
+                            .font(.system(size: 14, weight: .light))
                         Spacer()
                     }
                 }
@@ -90,7 +89,7 @@ struct FoodStory: View {
                     .sensoryFeedback(.selection, trigger: showStorySheet)
                     
                 }
-                .font(.system(size: 15))
+                .font(.system(size: 14))
                 
                 PlaceholderView()
                 
@@ -113,7 +112,7 @@ struct FoodStory: View {
                         .padding(.top, 16)
                     HStack {
                         Text("제철음식 이야기")
-                            .bold()
+                            .font(.system(size: 16, weight: .bold))
                         Spacer()
                         Button {
                             showStorySheet = false
@@ -134,12 +133,11 @@ struct FoodStory: View {
                                 .frame(width: 48, height: 48)
                             VStack (alignment:.leading, spacing: 4) {
                                 Text("레시피")
-                                    .font(.callout)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.mdCoolgray90)
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundStyle(.mdGray90)
                                 Text("제철음식으로 만드는 나만의 레시피")
-                                    .font(.footnote)
-                                    .foregroundStyle(.mdCoolgray60)
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundStyle(.mdGray60)
                             }
                             Spacer()
                         }
@@ -158,12 +156,11 @@ struct FoodStory: View {
                                 .frame(width: 48, height: 48)
                             VStack (alignment:.leading, spacing: 4) {
                                 Text("제철기록")
-                                    .font(.callout)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.mdCoolgray90)
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundStyle(.mdGray90)
                                 Text("기록하고 싶은 나만의 제철음식 이야기")
-                                    .font(.footnote)
-                                    .foregroundStyle(.mdCoolgray60)
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundStyle(.mdGray60)
                             }
                             Spacer()
                         }
@@ -182,12 +179,11 @@ struct FoodStory: View {
                                 .frame(width: 48, height: 48)
                             VStack (alignment:.leading, spacing: 4) {
                                 Text("플레이스")
-                                    .font(.callout)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.mdCoolgray90)
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundStyle(.mdGray90)
                                 Text("제철음식을 맛볼 수 있는 공간 소개")
-                                    .font(.footnote)
-                                    .foregroundStyle(.mdCoolgray60)
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundStyle(.mdGray60)
                             }
                             Spacer()
                         }

@@ -36,15 +36,14 @@ struct NewDishVotingView: View {
                         VStack (spacing: 8) {
                             Text("\(foodName) \(foodEngName)")
                                 .foregroundStyle(.mdCoolgray80)
-                                .font(.title3)
-                                .bold()
+                                .font(.system(size: 18, weight: .bold))
                                 .padding(8)
                                 .background(.mdYellow20)
                                 .cornerRadius(16)
                             
                             Text("좋아하는 제철요리의 사진을 추가하고 투표해주세요.")
                                 .foregroundStyle(.mdWarmGray90)
-                                .font(.caption)
+                                .font(.system(size: 12, weight: .light))
                         }
                         .padding(16)
                         .frame(maxWidth: proxy.size.width)
@@ -58,13 +57,12 @@ struct NewDishVotingView: View {
                                 // 제철요리 이름 입력 전
                                 VStack (spacing: 2) {
                                     Text("제철요리 등록하기")
-                                        .bold()
+                                        .font(.system(size: 14, weight: .semibold))
                                         .foregroundStyle(.mdCoolgray90)
-                                        .font(.footnote)
                                     
                                     Text("어떤 요리의 사진인가요? 🤔")
                                         .foregroundStyle(.mdCoolgray90)
-                                        .font(.footnote)
+                                        .font(.system(size: 13, weight: .regular))
                                 }
                                 
                                 Button {
@@ -73,7 +71,7 @@ struct NewDishVotingView: View {
                                     HStack {
                                         Text("제철요리 추가하기")
                                             .foregroundStyle(.mdCoolgray60)
-                                            .font(.caption)
+                                            .font(.system(size: 12, weight: .semibold))
                                         Image("add-square")
                                             .frame(width: 16, height: 16)
                                     }
@@ -88,17 +86,15 @@ struct NewDishVotingView: View {
                                 // 제철요리 이름 입력 후
                                 HStack {
                                     Text("제철요리 등록하기")
-                                        .bold()
+                                        .font(.system(size: 14, weight: .semibold))
                                         .foregroundStyle(.mdCoolgray90)
-                                        .font(.footnote)
                                     
                                     Spacer()
                                     
                                     HStack (spacing: 4) {
                                         Text(dishName)
                                             .foregroundStyle(.mdYellow40)
-                                            .font(.caption)
-                                            .fontWeight(.semibold)
+                                            .font(.system(size: 12, weight: .bold))
                                             .onTapGesture {
                                                 isPresentAlert.toggle()
                                             }
@@ -132,15 +128,14 @@ struct NewDishVotingView: View {
                                         Image("add-by")
                                         Text("사진 추가하기")
                                             .foregroundStyle(.mdCoolgray90)
-                                            .font(.footnote)
-                                            .fontWeight(.semibold)
+                                            .font(.system(size: 13, weight: .semibold))
                                         
                                         Group {
                                             Text("\(0)/\(imgSelectionLimit)")
                                             Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                                         }
                                         .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
-                                        .font(.caption2)
+                                        .font(.system(size: 11, weight: .regular))
                                     }
                                     .frame(maxWidth: .infinity)
                                 }
@@ -150,9 +145,8 @@ struct NewDishVotingView: View {
                                 VStack (spacing: 8) {
                                     Text("사진 추가하기")
                                         .frame(width: proxy.size.width-48-32, alignment: .leading)
-                                        .font(.footnote)
+                                        .font(.system(size: 13, weight: .semibold))
                                         .foregroundStyle(.mdCoolgray90)
-                                        .fontWeight(.semibold)
                                     
                                     LazyVStack (alignment: .leading) {
                                         withAnimation(.easeInOut(duration: 0.5)) {
@@ -250,8 +244,7 @@ struct NewDishVotingView: View {
                             isPresentCompletionAlert = true // temp
                         } label: {
                             Text("투표하기")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 14, weight: .semibold))
                                 .foregroundStyle(votingEnabled ? .white : .mdCoolgray60)
                                 .padding(.vertical, 14)
                                 .frame(maxWidth: proxy.size.width)

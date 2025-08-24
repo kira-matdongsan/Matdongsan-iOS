@@ -20,15 +20,15 @@ struct WeeklyRecordView: View {
             HStack {
                 Text("\(month)월 제철기록장")
                     .foregroundStyle(.white)
-                    .bold()
-                
+                    .font(.system(size: 16, weight: .bold))
+
                 Spacer()
                 
                 Button {
                     
                 } label: {
                     Text("전체보기")
-                        .font(.footnote)
+                        .font(.system(size: 14, weight: .regular))
                         .foregroundStyle(.white)
                         .padding(4)
                         .background(.mdGray60)
@@ -51,8 +51,7 @@ struct WeeklyRecordView: View {
                                     Text("\(date)")
                                     Text(weekday[idx])
                                 }
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 14, weight: .semibold))
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 78)
                                 .background(date == today ? .mdYellow40 : .mdGray70)
@@ -79,8 +78,9 @@ struct WeeklyRecordView: View {
                 VStack (alignment: .leading, spacing: 4) {
                     Text("먹었어요")
                         .foregroundStyle(.mdGray30)
-                        .font(.footnote)
+                        .font(.system(size: 12, weight: .semibold))
                     Text("옥수수")
+                        .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.mdYellow40)
                 }
                 .fontWeight(.semibold)

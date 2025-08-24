@@ -25,7 +25,7 @@ struct FoodListView: View {
             VStack (spacing: 0) {
                 ZStack {
                     Text("제철음식")
-                        .bold()
+                        .font(.system(size: 18, weight: .bold))
                     HStack {
                         Spacer()
                         NavigationLink {
@@ -52,14 +52,12 @@ struct FoodListView: View {
                                     Text("2025년 7월")
                                     Text("둘째주의 제철음식은?")
                                 }
-                                .font(.footnote)
-                                .fontWeight(.medium)
+                                .font(.system(size: 12, weight: .semibold))
                                 .foregroundStyle(.mdCoolgray90)
                                 .padding(.leading, 8)
                                 Spacer()
                                 Text("옥수수")
-                                    .font(.headline)
-                                    .fontWeight(.bold)
+                                    .font(.system(size: 18, weight: .bold))
                                     .foregroundStyle(.mdCoolgray80)
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 8)
@@ -81,12 +79,10 @@ struct FoodListView: View {
                                             .frame(width: 64, height: 64)
                                         VStack (alignment: .leading, spacing: 6) {
                                             Text(food.name)
-                                                .font(.subheadline)
-                                                .fontWeight(.semibold)
+                                                .font(.system(size: 16, weight: .bold))
                                                 .foregroundStyle(.mdCoolgray90)
                                             Text("제철 시기 | \(1)")
-                                                .font(.footnote)
-                                                .fontWeight(.medium)
+                                                .font(.system(size: 11, weight: .semibold))
                                                 .foregroundStyle(.mdCoolgray80)
                                                 .padding(8)
                                                 .background(Color.mdCoolgray10)
@@ -123,7 +119,7 @@ struct FoodListView: View {
                                             .frame(width: 43, height: 43)
                                         Text("\(month)월")
                                             .foregroundStyle(.white)
-                                            .font(.footnote)
+                                            .font(.system(size: 13, weight: .bold))
                                     }
                                     
                                     Button {

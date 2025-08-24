@@ -33,13 +33,13 @@ struct MenuButtonView: View {
                 HStack {
                     if selectedSortIdx == index {
                         Text(sort)
-                            .font(.system(size: 15))
+                            .font(.system(size: 14))
                             .foregroundStyle(.mdCoolgray80)
                         Spacer()
                         Image("checked_icon")
                     } else {
                         Text(sort)
-                            .font(.system(size: 15))
+                            .font(.system(size: 14))
                             .foregroundStyle(.mdCoolgray60)
                         Spacer()
                         Image("unchecked_icon")

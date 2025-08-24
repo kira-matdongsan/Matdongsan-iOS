@@ -17,20 +17,18 @@ struct ThisweekFoodView: View {
         HStack {
             VStack (alignment: .leading, spacing: 12) {
                 Text("이번주 제철음식")
-                    .font(.system(size: 14))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.mdGray80)
                     .padding(8)
                     .background(.mdYellow10)
                     .cornerRadius(32)
                 
                 Text(food)
-                    .font(.title)
-                    .bold()
+                    .font(.system(size: 24, weight: .bold))
                     .foregroundStyle(.mdGray90)
                 
                 Text(subTitle)
-                    .font(.body)
-                    .bold()
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.mdGray90)
             }
             .frame(maxWidth: 150) // temp
