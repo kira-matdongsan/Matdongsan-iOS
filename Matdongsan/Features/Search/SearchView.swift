@@ -25,12 +25,11 @@ struct SearchView: View {
             HStack (spacing: 8) {
                 TextField(text: $input,
                           prompt: Text("제철음식을 검색해 보세요")
-                    .font(.footnote)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.mdCoolgray50)) {
                 }
                 .padding(16)
-                .font(.footnote)
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(.white)
                 .background(
                     RoundedRectangle(cornerRadius: 24)
@@ -74,7 +73,7 @@ struct SearchView: View {
                                                 .foodListNameTextStyle()
                                             Spacer()
                                             Text("제철시기 | 11월~10월")
-                                                .font(.footnote)
+                                                .font(.system(size: 11, weight: .semibold))
                                                 .foregroundStyle(.mdCoolgray80)
                                                 .padding(.horizontal, 8)
                                                 .padding(.vertical, 4)
@@ -85,8 +84,7 @@ struct SearchView: View {
                                             LazyHStack {
                                                 ForEach(resultsinResult, id: \.self) { reinre in
                                                     Text(reinre)
-                                                        .font(.footnote)
-                                                        .fontWeight(.medium)
+                                                        .font(.system(size: 11, weight: .semibold))
                                                         .foregroundStyle(.mdCoolgray80)
                                                         .padding(.horizontal, 8)
                                                         .padding(.vertical, 4)
@@ -126,7 +124,7 @@ struct SearchView: View {
                     
                     Text("검색하기")
                         .foregroundStyle(.mdCoolgray60)
-                        .bold()
+                        .font(.system(size: 18, weight: .bold))
                 }
             }
         }

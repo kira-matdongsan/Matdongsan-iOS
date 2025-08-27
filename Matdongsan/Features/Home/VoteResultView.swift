@@ -15,12 +15,10 @@ struct VoteResultView: View {
             // 타이틀
             VStack (alignment: .leading, spacing: 4) {
                 Text("\(voteResult.month)월의 제철요리는?")
-                    .font(.callout)
-                    .bold()
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.mdCoolgray90)
                 Text("여러분이 생각하는 제철요리에 투표해보세요")
-                    .font(.subheadline)
-                    .fontWeight(.light)
+                    .font(.system(size: 14, weight: .light))
                     .foregroundStyle(.mdCoolgray60)
             }
             .padding(.horizontal, 8)
@@ -39,12 +37,11 @@ struct VoteResultView: View {
                         // text
                         HStack (spacing: 8) {
                             Text(item.name)
-                                .font(.callout)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(.mdCoolgray100)
                             Spacer()
                             Text(String(format: "%.1f%%", item.percentage) + " (\(item.count)명)")
-                                .font(.subheadline)
+                                .font(.system(size: 14, weight: .semibold))
                                 .foregroundStyle(.mdCoolgray80)
                             Image(item.isFirst ? "verify-yl" : "verify-gr")
                                 .resizable()
@@ -52,7 +49,7 @@ struct VoteResultView: View {
                         }
                         .padding(.horizontal, 16)
                     }
-                    .frame(height: 52)
+                    .frame(height: 50)
                 }
             }
         }

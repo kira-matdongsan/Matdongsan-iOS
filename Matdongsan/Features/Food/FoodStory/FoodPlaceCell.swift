@@ -31,11 +31,11 @@ struct FoodPlaceCell: View {
                 VStack (alignment: .leading, spacing: 2) {
                     Text(nickname)
                         .foregroundStyle(.mdCoolgray90)
-                        .font(.system(size: 15))
+                        .font(.system(size: 14))
                     Text(createdAt)
                         .foregroundStyle(.mdCoolgray30)
                         .fontWeight(.light)
-                        .font(.system(size: 13))
+                        .font(.system(size: 11))
                 }
                 
                 Spacer()
@@ -52,20 +52,18 @@ struct FoodPlaceCell: View {
                     VStack (alignment: .leading, spacing: 8) {
                         HStack (spacing: 8) {
                             Text(place_name)
-                                .font(.headline)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 16, weight: .bold))
                                 .padding(6)
                                 .background(.mdGreen10)
                                 .cornerRadius(8)
                             
                             Text(category)
                                 .foregroundStyle(.mdCoolgray90)
-                                .font(.system(size: 15))
+                                .font(.system(size: 12))
                         }
                         
                         Text(address)
-                            .font(.footnote)
-                            .fontWeight(.thin)
+                            .font(.system(size: 11, weight: .light))
                             .foregroundStyle(.mdCoolgray60)
                         
                         Spacer()
@@ -103,10 +101,10 @@ struct FoodPlaceCell: View {
             
             VStack (alignment: .leading, spacing: 8) {
                 Text("식당 한줄평")
-                    .font(.system(size: 14))
+                    .font(.system(size: 11, weight: .semibold))
 
                 Text(review)
-                    .font(.system(size: 15))
+                    .font(.system(size: 13, weight: .light))
                     .fontWeight(.thin)
                     .foregroundStyle(.mdCoolgray90)
                     .lineSpacing(1.8)
@@ -129,12 +127,12 @@ struct FoodPlaceCell: View {
                         .imageScale(.large)
                         .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
                         .imageScale(.large)
-                        .foregroundStyle(.mdCoolgray50)
+                        .foregroundStyle(.mdCoolgray40)
                 }
                 
                 Text("\(likeCnt)")
-                    .font(.callout)
-                    .foregroundStyle(.mdCoolgray50)
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.mdCoolgray40)
                 
                 Spacer()
                 

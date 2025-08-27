@@ -15,17 +15,14 @@ struct FoodPriceView: View {
             // 타이틀
             VStack (alignment: .leading, spacing: 4) {
                 Text("맛동산 제철시세")
-                    .font(.callout)
-                    .bold()
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.mdCoolgray90)
                 Text("제철음식의 가격 공유하고 다른 동네의 시세 알아보세요")
-                    .font(.subheadline)
-                    .fontWeight(.light)
+                    .font(.system(size: 14, weight: .light))
                     .foregroundStyle(.mdCoolgray60)
                 
                 Text(foodPrice.createdAt)
-                    .font(.footnote)
-                    .fontWeight(.regular)
+                    .font(.system(size: 11, weight: .regular))
                     .foregroundStyle(.mdWarmGray70)
                     .padding(5)
                     .background(.mdCoolgray10.opacity(0.5))
@@ -38,8 +35,7 @@ struct FoodPriceView: View {
                 ZStack (alignment: .bottom) {
                     Image("corn02")
                     Text(foodPrice.foodName)
-                        .font(.subheadline)
-                        .fontWeight(.regular)
+                        .font(.system(size: 14, weight: .regular))
                         .padding(.vertical, 4)
                         .padding(.horizontal, 15)
                         .background(.white.opacity(0.5))
@@ -51,17 +47,14 @@ struct FoodPriceView: View {
                 .cornerRadius(16)
                 
                 Text("맛동산 평균 1개당")
-                    .font(.footnote)
-                    .fontWeight(.medium)
+                    .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.mdWarmGray70)
                 HStack (spacing: 8) {
                     Text(foodPrice.foodName)
-                        .font(.callout)
-                        .bold()
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(.mdGray90)
                     Text("\(foodPrice.averagePricePerUnit)원")
-                        .font(.callout)
-                        .bold()
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(.mdWarmGray80)
                         .padding(2)
                         .background(.mdYellow10)
@@ -74,26 +67,10 @@ struct FoodPriceView: View {
                         
                     } label: {
                         Spacer()
-                        Text("비싸게 샀어요")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.mdWarmGray50)
+                        Text("제철시세 알리기")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
                         Spacer()
-                    }
-                    .frame(height: 42)
-                    .background(.mdWarmGray10)
-                    .cornerRadius(8)
-                    
-                    Button {
-                        
-                    } label: {
-                        Spacer()
-                        Text("더 싸게 샀어요")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.mdWarmGray10)
-                        Spacer()
-
                     }
                     .frame(height: 42)
                     .background(.mdWarmGray60)

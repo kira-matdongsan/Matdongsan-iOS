@@ -48,14 +48,14 @@ struct FoodDetailInfoView: View {
                     .padding(.vertical, 4)
                     .background(.mdCoolgray10)
                     .cornerRadius(8)
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
                     .frame(width: UIScreen.main.bounds.width-64)
 
                     LazyHGrid(rows:[GridItem()]) {
                         ForEach(detailCategories, id: \.self) { category in
                             Text("\(category)")
                                 .fixedSize()
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
                                 .background{
                                     RoundedRectangle(cornerRadius: 24)
@@ -63,7 +63,7 @@ struct FoodDetailInfoView: View {
                                         .stroke(.mdCoolgray10)
                                 }
                                 .foregroundStyle(.mdCoolgray30)
-                                .font(.system(size: 15))
+                                .font(.system(size: 13))
                         }
                     }
                     .gridCellUnsizedAxes(.horizontal)
@@ -92,7 +92,7 @@ struct FoodDetailInfoView: View {
                             .foregroundStyle(.mdCoolgray30)
                     }
                     .padding(.vertical, 12)
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
                     .background()
                     .onTapGesture {
                         withAnimation(.easeIn) {
@@ -105,7 +105,7 @@ struct FoodDetailInfoView: View {
                         VStack (alignment: .leading, spacing: 8.0) {
                             Text("\(title)")
                                 .fixedSize()
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
                                 .background{
                                     RoundedRectangle(cornerRadius: 24)
@@ -113,11 +113,11 @@ struct FoodDetailInfoView: View {
                                         .stroke(.mdCoolgray30)
                                 }
                                 .foregroundStyle(.mdCoolgray90)
-                                .font(.system(size: 15))
+                                .font(.system(size: 13))
                             Text(detailInfo[category] ?? "")
                                 .fixedSize(horizontal: false, vertical: true)
                                 .foregroundStyle(.mdCoolgray50)
-                                .font(.system(size: 15))
+                                .font(.system(size: 14))
                             Divider()
                                 .padding(.bottom, 8)
                         }
@@ -134,11 +134,11 @@ struct FoodDetailInfoView: View {
                                     .stroke(.mdCoolgray30)
                             }
                             .foregroundStyle(.mdCoolgray90)
-                            .font(.callout)
+                            .font(.system(size: 13))
                         HStack {
                             Spacer()
                             Text("100g 당 기준")
-                                .font(.system(size: 14))
+                                .font(.system(size: 12))
                         }
                         Divider()
                         ForEach(nutritionCategories, id: \.self) { nutrition in
@@ -150,7 +150,7 @@ struct FoodDetailInfoView: View {
                         }
                         .padding(.vertical, 6)
                         .padding(.horizontal, 8)
-                        .font(.system(size: 15))
+                        .font(.system(size: 13))
                     }
                 }
                 .padding(.horizontal, 32)

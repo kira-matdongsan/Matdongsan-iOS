@@ -19,12 +19,11 @@ struct DishRankingView: View {
         VStack (spacing: 16) {
             VStack (alignment: .leading, spacing: 4) {
                 Text("맛동산 Pick 제철요리")
-                    .font(.system(size: 16))
-                    .fontWeight(.semibold)
+                    .font(.system(size: 16, weight: .bold))
                 HStack {
                     Text("맛동산에서 선정된 옥수수의 제철요리는 무엇일까요?")
                         .foregroundStyle(.mdCoolgray60)
-                        .font(.system(size: 14))
+                        .font(.system(size: 14, weight: .light))
                     Spacer()
                 }
             }
@@ -50,7 +49,7 @@ struct DishRankingView: View {
                     .cornerRadius(16)
                 }
                 .foregroundStyle(.mdWarmGray70)
-                .font(.system(size: 13))
+                .font(.system(size: 11))
                 .padding(.horizontal, 8)
                 
                 TabView (selection: $selectedTab) {
@@ -78,7 +77,7 @@ struct DishRankingView: View {
                                         
                                         NavigationLink(destination: DishVotingView(), label: {
                                             Text("투표하기")
-                                                .font(.system(size: 15))
+                                                .font(.system(size: 14, weight: .bold))
                                                 .foregroundStyle(.mdCoolgray90)
                                                 .background{
                                                     RoundedRectangle(cornerRadius: 8)
@@ -153,11 +152,13 @@ struct AddingBanner: View {
         HStack {
             VStack (alignment: .leading, spacing: 8) {
                 Text("좋아하는 제철요리가 여기 없나요?")
-                    .font(.system(size: 13))
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.mdCoolgray90)
                 
                 Text("제철요리 등록하기")
-                    .font(.system(size: 16))
-                    .bold()
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(.mdCoolgray90)
+
             }
             Spacer()
             Image("add_food_img")
@@ -186,7 +187,8 @@ struct DishCell: View {
                 Text("\(item)")
             }
             .frame(width: 26)
-            .font(.system(size: 15))
+            .font(.system(size: 14, weight: .bold))
+            .foregroundStyle(.mdGray60)
             
             Image("cornfirst")
                 .resizable()
@@ -196,14 +198,13 @@ struct DishCell: View {
             VStack (alignment:.leading, spacing: 8) {
                 Text("\(6)명이 선택했어요.")
                     .padding(4)
-                    .font(.system(size: 13))
+                    .font(.system(size: 11, weight: .light))
                     .fontWeight(.thin)
                     .background(.mdCoolgray10)
                     .cornerRadius(8)
                     .foregroundStyle(.mdWarmGray70)
                 Text("찐옥수수")
-                    .font(.system(size: 15))
-                    .bold()
+                    .font(.system(size: 14, weight: .bold))
             }
             
             Spacer()

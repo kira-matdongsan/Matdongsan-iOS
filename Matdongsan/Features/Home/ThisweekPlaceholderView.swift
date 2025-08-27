@@ -23,8 +23,7 @@ struct ThisweekPlaceholderView: View {
         HStack (alignment: .top) {
             VStack (alignment: .leading, spacing: 13) {
                 Text("맛동산 pick")
-                    .font(.system(size: 16))
-                    .fontWeight(.bold)
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.mdYellow30)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 4)
@@ -35,11 +34,10 @@ struct ThisweekPlaceholderView: View {
                     Text("\(month)월 \(week)째주")
                     Text("제철 음식은?")
                 }
-                .font(.system(size: 22))
-                .fontWeight(.semibold)
+                .font(.system(size: 22, weight: .bold))
                 
                 Text("\(dateFormatter.string(from: Date()))")
-                    .font(.caption)
+                    .font(.system(size: 12, weight: .bold))
                     .foregroundStyle(.mdCoolgray70)
             }
             

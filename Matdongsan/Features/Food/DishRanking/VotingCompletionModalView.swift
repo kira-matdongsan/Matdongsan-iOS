@@ -16,8 +16,7 @@ struct VotingCompletionModalView: View {
         // width 280
         VStack (spacing: 8) {
             Text("\(dishName)에 투표했어요!")
-                .font(.callout)
-                .fontWeight(.bold)
+                .font(.system(size: 16, weight: .bold))
                 .padding(.top, 24)
             Divider()
             
@@ -28,8 +27,7 @@ struct VotingCompletionModalView: View {
                 HStack (spacing: 4) {
                     Text(dishName)
                         .foregroundStyle(.mdWarmGray80)
-                        .font(.caption)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 12, weight: .bold))
                     Image("checked-icon-trans")
                         .frame(width:16, height:16)
                 }
@@ -42,8 +40,7 @@ struct VotingCompletionModalView: View {
             .cornerRadius(8)
             
             Text("확인")
-                .font(.subheadline)
-                .fontWeight(.semibold)
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(.white)
                 .padding(.vertical, 14)
                 .frame(maxWidth: .infinity)

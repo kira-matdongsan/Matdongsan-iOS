@@ -29,11 +29,11 @@ struct FoodRecipeCell: View {
                 VStack (alignment: .leading, spacing: 2) {
                     Text(nickname)
                         .foregroundStyle(.mdCoolgray90)
-                        .font(.system(size: 15))
+                        .font(.system(size: 14))
                     Text(createdAt)
                         .foregroundStyle(.mdCoolgray30)
                         .fontWeight(.light)
-                        .font(.system(size: 13))
+                        .font(.system(size: 11))
                 }
                 
                 Spacer()
@@ -47,32 +47,30 @@ struct FoodRecipeCell: View {
             VStack (alignment: .leading, spacing: 10) {
                 
                 Text(title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 16, weight: .bold))
                     .padding(6)
                     .background(.mdOrange10)
                     .cornerRadius(8)
                 
                 VStack (alignment: .leading, spacing: 10) {
                     Text("• 재료")
-                        .bold()
-                        .font(.system(size: 16))
-                    
-                    Text(ingredients.joined(separator: ", "))
-                        .font(.system(size: 15))
-                        .fontWeight(.thin)
+                        .font(.system(size: 14, weight: .bold))
                         .foregroundStyle(.mdCoolgray90)
+
+                    Text(ingredients.joined(separator: ", "))
+                        .font(.system(size: 13, weight: .light))
+                        .foregroundStyle(.mdCoolgray80)
                 }
                 
                 VStack (alignment: .leading, spacing: 10) {
                     Text("• 조리 방법")
                         .bold()
-                        .font(.system(size: 16))
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.mdCoolgray90)
 
                     Text(instructions)
-                        .font(.system(size: 14))
-                        .fontWeight(.thin)
-                        .foregroundStyle(.mdCoolgray90)
+                        .font(.system(size: 12, weight: .light))
+                        .foregroundStyle(.mdCoolgray80)
                         .lineSpacing(1.6)
                 }
                 
@@ -123,13 +121,13 @@ struct FoodRecipeCell: View {
                         .imageScale(.large)
                         .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
                         .imageScale(.large)
-                        .foregroundStyle(.mdCoolgray50)
+                        .foregroundStyle(.mdCoolgray40)
                 }
                 
                 Text("\(likeCnt)")
-                    .font(.callout)
-                    .foregroundStyle(.mdCoolgray50)
-                
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.mdCoolgray40)
+
                 Spacer()
                 
                 Button {

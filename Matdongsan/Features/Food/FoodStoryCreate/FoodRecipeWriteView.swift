@@ -42,8 +42,7 @@ struct FoodRecipeWriteView: View {
             VStack {
                 Text("\(foodName) \(foodEngName)")
                     .foregroundStyle(.mdCoolgray80)
-                    .font(.callout)
-                    .bold()
+                    .font(.system(size: 16, weight: .bold))
                     .padding(8)
                     .background(.mdYellow30)
                     .cornerRadius(16)
@@ -56,12 +55,11 @@ struct FoodRecipeWriteView: View {
                     VStack (alignment: .leading, spacing: 8) {
                         Text("레시피 이름")
                             .foregroundStyle(.mdCoolgray90)
-                            .font(.footnote)
-                            .fontWeight(.semibold)
+                            .font(.system(size: 13, weight: .semibold))
                         
                         TextField(text: $title) {
                             Text("레시피 이름을 입력해주세요.")
-                                .font(.caption)
+                                .font(.system(size: 12, weight: .light))
                                 .foregroundStyle(.mdCoolgray60)
                         }
                         .padding(.vertical, 16)
@@ -70,7 +68,7 @@ struct FoodRecipeWriteView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(isTitleFocused ? .mdCoolgray30 : .mdCoolgray10)
                         )
-                        .font(.caption)
+                        .font(.system(size: 13, weight: .semibold))
                         .onChange(of: title) { _, newValue in
                             if newValue.count > titleCharLimit {
                                 title = String(newValue.prefix(titleCharLimit))
@@ -97,20 +95,19 @@ struct FoodRecipeWriteView: View {
                     VStack (alignment: .leading, spacing: 8) {
                         Text("재료")
                             .foregroundStyle(.mdCoolgray90)
-                            .font(.footnote)
-                            .fontWeight(.semibold)
+                            .font(.system(size: 13, weight: .semibold))
                         Text("재료는 20개까지 추가할 수 있어요.")
                             .foregroundStyle(.mdCoolgray50)
-                            .font(.caption)
-                        
+                            .font(.system(size: 12, weight: .light))
+
                         HStack {
                             TextField(text: $ingreInput) {
                                 Text("재료 입력 후 추가해주세요.")
-                                    .font(.caption)
+                                    .font(.system(size: 12, weight: .light))
                                     .foregroundStyle(.mdCoolgray60)
                             }
                             .focused($isIngreFocused)
-                            .font(.footnote)
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(.mdCoolgray90)
                             .autocorrectionDisabled()
                             .onSubmit {
@@ -125,7 +122,7 @@ struct FoodRecipeWriteView: View {
                             } label: {
                                 HStack {
                                     Text("추가")
-                                        .font(.caption)
+                                        .font(.system(size: 12, weight: .semibold))
                                     Image(enableAdding ? "add-square-tinted" : "add-square")
                                         .frame(width: 16, height: 16)
                                 }
@@ -180,14 +177,13 @@ struct FoodRecipeWriteView: View {
                         HStack {
                             Text("조리방법")
                                 .foregroundStyle(.mdCoolgray90)
-                                .font(.footnote)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 13, weight: .semibold))
                             Spacer()
                         }
                         
                         TextEditor(text: $content)
                             .foregroundStyle(.mdCoolgray90)
-                            .font(.footnote)
+                            .font(.system(size: 12, weight: .light))
                             .padding(5)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
@@ -198,7 +194,7 @@ struct FoodRecipeWriteView: View {
                                 if !isRecipeFocused && content.isEmpty {
                                     Text("조리방법을 자세히 알려주세요.")
                                         .foregroundStyle(.mdCoolgray60)
-                                        .font(.caption)
+                                        .font(.system(size: 12, weight: .light))
                                         .padding(10)
                                 }
                             })
@@ -224,7 +220,7 @@ struct FoodRecipeWriteView: View {
                             Text("| \(recipeCharLimit)자")
                                 .foregroundStyle(.mdCoolgray40)
                         }
-                        .font(.caption)
+                        .font(.system(size: 12, weight: .light))
                     }
                     .padding(16)
                     .frame(maxWidth: .infinity)
@@ -248,8 +244,7 @@ struct FoodRecipeWriteView: View {
                 
             } label: {
                 Text("등록하기")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
                     .padding(.vertical, 14)
                     .frame(maxWidth: .infinity)

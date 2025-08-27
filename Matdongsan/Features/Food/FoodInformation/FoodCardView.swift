@@ -36,7 +36,7 @@ struct FoodCardView: View {
                                 .background(.mdWarmGray80)
                                 .cornerRadius(16)
                                 .foregroundStyle(.mdYellow30)
-                                .font(.caption)
+                                .font(.system(size: 11))
                             
                             Text(foodTitle)
                                 .fontWeight(.semibold)
@@ -44,7 +44,7 @@ struct FoodCardView: View {
                                 .background(.mdYellow30)
                                 .cornerRadius(16)
                                 .tint(.mdCoolgray80)
-                                .font(.title3)
+                                .font(.system(size: 18, weight: .bold))
                         }
                         Spacer()
                         Button {
@@ -81,12 +81,12 @@ struct FoodCardView: View {
                             .background(.mdWarmGray80)
                             .cornerRadius(16)
                             .foregroundStyle(.mdYellow30)
-                            .font(.caption)
+                            .font(.system(size: 11))
                         Text(descTitle)
                             .bold()
-                            .font(.headline)
+                            .font(.system(size: 14, weight: .semibold))
                         Text(description)
-                            .font(.footnote)
+                            .font(.system(size: 12, weight: .regular))
                     }
                     .padding(16)
                     .frame(maxWidth: .infinity, alignment: .leading)

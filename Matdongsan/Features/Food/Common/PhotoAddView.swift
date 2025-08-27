@@ -25,15 +25,14 @@ struct PhotoAddView: View {
                         Image("add-by")
                         Text("사진 추가하기 (선택)")
                             .foregroundStyle(.mdCoolgray90)
-                            .font(.footnote)
-                            .bold()
+                            .font(.system(size: 13, weight: .semibold))
                         
                         Group {
                             Text("\(0)/\(imgSelectionLimit)")
                             Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                         }
                         .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
-                        .font(.caption2)
+                        .font(.system(size: 11, weight: .regular))
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -43,9 +42,8 @@ struct PhotoAddView: View {
                 VStack (spacing: 8) {
                     HStack {
                         Text("사진 추가하기")
-                            .font(.footnote)
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(.mdCoolgray90)
-                            .fontWeight(.semibold)
                         Spacer()
                     }
                     
@@ -96,7 +94,7 @@ struct PhotoAddView: View {
                         Text("제철요리와 관계없는 이미지일 경우\n관리자 확인 후 삭제될 수 있습니다.")
                     }
                     .foregroundStyle(Color(uiColor: UIColor(hexCode: "A8A8A8")))
-                    .font(.caption2)
+                    .font(.system(size: 11, weight: .regular))
                 }
             }
         }

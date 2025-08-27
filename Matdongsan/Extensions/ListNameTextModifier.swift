@@ -10,8 +10,7 @@ import SwiftUI
 struct FoodListNameTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.subheadline)
-            .fontWeight(.semibold)
+            .font(.system(size: 16, weight: .bold))
             .foregroundStyle(.mdCoolgray90)
     }
 }
