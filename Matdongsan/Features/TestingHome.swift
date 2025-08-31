@@ -88,6 +88,8 @@ struct TestingHome: View {
                     FoodPlaceWriteView()
                 case .search:
                     SearchView()
+                case .calendar:
+                    CalendarPageView(selectedDate: Date(), displayedMonth: Date(), recordsByDate: [Date : [String]]())
                 }
             }
         }
