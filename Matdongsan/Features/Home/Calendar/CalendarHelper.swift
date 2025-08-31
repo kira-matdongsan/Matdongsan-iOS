@@ -17,30 +17,23 @@ struct CalendarHelper {
 
     func generateDaysInMonth(for date: Date) -> [Date] {
         guard let monthInterval = calendar.dateInterval(of: .month, for: date),
-              let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: monthInterval.start))
+              // 달 시작 주의 시작일
+              let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: monthInterval.start)),
+              // 달 끝(=다음달 1일)이 속한 주의 시작 → 그 주의 시작일
+              let endOfWeekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: monthInterval.end)),
+              // 거기서 +6일 해서 그 주의 "끝" 계산
+              let endOfWeek = calendar.date(byAdding: .day, value: 6, to: endOfWeekStart)
         else { return [] }
 
-        let range = calendar.range(of: .day, in: .month, for: date)!
-        let offset = calendar.component(.weekday, from: startOfWeek) - 1
-
         var dates: [Date] = []
+        var current = startOfWeek
 
-        for i in 0..<(range.count + offset) {
-            if i < offset {
-                dates.append(Date.distantPast) // 빈 칸 채우기용
-            } else {
-                if let day = calendar.date(byAdding: .day, value: i - offset, to: startOfWeek) {
-                    dates.append(day)
-                }
-            }
+        while current <= endOfWeek {
+            dates.append(current)
+            current = calendar.date(byAdding: .day, value: 1, to: current)!
         }
 
         return dates
     }
 
-    func dayString(from date: Date) -> String {
-        if date == Date.distantPast { return "" }
-        let day = calendar.component(.day, from: date)
-        return "\(day)"
-    }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WeeklyRecordView: View {
+    @EnvironmentObject private var navigationManager:NavigationManager
+
     let items:[Int] = Array(1...14)
     let weekday:[String] = ["일", "월", "화", "수", "목", "금", "토"]
     let columns = [GridItem(.flexible())]
@@ -25,7 +27,7 @@ struct WeeklyRecordView: View {
                 Spacer()
                 
                 Button {
-                    
+                    navigationManager.navigate(to: .calendar)
                 } label: {
                     Text("전체보기")
                         .font(.system(size: 14, weight: .regular))
