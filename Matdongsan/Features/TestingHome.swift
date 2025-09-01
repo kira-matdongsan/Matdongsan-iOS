@@ -89,7 +89,7 @@ struct TestingHome: View {
                 case .search:
                     SearchView()
                 case .calendar:
-                    CalendarPageView(selectedDate: Date(), displayedMonth: Date(), recordsByDate: [Date : [String]]())
+                    CalendarPageView(selectedDate: Date(), displayedMonth: Date())
                 }
             }
         }
