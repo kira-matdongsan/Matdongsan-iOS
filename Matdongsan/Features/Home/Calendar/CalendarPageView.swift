@@ -12,7 +12,13 @@ struct CalendarPageView: View {
 
     @State var selectedDate: Date
     @State var displayedMonth: Date
-    let recordsByDate: [Date: [String]]
+    
+    let recordsByDate: [Date: [String]] = [
+        Calendar.current.startOfDay(for: Date()): ["🌽 옥수수 2개 2,000원", "🍑 복숭아 3개 3,600원"],
+        Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -2, to: Date())!): ["🍉 수박 한 통 12,000원"],
+        Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -7, to: Date())!): ["🍑 복숭아 3개 3,600원"]
+    ]
+    
     @State private var showPicker = false
     
     private func monthYearString(from date: Date) -> String {
@@ -128,5 +134,5 @@ struct CalendarPageView: View {
         Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -2, to: Date())!): ["🍉 수박 한 통 12,000원"],
         Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -7, to: Date())!): ["🍑 복숭아 3개 3,600원"]
     ]
-    CalendarPageView(selectedDate: Date(), displayedMonth: Date(), recordsByDate: dummyRecords)
+    CalendarPageView(selectedDate: Date(), displayedMonth: Date())
 }
