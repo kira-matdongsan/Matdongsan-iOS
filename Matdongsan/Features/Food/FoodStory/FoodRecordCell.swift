@@ -85,9 +85,8 @@ struct FoodRecordCell: View {
                 
                 Text(content)
                     .foregroundStyle(.mdCoolgray90)
-                    .font(.system(size: 12, weight: .light))
+                    .font(.system(size: 13, weight: .light))
                     .lineSpacing(1.8)
-
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)

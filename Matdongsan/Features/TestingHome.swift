@@ -90,6 +90,8 @@ struct TestingHome: View {
                     SearchView()
                 case .calendar:
                     CalendarPageView(selectedDate: Date(), displayedMonth: Date())
+                case .priceInput:
+                    PricingInputView()
                 }
             }
         }

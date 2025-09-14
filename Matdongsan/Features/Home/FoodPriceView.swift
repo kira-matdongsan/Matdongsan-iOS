@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FoodPriceView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
+
     @State var foodPrice: SeasonalFoodPrice
     
     var body: some View {
@@ -64,7 +66,7 @@ struct FoodPriceView: View {
                 // 가격 입력 button
                 HStack(spacing: 8) {
                     Button {
-                        
+                        navigationManager.navigate(to: .priceInput)
                     } label: {
                         Spacer()
                         Text("제철시세 알리기")
