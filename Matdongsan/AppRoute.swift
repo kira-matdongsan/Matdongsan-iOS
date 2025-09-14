@@ -16,4 +16,5 @@ enum AppRoute:Hashable {
     case place
     case search
     case calendar
+    case priceInput
 }
