@@ -122,7 +122,7 @@ struct FoodPriceView: View {
     }
 }
 
-#Preview {
-    FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
-        .border(.red)
-}
+//#Preview {
+//    FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
+//        .border(.red)
+//}

@@ -12,6 +12,7 @@ struct CalendarPageView: View {
 
     @State var selectedDate: Date
     @State var displayedMonth: Date
+    @State var showSheet: Bool = false
     
     let recordsByDate: [Date: [String]] = [
         Calendar.current.startOfDay(for: Date()): ["🌽 옥수수 2개 2,000원", "🍑 복숭아 3개 3,600원"],
@@ -65,7 +66,7 @@ struct CalendarPageView: View {
             CustomDivider(opacity: 0.5)
                 .padding(.vertical, 8)
 
-            RecordListView(records: recordsByDate[selectedDate] ?? [], selectedDate: selectedDate)
+            RecordListView(records: recordsByDate[selectedDate] ?? [], selectedDate: selectedDate, showSheet: $showSheet)
                 .padding(.horizontal, 16)
             
         }
@@ -123,6 +124,12 @@ struct CalendarPageView: View {
                 .padding()
             }
             .presentationDetents([.height(300)]) // bottom sheet 높이
+        }
+        .sheet(isPresented: $showSheet) {
+            RecordBottomSheetView()
+                .presentationDetents([.height(484)]) // bottom sheet 높이
+                .presentationDragIndicator(.hidden) // 직접 만든 indicator 사용
+                .presentationBackground(Color.white)
         }
         .scrollIndicators(.hidden)
     }

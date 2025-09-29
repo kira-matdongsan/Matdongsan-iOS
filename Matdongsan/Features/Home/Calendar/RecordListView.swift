@@ -10,7 +10,8 @@ import SwiftUI
 struct RecordListView: View {
     let records: [String]
     @State var selectedDate: Date
-    
+    @Binding var showSheet: Bool
+
     var body: some View {
         
         VStack (alignment: .center, spacing: 8) {
@@ -23,7 +24,7 @@ struct RecordListView: View {
 
                 if !records.isEmpty {
                     Button {
-                        
+                        showSheet.toggle()
                     } label: {
                         HStack {
                             Text("기록하기")
@@ -83,7 +84,7 @@ struct RecordListView: View {
                             .foregroundStyle(.mdGray50)
                             .padding(.bottom, 10)
                         Button {
-                            
+                            showSheet.toggle()
                         } label: {
                             HStack {
                                 Text("기록하기")
@@ -115,5 +116,5 @@ struct RecordListView: View {
 
 #Preview {
     let dummyRecords: [String] = ["🌽 옥수수 짱 달다", "🍑 복숭아 3개 3,600원"]
-    RecordListView(records: dummyRecords, selectedDate: Date())
+    RecordListView(records: dummyRecords, selectedDate: Date(), showSheet: .constant(false))
 }
