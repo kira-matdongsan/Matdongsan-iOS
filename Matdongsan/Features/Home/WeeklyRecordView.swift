@@ -18,11 +18,11 @@ struct WeeklyRecordView: View {
     @State var selectedWeek = 0
     
     var body: some View {
-        VStack (spacing: 16){
+        VStack (spacing: 8){
             HStack {
                 Text("\(month)월 제철기록장")
                     .foregroundStyle(.white)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 14, weight: .bold))
 
                 Spacer()
                 
@@ -30,7 +30,7 @@ struct WeeklyRecordView: View {
                     navigationManager.navigate(to: .calendar)
                 } label: {
                     Text("전체보기")
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.system(size: 12, weight: .regular))
                         .foregroundStyle(.white)
                         .padding(4)
                         .background(.mdGray60)
@@ -55,7 +55,7 @@ struct WeeklyRecordView: View {
                                 }
                                 .font(.system(size: 14, weight: .semibold))
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 78)
+                                .frame(height: 70)
                                 .background(date == today ? .mdYellow40 : .mdGray70)
                                 .cornerRadius(24)
                                 .foregroundStyle(date == today  ? .mdGray90 : .white)
@@ -72,7 +72,8 @@ struct WeeklyRecordView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(width: UIScreen.main.bounds.width - 8)
+            .frame(maxWidth: .infinity)
+            .padding(.leading, 24)
             
             HStack (spacing: 8) {
                 Image("medal")
@@ -82,20 +83,22 @@ struct WeeklyRecordView: View {
                         .foregroundStyle(.mdGray30)
                         .font(.system(size: 12, weight: .semibold))
                     Text("옥수수")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.mdYellow40)
                 }
                 .fontWeight(.semibold)
                 
                 Spacer()
             }
-            .padding(8)
+            .padding(6)
+            .frame(height: 48)
             .background(.mdGray70)
             .cornerRadius(16)
             .padding(.horizontal, 4)
+            .padding(.horizontal, 24)
         }
-        .frame(height: 205)
-        .padding(.vertical, 24)
+        .frame(height: 201)
+        .padding(.vertical, 16)
         .background(.mdWarmGray80)
         .cornerRadius(24)
     }

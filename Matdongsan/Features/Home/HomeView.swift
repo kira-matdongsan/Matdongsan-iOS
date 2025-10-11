@@ -50,21 +50,21 @@ struct HomeView: View {
             ScrollView {
                 VStack (spacing: 0) {
                     
-                    // 주간 제철 음식
-                    VStack {
+                    VStack (spacing: 8) {
+                        // 주간 제철 음식
                         if discovered {
                             ThisweekFoodView()
                         } else {
                             ThisweekPlaceholderView()
                         }
+                        
+                        // 주간 제철 기록장
+                        WeeklyRecordView()
                     }
                     .onTapGesture {
                         discovered.toggle()
                     }
-                    
-                    // 주간 제철 기록장
-                    WeeklyRecordView()
-                        .padding(.bottom, 16)
+                    .padding(.horizontal, 16)
                     
                     CustomDivider(opacity: 0.5)
                         .padding(.vertical, 16)
