@@ -17,7 +17,9 @@ struct HomeView: View {
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }
-    @State var discovered:Bool = false
+    @State var enabledQuiz: Bool = true
+    @State var enabledAnswer: Bool = false
+
     var weeks:[Int] = [4,5,6,7,8,9,10]
     
     // vote
@@ -33,52 +35,59 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack(path: $navigationManager.path)  {
-            VStack (spacing: 0) {
-                // 탑바 (로고, 검색 아이콘)
-                HStack {
-                    Image("small-logo")
-                    Spacer()
-                    Button {
-                        navigationManager.navigate(to: .search)
-                    } label: {
-                        Image("search-normal-80")
+            ZStack {
+                VStack (spacing: 0) {
+                    // 탑바 (로고, 검색 아이콘)
+                    HStack {
+                        Image("small-logo")
+                        Spacer()
+                        Button {
+                            navigationManager.navigate(to: .search)
+                        } label: {
+                            Image("search-normal-80")
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .frame(height: 54)
+                    
+                    ScrollView {
+                        VStack (spacing: 0) {
+                            
+                            VStack (spacing: 8) {
+                                // 주간 제철 음식
+                                if enabledAnswer {
+                                    ThisweekFoodView()
+                                } else {
+                                    ThisweekPlaceholderView()
+                                }
+                                
+                                // 주간 제철 기록장
+                                WeeklyRecordView()
+                            }
+                            .onTapGesture {
+                                enabledAnswer.toggle()
+                            }
+                            .padding(.horizontal, 16)
+                            
+                            CustomDivider(opacity: 0.5)
+                                .padding(.vertical, 16)
+                            
+                            // 투표결과
+                            VoteResultView(voteResult: dummyVoteResult)
+                            
+                            CustomDivider(opacity: 0.5)
+                                .padding(.vertical, 16)
+                            
+                            // 제철 시세
+                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
+                            
+                        }
                     }
                 }
-                .padding(.horizontal, 16)
-                .frame(height: 54)
-                
-                ScrollView {
-                    VStack (spacing: 0) {
-                        
-                        VStack (spacing: 8) {
-                            // 주간 제철 음식
-                            if discovered {
-                                ThisweekFoodView()
-                            } else {
-                                ThisweekPlaceholderView()
-                            }
-                            
-                            // 주간 제철 기록장
-                            WeeklyRecordView()
-                        }
-                        .onTapGesture {
-                            discovered.toggle()
-                        }
-                        .padding(.horizontal, 16)
-                        
-                        CustomDivider(opacity: 0.5)
-                            .padding(.vertical, 16)
-                        
-                        // 투표결과
-                        VoteResultView(voteResult: dummyVoteResult)
-                        
-                        CustomDivider(opacity: 0.5)
-                            .padding(.vertical, 16)
-                        
-                        // 제철 시세
-                        FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
-                        
-                    }
+                if enabledQuiz, !enabledAnswer {
+                    WeeklyFoodQuizView(enabledQuiz: $enabledQuiz, enabledAnswer: $enabledAnswer)
+                } else if enabledQuiz, enabledAnswer {
+                    WeeklyFoodAnswerView(enabledQuiz: $enabledQuiz)
                 }
             }
             .navigationDestination(for: AppRoute.self) { route in
