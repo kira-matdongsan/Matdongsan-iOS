@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         TabView {
-            TestingHome()
+            HomeView()
                 .tabItem {
                     Image(systemName: "1.square.fill")
                     Text("First")
@@ -26,7 +26,7 @@ struct MainTabView: View {
                     Text("Third")
                 }
         }
-//        .toolbarBackground(.white, for: .tabBar)
+        .toolbarBackground(.white, for: .tabBar)
     }
 }
 

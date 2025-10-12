@@ -8,20 +8,42 @@
 import SwiftUI
 
 struct VoteResultView: View {
+    @EnvironmentObject private var navigationManager:NavigationManager
+
     @State var voteResult: VoteResult
-    
+
     var body: some View {
         VStack (alignment: .leading, spacing: 16) {
             // 타이틀
-            VStack (alignment: .leading, spacing: 4) {
-                Text("\(voteResult.month)월의 제철요리는?")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.mdCoolgray90)
-                Text("여러분이 생각하는 제철요리에 투표해보세요")
-                    .font(.system(size: 14, weight: .light))
-                    .foregroundStyle(.mdCoolgray60)
+            HStack {
+                VStack (alignment: .leading, spacing: 4) {
+                    Text("\(voteResult.month)월의 제철요리는?")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(.mdCoolgray90)
+                    Text("여러분이 생각하는 제철요리에 투표해보세요")
+                        .font(.system(size: 14, weight: .light))
+                        .foregroundStyle(.mdCoolgray60)
+                }
+                .padding(.horizontal, 8)
+                
+                Spacer()
+                
+                Button {
+                    navigationManager.navigate(to: .detailView)
+                } label: {
+                    HStack {
+                        Text("투표하기")
+                            .foregroundStyle(.mdWarmGray80)
+                            .font(.system(size: 14, weight: .semibold))
+                    }
+                    .padding(8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke()
+                            .foregroundStyle(.mdGray10)
+                    )
+                }
             }
-            .padding(.horizontal, 8)
             
             // 결과 그래프
             VStack(spacing: 8) {

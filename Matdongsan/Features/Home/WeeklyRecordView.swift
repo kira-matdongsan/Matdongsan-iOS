@@ -18,11 +18,11 @@ struct WeeklyRecordView: View {
     @State var selectedWeek = 0
     
     var body: some View {
-        VStack (spacing: 16){
+        VStack (spacing: 8) {
             HStack {
                 Text("\(month)월 제철기록장")
                     .foregroundStyle(.white)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 14, weight: .bold))
 
                 Spacer()
                 
@@ -30,7 +30,7 @@ struct WeeklyRecordView: View {
                     navigationManager.navigate(to: .calendar)
                 } label: {
                     Text("전체보기")
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.system(size: 12, weight: .regular))
                         .foregroundStyle(.white)
                         .padding(4)
                         .background(.mdGray60)
@@ -39,40 +39,29 @@ struct WeeklyRecordView: View {
             }
             .padding(.horizontal, 24)
             
-            TabView (selection: $selectedWeek) {
-                // 한 페이지에 3개씩 묶어서 보여줌
-                ForEach(0..<(items.count % 7 == 0 ? items.count/7 : items.count/7+1), id: \.self) { pageIndex in
-                    let start = pageIndex * 7
-                    let end = min(start + 7, items.count)
-                    let pageItems = items[start..<end]
-                    
-                    HStack(alignment: .top, spacing: 8) {
-                        ForEach(Array(pageItems.enumerated()), id: \.offset) { idx, date in
-                            VStack {
-                                VStack (spacing: 20) {
-                                    Text("\(date)")
-                                    Text(weekday[idx])
-                                }
-                                .font(.system(size: 14, weight: .semibold))
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 78)
-                                .background(date == today ? .mdYellow40 : .mdGray70)
-                                .cornerRadius(24)
-                                .foregroundStyle(date == today  ? .mdGray90 : .white)
-                                .font(.footnote)
-                                
-                                if date == today {
-                                    Circle()
-                                        .frame(width: 7, height: 7)
-                                        .foregroundStyle(.mdYellow30)
-                                }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(Array(items.enumerated()), id: \.offset) { idx, date in
+                        VStack (spacing: 13) {
+                            VStack(spacing: 20) {
+                                Text("\(date)")
+                                Text(weekday[idx % 7]) // 요일은 7로 나눈 나머지로 반복
                             }
+                            .font(.system(size: 13, weight: .semibold))
+                            .frame(width: 42, height: 66)
+                            .background(date == today ? .mdYellow40 : .mdGray70)
+                            .cornerRadius(24)
+                            .foregroundStyle(date == today ? .mdGray90 : .white)
+                            .font(.footnote)
+
+                            Circle()
+                                .frame(width: 4, height: 4)
+                                .foregroundStyle(date == today ? .white : .clear) // temp : today아니고 기록 있는 날만
                         }
                     }
                 }
+                .padding(.horizontal, 24)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(width: UIScreen.main.bounds.width - 8)
             
             HStack (spacing: 8) {
                 Image("medal")
@@ -82,20 +71,21 @@ struct WeeklyRecordView: View {
                         .foregroundStyle(.mdGray30)
                         .font(.system(size: 12, weight: .semibold))
                     Text("옥수수")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.mdYellow40)
                 }
                 .fontWeight(.semibold)
                 
                 Spacer()
             }
-            .padding(8)
+            .padding(6)
+            .frame(height: 48)
             .background(.mdGray70)
             .cornerRadius(16)
             .padding(.horizontal, 4)
+            .padding(.horizontal, 24)
         }
-        .frame(height: 205)
-        .padding(.vertical, 24)
+        .padding(.vertical, 16)
         .background(.mdWarmGray80)
         .cornerRadius(24)
     }
