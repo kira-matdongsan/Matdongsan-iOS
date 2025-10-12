@@ -48,8 +48,8 @@ struct ThisweekPlaceholderView: View {
         .padding(.vertical, 16)
         .padding(.horizontal, 24)
         .background(.mdYellow30)
-        .frame(height: 148)
         .cornerRadius(24)
+        .frame(height: 148)
         
     }
 }

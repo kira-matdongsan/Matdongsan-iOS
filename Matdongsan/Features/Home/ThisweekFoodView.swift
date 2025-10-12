@@ -39,7 +39,7 @@ struct ThisweekFoodView: View {
             Image("corn02")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 97, height: 116)
+                .frame(width: 97, height: 105)
                 .onTapGesture {
                     navigationManager.navigate(to: .detailView)
                 }
@@ -55,5 +55,5 @@ struct ThisweekFoodView: View {
 
 #Preview {
     ThisweekFoodView()
-        .background(.mdGray10)
+//        .background(.mdGray10)
 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var navigationManager:NavigationManager
-    
+    @StateObject private var navigationManager = NavigationManager()
+
     let month: Int = 7
     let week: String = "넷"
     var dateFormatter: DateFormatter {
@@ -32,56 +32,84 @@ struct HomeView: View {
     )
     
     var body: some View {
-        
-        VStack (spacing: 0) {
-            // 탑바 (로고, 검색 아이콘)
-            HStack {
-                Image("small-logo")
-                Spacer()
-                Button {
-                    navigationManager.navigate(to: .search)
-                } label: {
-                    Image("search-normal-80")
+        NavigationStack(path: $navigationManager.path)  {
+            VStack (spacing: 0) {
+                // 탑바 (로고, 검색 아이콘)
+                HStack {
+                    Image("small-logo")
+                    Spacer()
+                    Button {
+                        navigationManager.navigate(to: .search)
+                    } label: {
+                        Image("search-normal-80")
+                    }
+                }
+                .padding(.horizontal, 16)
+                .frame(height: 54)
+                
+                ScrollView {
+                    VStack (spacing: 0) {
+                        
+                        VStack (spacing: 8) {
+                            // 주간 제철 음식
+                            if discovered {
+                                ThisweekFoodView()
+                            } else {
+                                ThisweekPlaceholderView()
+                            }
+                            
+                            // 주간 제철 기록장
+                            WeeklyRecordView()
+                        }
+                        .onTapGesture {
+                            discovered.toggle()
+                        }
+                        .padding(.horizontal, 16)
+                        
+                        CustomDivider(opacity: 0.5)
+                            .padding(.vertical, 16)
+                        
+                        // 투표결과
+                        VoteResultView(voteResult: dummyVoteResult)
+                        
+                        CustomDivider(opacity: 0.5)
+                            .padding(.vertical, 16)
+                        
+                        // 제철 시세
+                        FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
+                        
+                    }
                 }
             }
-            .padding(.horizontal, 16)
-            .frame(height: 54)
-            
-            ScrollView {
-                VStack (spacing: 0) {
-                    
-                    VStack (spacing: 8) {
-                        // 주간 제철 음식
-                        if discovered {
-                            ThisweekFoodView()
-                        } else {
-                            ThisweekPlaceholderView()
-                        }
-                        
-                        // 주간 제철 기록장
-                        WeeklyRecordView()
+            .navigationDestination(for: AppRoute.self) { route in
+                switch route {
+                case .homeView:
+                    HomeView()
+                case .detailView:
+                    if #available(iOS 18.0, *) {
+                        FoodDetailPageView()
+                    } else {
+                        // Fallback on earlier versions
                     }
-                    .onTapGesture {
-                        discovered.toggle()
-                    }
-                    .padding(.horizontal, 16)
-                    
-                    CustomDivider(opacity: 0.5)
-                        .padding(.vertical, 16)
-                    
-                    // 투표결과
-                    VoteResultView(voteResult: dummyVoteResult)
-                    
-                    CustomDivider(opacity: 0.5)
-                        .padding(.vertical, 16)
-
-                    // 제철 시세
-                    FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
-
+                case .placeSearch:
+                    PlaceSearchView()
+                case .record:
+                    FoodRecordWriteView()
+                case .recipe:
+                    FoodRecipeWriteView()
+                case .place:
+                    FoodPlaceWriteView()
+                case .search:
+                    SearchView()
+                case .calendar:
+                    CalendarPageView(selectedDate: Date(), displayedMonth: Date())
+                case .priceInput:
+                    PricingInputView()
                 }
             }
         }
         .navigationBarBackButtonHidden()
+        .environmentObject(navigationManager)
     }
 }
 
