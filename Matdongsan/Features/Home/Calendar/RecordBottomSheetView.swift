@@ -109,6 +109,7 @@ struct RecordBottomSheetView: View {
                 .font(.system(size: 13, weight: .light))
                 .foregroundColor(.mdGray40)
                 .padding(.horizontal, 16)
+                .fixedSize(horizontal: false, vertical: true)
             
             // 기록하기 버튼
             Button {
@@ -122,14 +123,10 @@ struct RecordBottomSheetView: View {
                     .background(isCompletable ? .mdSkyBlue50 : .mdCoolgray20)
                     .cornerRadius(8)
                     .padding(.horizontal, 15)
-                    .padding(.bottom, 24)
+                    .padding(.vertical, 24)
             }
             .disabled(isCompletable)
-            
-            Spacer().frame(height: 20)
         }
-        .padding(.top)
-//        .background(Color.white)
     }
 }
 
