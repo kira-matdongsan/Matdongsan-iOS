@@ -123,11 +123,12 @@ struct CalendarPageView: View {
                 }
                 .padding()
             }
-            .presentationDetents([.height(300)]) // bottom sheet 높이
+            .presentationDetents([.height(270)]) // bottom sheet 높이
+            .presentationBackground(Color.white)
         }
         .sheet(isPresented: $showSheet) {
             RecordBottomSheetView()
-                .presentationDetents([.height(484)]) // bottom sheet 높이
+                .presentationDetents([.height(440)]) // bottom sheet 높이
                 .presentationDragIndicator(.hidden) // 직접 만든 indicator 사용
                 .presentationBackground(Color.white)
         }
