@@ -114,6 +114,8 @@ struct HomeView: View {
                     CalendarPageView(selectedDate: Date(), displayedMonth: Date())
                 case .priceInput:
                     PricingInputView()
+                case .profileSetting:
+                    ProfileSettingView()
                 }
             }
         }
