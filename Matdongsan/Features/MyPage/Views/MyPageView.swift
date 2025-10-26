@@ -81,20 +81,24 @@ struct MyPageView: View {
                         .padding(.horizontal, 24)
                         
                         // 내 활동
-                        HStack {
-                            Image("magic-star")
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                            Text("내 활동")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.mdGray90)
-                            Spacer()
+                        Button {
+                            navigationManager.navigate(to: .myActivity)
+                        } label: {
+                            HStack {
+                                Image("magic-star")
+                                    .resizable()
+                                    .frame(width: 18, height: 18)
+                                Text("내 활동")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(.mdGray90)
+                                Spacer()
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .shadow(color: Color.black.opacity(0.05), radius: 3, y: 2)
+                            .padding(.horizontal, 24)
                         }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .shadow(color: Color.black.opacity(0.05), radius: 3, y: 2)
-                        .padding(.horizontal, 24)
                         
                         // 좋아하는 제철음식
                         VStack(alignment: .leading, spacing: 12) {
@@ -174,6 +178,8 @@ struct MyPageView: View {
                 switch route {
                 case .profileSetting:
                     ProfileSettingView()
+                case .myActivity:
+                    MyActivityView()
                 default:
                     ProfileSettingView()
                 }
