@@ -116,6 +116,12 @@ struct HomeView: View {
                     PricingInputView()
                 case .profileSetting:
                     ProfileSettingView()
+                case .myActivity:
+                    MyActivityView()
+                case .appVersion:
+                    AppVersionView()
+                case .contract:
+                    AppVersionView()
                 }
             }
         }

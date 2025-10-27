@@ -81,20 +81,24 @@ struct MyPageView: View {
                         .padding(.horizontal, 24)
                         
                         // 내 활동
-                        HStack {
-                            Image("magic-star")
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                            Text("내 활동")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.mdGray90)
-                            Spacer()
+                        Button {
+                            navigationManager.navigate(to: .myActivity)
+                        } label: {
+                            HStack {
+                                Image("magic-star")
+                                    .resizable()
+                                    .frame(width: 18, height: 18)
+                                Text("내 활동")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(.mdGray90)
+                                Spacer()
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .shadow(color: Color.black.opacity(0.05), radius: 3, y: 2)
+                            .padding(.horizontal, 24)
                         }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .shadow(color: Color.black.opacity(0.05), radius: 3, y: 2)
-                        .padding(.horizontal, 24)
                         
                         // 좋아하는 제철음식
                         VStack(alignment: .leading, spacing: 12) {
@@ -149,9 +153,12 @@ struct MyPageView: View {
                         
                         // 설정 리스트
                         VStack(alignment: .leading, spacing: 8) {
-                            ForEach(["이용약관", "앱 버전", "오픈소스"], id: \.self) { item in
+                            // 이용약관
+                            Button {
+                                navigationManager.navigate(to: .contract)
+                            } label: {
                                 HStack {
-                                    Text(item)
+                                    Text("이용약관")
                                         .font(.system(size: 14))
                                         .foregroundColor(.mdCoolgray40)
                                     Spacer()
@@ -159,6 +166,33 @@ struct MyPageView: View {
                                         .font(.system(size: 12))
                                         .foregroundColor(.gray.opacity(0.6))
                                 }
+                            }
+                            
+                            // 앱 버전
+                            Button {
+                                navigationManager.navigate(to: .appVersion)
+                            } label: {
+                                HStack {
+                                    Text("앱 버전")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.mdCoolgray40)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.gray.opacity(0.6))
+                                }
+                            }
+
+                            
+                            // 오픈소스
+                            HStack {
+                                Text("오픈소스")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.mdCoolgray40)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.gray.opacity(0.6))
                             }
                         }
                         .padding(.horizontal, 24)
@@ -174,6 +208,12 @@ struct MyPageView: View {
                 switch route {
                 case .profileSetting:
                     ProfileSettingView()
+                case .myActivity:
+                    MyActivityView()
+                case .appVersion:
+                    AppVersionView()
+                case .contract:
+                    ContractView()
                 default:
                     ProfileSettingView()
                 }

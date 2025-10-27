@@ -129,6 +129,7 @@ struct FoodRecordCell: View {
         .background(.white)
         .cornerRadius(16)
         .shadow(color: .mdCoolgray10, radius: 6, x: 1, y: 2)
+        .padding(8)
     }
 }
 
