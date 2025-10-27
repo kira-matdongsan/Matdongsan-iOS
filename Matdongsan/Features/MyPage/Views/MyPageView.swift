@@ -153,9 +153,12 @@ struct MyPageView: View {
                         
                         // 설정 리스트
                         VStack(alignment: .leading, spacing: 8) {
-                            ForEach(["이용약관", "앱 버전", "오픈소스"], id: \.self) { item in
+                            // 이용약관
+                            Button {
+                                navigationManager.navigate(to: .contract)
+                            } label: {
                                 HStack {
-                                    Text(item)
+                                    Text("이용약관")
                                         .font(.system(size: 14))
                                         .foregroundColor(.mdCoolgray40)
                                     Spacer()
@@ -163,6 +166,33 @@ struct MyPageView: View {
                                         .font(.system(size: 12))
                                         .foregroundColor(.gray.opacity(0.6))
                                 }
+                            }
+                            
+                            // 앱 버전
+                            Button {
+                                navigationManager.navigate(to: .appVersion)
+                            } label: {
+                                HStack {
+                                    Text("앱 버전")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.mdCoolgray40)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.gray.opacity(0.6))
+                                }
+                            }
+
+                            
+                            // 오픈소스
+                            HStack {
+                                Text("오픈소스")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.mdCoolgray40)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.gray.opacity(0.6))
                             }
                         }
                         .padding(.horizontal, 24)
@@ -180,6 +210,10 @@ struct MyPageView: View {
                     ProfileSettingView()
                 case .myActivity:
                     MyActivityView()
+                case .appVersion:
+                    AppVersionView()
+                case .contract:
+                    ContractView()
                 default:
                     ProfileSettingView()
                 }

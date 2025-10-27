@@ -19,4 +19,6 @@ enum AppRoute:Hashable {
     case priceInput
     case profileSetting
     case myActivity
+    case appVersion
+    case contract
 }

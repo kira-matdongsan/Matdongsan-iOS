@@ -118,6 +118,10 @@ struct HomeView: View {
                     ProfileSettingView()
                 case .myActivity:
                     MyActivityView()
+                case .appVersion:
+                    AppVersionView()
+                case .contract:
+                    AppVersionView()
                 }
             }
         }

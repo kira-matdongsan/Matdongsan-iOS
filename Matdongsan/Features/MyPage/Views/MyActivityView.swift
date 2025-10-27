@@ -53,11 +53,17 @@ struct MyActivityView: View {
             .padding(.horizontal, 24)
 
             ScrollView {
-                VStack(spacing: 16) {
-                    // 예시
-                    FoodPlaceCell()
-                    FoodRecipeCell()
-                    FoodRecordCell()
+                if selectedTab == .written {
+                    VStack(spacing: 16) {
+                        FoodPlaceCell()
+                        FoodRecipeCell()
+                        FoodRecordCell()
+                    }
+                } else if selectedTab == .liked {
+                    EmptyItemView(text: "좋아요한 글이 없어요")
+                        .padding(12)
+                } else {
+                    MyVotedListView()
                 }
             }
             .padding(.horizontal, 16)
