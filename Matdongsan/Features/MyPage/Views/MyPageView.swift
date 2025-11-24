@@ -34,6 +34,7 @@ struct MyPageView: View {
                             Spacer()
                             Button {
                                 // 알림 버튼 액션
+                                navigationManager.navigate(to: .notification)
                             } label: {
                                 Image("notification") // 에셋 이름
                                     .resizable()
@@ -53,16 +54,15 @@ struct MyPageView: View {
                     VStack(spacing: 20) {
                         // 프로필 카드
                         VStack(spacing: 4) {
-                            ZStack(alignment: .topTrailing) {
-                                Image("dongsan-profile")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 72, height: 72)
-                                    .clipShape(Circle())
-                                
-                                Button {
-                                    navigationManager.navigate(to: .profileSetting)
-                                } label: {
+                            Button {
+                                navigationManager.navigate(to: .profileSetting)
+                            } label: {
+                                ZStack(alignment: .topTrailing) {
+                                    Image("dongsan-profile")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 72, height: 72)
+                                        .clipShape(Circle())
                                     Image(systemName: "plus.circle.fill")
                                         .foregroundColor(.mdCoolgray90)
                                         .background(Circle().fill(Color.white))
@@ -214,6 +214,8 @@ struct MyPageView: View {
                     AppVersionView()
                 case .contract:
                     ContractView()
+                case .notification:
+                    NotificationView()
                 default:
                     ProfileSettingView()
                 }

@@ -127,6 +127,14 @@ struct RecordBottomSheetView: View {
             }
             .disabled(isCompletable)
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button ("닫기") {
+                    isFocused = false
+                }
+            }
+        }
     }
 }
 

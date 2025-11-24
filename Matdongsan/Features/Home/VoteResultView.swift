@@ -17,10 +17,10 @@ struct VoteResultView: View {
             // 타이틀
             HStack {
                 VStack (alignment: .leading, spacing: 4) {
-                    Text("\(voteResult.month)월의 제철요리는?")
+                    Text("맛동산 Pick 제철요리")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(.mdCoolgray90)
-                    Text("여러분이 생각하는 제철요리에 투표해보세요")
+                    Text("여러분이 좋아하는 제철요리에 투표해주세요")
                         .font(.system(size: 14, weight: .light))
                         .foregroundStyle(.mdCoolgray60)
                 }

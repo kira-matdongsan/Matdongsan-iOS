@@ -21,4 +21,5 @@ enum AppRoute:Hashable {
     case myActivity
     case appVersion
     case contract
+    case notification
 }
