@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "version_img*4 1.png",
+      "filename" : "noti-icon1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "version_img*4.png",
+      "filename" : "noti-icon1 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

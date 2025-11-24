@@ -122,6 +122,8 @@ struct HomeView: View {
                     AppVersionView()
                 case .contract:
                     AppVersionView()
+                case .notification:
+                    NotificationView()
                 }
             }
         }

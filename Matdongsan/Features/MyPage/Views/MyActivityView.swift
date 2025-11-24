@@ -67,6 +67,7 @@ struct MyActivityView: View {
                 }
             }
             .padding(.horizontal, 16)
+            .scrollIndicators(.hidden)
         }
         .navigationTitle("내 활동")
         .navigationBarTitleDisplayMode(.inline)

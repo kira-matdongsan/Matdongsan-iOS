@@ -14,7 +14,8 @@ struct ProfileSettingView: View {
     @State private var profileImage: Image? = Image(systemName: "person.fill")
     @State private var type: Int = 0
     // 0 - email, 1 - naver, 2 - kakao
-    
+    @FocusState var isFocused:Bool
+
     var body: some View {
         VStack(spacing: 24) {
             // 프로필 이미지 섹션
@@ -95,6 +96,7 @@ struct ProfileSettingView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color(.mdCoolgray10))
                         )
+                        .focused($isFocused)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -147,6 +149,14 @@ struct ProfileSettingView: View {
         .background(Color.white.ignoresSafeArea())
         .navigationTitle("프로필 설정")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button ("닫기") {
+                    isFocused = false
+                }
+            }
+        }
     }
 }
 

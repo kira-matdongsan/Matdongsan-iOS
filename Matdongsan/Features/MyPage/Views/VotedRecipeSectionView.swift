@@ -21,7 +21,7 @@ struct VotedRecipeSectionView: View {
                 Spacer()
                 Image(systemName: "line.3.horizontal")
                     .resizable()
-                    .frame(width: 16, height: 16)
+                    .frame(width: 14, height: 10)
                     .foregroundColor(.mdGray40)
             }
             
