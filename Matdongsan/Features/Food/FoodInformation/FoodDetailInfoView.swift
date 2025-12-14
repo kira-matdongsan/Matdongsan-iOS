@@ -10,8 +10,10 @@ import SwiftUI
 @available(iOS 18.0, *)
 struct FoodDetailInfoView: View {
     
+    let food: FoodModel
+
     @State private var fold:Bool = true
-    @State private var food:String = "옥수수"
+    @State private var foodName:String = "옥수수"
     @Binding var position:ScrollPosition
     var detailCategories:[String] = ["제철시기", "주요산지", "효능", "구입요령", "손질요령"]
     var detailInfo:[String:String] = [
@@ -39,7 +41,7 @@ struct FoodDetailInfoView: View {
             if fold {
                 VStack {
                     HStack {
-                        Text("\(food) 자세히 알아보기")
+                        Text("\(food.name) 자세히 알아보기")
                         Spacer()
                         Image(systemName: "plus")
                             .foregroundStyle(.mdCoolgray30)
@@ -52,8 +54,8 @@ struct FoodDetailInfoView: View {
                     .frame(width: UIScreen.main.bounds.width-64)
 
                     LazyHGrid(rows:[GridItem()]) {
-                        ForEach(detailCategories, id: \.self) { category in
-                            Text("\(category)")
+                        ForEach(food.detailInfoItems) { item in
+                            Text("\(item.title)")
                                 .fixedSize()
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
@@ -100,8 +102,8 @@ struct FoodDetailInfoView: View {
                         }
                     }
                     
-                    ForEach(detailCategories, id: \.self) { category in
-                        let title = category == "효능" ? "\(food)의 효능" : category
+                    ForEach(food.detailInfoItems) { item in
+                        let title = item.title == "효능" ? "\(food.name)의 효능" : item.title
                         VStack (alignment: .leading, spacing: 8.0) {
                             Text("\(title)")
                                 .fixedSize()
@@ -114,7 +116,7 @@ struct FoodDetailInfoView: View {
                                 }
                                 .foregroundStyle(.mdCoolgray90)
                                 .font(.system(size: 13))
-                            Text(detailInfo[category] ?? "")
+                            Text(item.value)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .foregroundStyle(.mdCoolgray50)
                                 .font(.system(size: 14))
@@ -141,11 +143,11 @@ struct FoodDetailInfoView: View {
                                 .font(.system(size: 12))
                         }
                         Divider()
-                        ForEach(nutritionCategories, id: \.self) { nutrition in
+                        ForEach(food.nutrients.nutritionItems) { nutrition in
                             HStack {
-                                Text(nutrition)
+                                Text(nutrition.title)
                                 Spacer()
-                                Text(nutritions[nutrition] ?? "")
+                                Text(nutrition.value)
                             }
                         }
                         .padding(.vertical, 6)
@@ -171,7 +173,7 @@ struct FoodDetailInfoView: View {
 #Preview {
     ScrollView {
         if #available(iOS 18.0, *) {
-            FoodDetailInfoView(position: .constant(ScrollPosition(id: 0)))
+            FoodDetailInfoView(food: .mock, position: .constant(ScrollPosition(id: 0)))
         } else {
             // Fallback on earlier versions
         }

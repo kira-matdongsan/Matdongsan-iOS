@@ -15,16 +15,21 @@ struct FoodDetailPageView: View {
     @State var position: ScrollPosition
         = .init(y: 0)
     
+    let foodId: Int64
+    @StateObject private var viewModel = FoodViewModel()
+    
     var body: some View {
         ScrollView {
             VStack (spacing: 16) {
-                FoodCardView()
-                FoodDetailInfoView(position: $position)
-                    .id(1)
-                CustomDivider()
-                DishRankingView()
-                CustomDivider()
-                FoodStory()
+                if let food = viewModel.food {
+                    FoodCardView(food: food)
+                    FoodDetailInfoView(position: $position)
+                        .id(1)
+                    CustomDivider()
+                    DishRankingView()
+                    CustomDivider()
+                    FoodStory()
+                }
             }
             .scrollTargetLayout()
             .blur(radius: isBlurred ? 4 : 0)
@@ -44,12 +49,15 @@ struct FoodDetailPageView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
+        .task {
+            await viewModel.fetchFood(id: 1)
+        }
     }
 }
 
 #Preview {
     if #available(iOS 18.0, *) {
-        FoodDetailPageView()
+        FoodDetailPageView(foodId: 1)
     } else {
         // Fallback on earlier versions
     }

@@ -96,7 +96,7 @@ struct HomeView: View {
                     HomeView()
                 case .detailView:
                     if #available(iOS 18.0, *) {
-                        FoodDetailPageView()
+                        FoodDetailPageView(foodId: 1)
                     } else {
                         // Fallback on earlier versions
                     }
