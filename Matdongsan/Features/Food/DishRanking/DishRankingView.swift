@@ -9,7 +9,8 @@ import SwiftUI
 
 struct DishRankingView: View {
     
-    let items:[Int] = Array(1..<11)
+    @StateObject private var viewModel = DishRankingViewModel()
+
     let columns = [GridItem(.flexible())]
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
@@ -40,7 +41,7 @@ struct DishRankingView: View {
                     .cornerRadius(16)
                     Spacer()
                     HStack (spacing: 4) {
-                        Text("\(1)명 참여중")
+                        Text(viewModel.participantText)
                         Image("wifi")
                     }
                     .padding(.vertical, 4)
@@ -54,50 +55,52 @@ struct DishRankingView: View {
                 
                 TabView (selection: $selectedTab) {
                     // 한 페이지에 3개씩 묶어서 보여줌
-                    ForEach(0..<(items.count % 3 == 0 ? items.count/3 : items.count/3+1), id: \.self) { pageIndex in
-                        let start = pageIndex * 3
-                        let end = min(start + 3, items.count)
-                        let pageItems = items[start..<end]
-                        
-                        LazyVGrid(columns: columns, spacing: 0) {
-                            ForEach(pageItems, id: \.self) { item in
-                                if item == items.last {
-                                    NavigationLink(destination: NewDishVotingView()) {
-                                        AddingBanner()
-                                    }
-                                    
-                                } else {
-                                    HStack {
-                                        Button {
-                                            isPresentedImageView.toggle()
-                                        } label: {
-                                            DishCell(item: item)
+                    if let items = viewModel.ranking?.dishes {
+                        ForEach(0..<(items.count % 3 == 0 ? items.count/3 : items.count/3+1), id: \.self) { pageIndex in
+                            let start = pageIndex * 3
+                            let end = min(start + 3, items.count)
+                            let pageItems = items[start..<end]
+                            
+                            LazyVGrid(columns: columns, spacing: 0) {
+                                ForEach(pageItems) { item in
+                                    if item.id == items.last?.id {
+                                        NavigationLink(destination: NewDishVotingView()) {
+                                            AddingBanner()
                                         }
-                                        // TODO Button style
                                         
-                                        NavigationLink(destination: DishVotingView(), label: {
-                                            Text("투표하기")
-                                                .font(.system(size: 14, weight: .bold))
-                                                .foregroundStyle(.mdCoolgray90)
-                                                .background{
-                                                    RoundedRectangle(cornerRadius: 8)
-                                                        .stroke(.mdCoolgray10)
-                                                        .frame(width: 65, height: 36)
-                                                }
-                                                .padding(.trailing, 16) // temp
-                                        })
+                                    } else {
+                                        HStack {
+                                            Button {
+                                                isPresentedImageView.toggle()
+                                            } label: {
+                                                DishCell(item: item)
+                                            }
+                                            // TODO Button style
+                                            
+                                            NavigationLink(destination: DishVotingView(), label: {
+                                                Text("투표하기")
+                                                    .font(.system(size: 14, weight: .bold))
+                                                    .foregroundStyle(.mdCoolgray90)
+                                                    .background{
+                                                        RoundedRectangle(cornerRadius: 8)
+                                                            .stroke(.mdCoolgray10)
+                                                            .frame(width: 65, height: 36)
+                                                    }
+                                                    .padding(.trailing, 16) // temp
+                                            })
+                                        }
+                                        
                                     }
-                                    
                                 }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 8)
                             }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 8)
-                        }
-                        .fixedSize(horizontal: false, vertical: true)
-                        .background(alignment: .center) {
-                            GeometryReader { geometry in
-                                Color.clear
-                                    .preference(key: ViewHeightKey.self, value: [pageIndex: geometry.size.height])
+                            .fixedSize(horizontal: false, vertical: true)
+                            .background(alignment: .center) {
+                                GeometryReader { geometry in
+                                    Color.clear
+                                        .preference(key: ViewHeightKey.self, value: [pageIndex: geometry.size.height])
+                                }
                             }
                         }
                     }
@@ -132,6 +135,9 @@ struct DishRankingView: View {
             }
         }
         .padding(16)
+        .task {
+            await viewModel.fetchRanking()
+        }
     }
 }
 
@@ -174,17 +180,17 @@ struct AddingBanner: View {
 }
 
 struct DishCell: View {
-    var item: Int
+    var item: DishRankItemModel
     
     var body: some View {
         HStack (spacing: 8) {
             VStack {
-                if Int(item) == 1 {
+                if item.rank == 1 {
                     Image("Trophy")
                         .resizable()
                         .scaledToFit()
                 }
-                Text("\(item)")
+                Text("\(item.rank)")
             }
             .frame(width: 26)
             .font(.system(size: 14, weight: .bold))
@@ -196,14 +202,14 @@ struct DishCell: View {
                 .cornerRadius(8)
             
             VStack (alignment:.leading, spacing: 8) {
-                Text("\(6)명이 선택했어요.")
+                Text("\(item.voteCount)명이 선택했어요.")
                     .padding(4)
                     .font(.system(size: 11, weight: .light))
                     .fontWeight(.thin)
                     .background(.mdCoolgray10)
                     .cornerRadius(8)
                     .foregroundStyle(.mdWarmGray70)
-                Text("찐옥수수")
+                Text(item.name)
                     .font(.system(size: 14, weight: .bold))
             }
             

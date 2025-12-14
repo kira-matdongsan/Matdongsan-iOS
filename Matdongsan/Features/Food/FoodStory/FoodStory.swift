@@ -90,7 +90,7 @@ struct FoodStory: View {
                     
                 }
                 .font(.system(size: 14))
-                
+
                 PlaceholderView()
                 
                 FoodRecordCell()
@@ -100,7 +100,6 @@ struct FoodStory: View {
                 FoodPlaceCell()
                 
             }
-            .padding(.horizontal, 8)
             .padding(16)
             .sheet(isPresented: $showStorySheet) {
                 VStack {

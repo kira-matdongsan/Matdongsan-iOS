@@ -21,15 +21,13 @@ struct FoodDetailPageView: View {
     var body: some View {
         ScrollView {
             VStack (spacing: 16) {
-                if let food = viewModel.food {
-                    FoodCardView(food: food)
-                    FoodDetailInfoView(position: $position)
-                        .id(1)
-                    CustomDivider()
-                    DishRankingView()
-                    CustomDivider()
-                    FoodStory()
-                }
+                FoodCardView(viewModel: viewModel)
+                FoodDetailInfoView(viewModel: viewModel, position: $position)
+                    .id(1)
+                CustomDivider()
+                DishRankingView()
+                CustomDivider()
+                FoodStory()
             }
             .scrollTargetLayout()
             .blur(radius: isBlurred ? 4 : 0)

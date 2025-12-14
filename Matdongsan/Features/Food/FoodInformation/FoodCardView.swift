@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FoodCardView: View {
     
-    let food: FoodModel
+    let viewModel: FoodViewModel
     
     var foodTitle: String = "옥수수 Corn"
     var seasonWeek: String = "2025년 7월 둘째주"
@@ -40,7 +40,7 @@ struct FoodCardView: View {
                                 .foregroundStyle(.mdYellow30)
                                 .font(.system(size: 11))
                             
-                            Text("\(food.name) \(food.englishName)")
+                            Text("\(viewModel.food?.name) \(viewModel.food?.englishName)")
                                 .fontWeight(.semibold)
                                 .padding(10)
                                 .background(.mdYellow30)
@@ -53,7 +53,7 @@ struct FoodCardView: View {
                             // TODO - API call
                             self.isLiked.toggle()
                         } label: {
-                            food.isLiked ? Image(systemName: "heart.fill")
+                            viewModel.food?.isLiked ?? false ? Image(systemName: "heart.fill")
                                 .imageScale(.large)
                                 .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
                                 .imageScale(.large)
@@ -84,10 +84,10 @@ struct FoodCardView: View {
                             .cornerRadius(16)
                             .foregroundStyle(.mdYellow30)
                             .font(.system(size: 11))
-                        Text(food.subtitle)
+                        Text(viewModel.food?.subtitle ?? "")
                             .bold()
                             .font(.system(size: 14, weight: .semibold))
-                        Text(food.description)
+                        Text(viewModel.food?.description ?? "")
                             .font(.system(size: 12, weight: .regular))
                     }
                     .padding(16)
@@ -124,5 +124,5 @@ struct FoodCardView: View {
 }
 
 #Preview {
-    FoodCardView(food: .mock)
+    FoodCardView(viewModel: FoodViewModel())
 }
