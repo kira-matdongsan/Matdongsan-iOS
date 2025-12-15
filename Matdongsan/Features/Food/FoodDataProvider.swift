@@ -102,5 +102,31 @@ struct FoodDataProvider {
         }
     }
     
+    // 제철 음식 레시피 스토리 작성
+    func postFoodRecipe(foodId: Int64, request: FoodRecipeRequestModel) async throws {
+        let endpoint: String = FoodNetworkConst.baseUrl + "\(foodId)" + FoodNetworkConst.postRecord
+        
+        guard let url = URL(string: endpoint) else {
+            throw NetworkError.invalidURL
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            urlRequest.httpBody = try JSONEncoder().encode(request)
+        } catch {
+            throw NetworkError.invalidData
+        }
+        
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
+
+        guard let response = response as? HTTPURLResponse,
+              (200..<300).contains(response.statusCode) else {
+            throw NetworkError.invalidResponse
+        }
+    }
+    
     
 }

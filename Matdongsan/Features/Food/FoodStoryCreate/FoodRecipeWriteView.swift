@@ -33,7 +33,8 @@ struct FoodRecipeWriteView: View {
     @State var ingredients:[String] = []
     @State var content:String = ""
     
-    @StateObject private var viewModel = PhotoPickerViewModel()
+    @StateObject private var viewModel = FoodRecipeViewModel()
+    @StateObject private var photoPickerViewModel = PhotoPickerViewModel()
     
     @EnvironmentObject var navigationManager:NavigationManager
     
@@ -233,7 +234,7 @@ struct FoodRecipeWriteView: View {
                     }
                     
                     // 사진
-                    PhotoAddView(viewModel: viewModel, imgSelectionLimit: imgSelectionLimit)
+                    PhotoAddView(viewModel: photoPickerViewModel, imgSelectionLimit: imgSelectionLimit)
                 }
                 .padding(24)
             }
@@ -241,7 +242,14 @@ struct FoodRecipeWriteView: View {
             
             // 등록하기 버튼
             Button {
-                
+                let ingredientsStr = array.joined(separator: ", ")
+                Task {
+                    viewModel.postRecipe(foodId: 1,
+                                         name: title,
+                                         ingredients: ingredientsStr,
+                                         instructions: content,
+                                         imageUrls: [])
+                }
             } label: {
                 Text("등록하기")
                     .font(.system(size: 14, weight: .semibold))
