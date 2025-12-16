@@ -242,9 +242,9 @@ struct FoodRecipeWriteView: View {
             
             // 등록하기 버튼
             Button {
-                let ingredientsStr = array.joined(separator: ", ")
+                let ingredientsStr = ingredients.joined(separator: ", ")
                 Task {
-                    viewModel.postRecipe(foodId: 1,
+                    await viewModel.postRecipe(foodId: 1,
                                          name: title,
                                          ingredients: ingredientsStr,
                                          instructions: content,

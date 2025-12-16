@@ -142,7 +142,7 @@ struct FoodRecordWriteView: View {
                             }
                             
                             // 사진
-                            PhotoAddView(viewModel: PhotoPickerViewModel, imgSelectionLimit: imgSelectionLimit)
+                            PhotoAddView(viewModel: photoPickerViewModel, imgSelectionLimit: imgSelectionLimit)
                         }
                         .padding(24)
                     }
