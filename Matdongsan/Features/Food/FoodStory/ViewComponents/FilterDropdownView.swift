@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FilterDropdownView: View {
     
-    var categories:[String] = ["전체", "레시피", "플레이스","제철기록"]
+    var categories:[String] = ["전체", "레시피", "제철기록"]
     @Binding var selectedIdx:Int
     @Binding var isPresenting:Bool
     @Binding var selectedItem:String

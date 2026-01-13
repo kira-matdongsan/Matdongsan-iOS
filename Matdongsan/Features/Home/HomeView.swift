@@ -41,19 +41,28 @@ struct HomeView: View {
                     HStack {
                         Image("small-logo")
                         Spacer()
+                        
+                        // MVP: 홈
                         Button {
-                            navigationManager.navigate(to: .search)
+                            navigationManager.navigate(to: .myPage)
                         } label: {
                             Image("search-normal-80")
                         }
+                        
+                        // 검색 아이콘
+//                        Button {
+//                            navigationManager.navigate(to: .search)
+//                        } label: {
+//                            Image("search-normal-80")
+//                        }
                     }
                     .padding(.horizontal, 16)
                     .frame(height: 54)
                     
                     ScrollView {
-                        VStack (spacing: 0) {
+                        VStack (spacing: 20) {
                             
-                            VStack (spacing: 8) {
+                            VStack (spacing: 0) {
                                 // 주간 제철 음식
                                 if enabledAnswer {
                                     ThisweekFoodView()
@@ -62,7 +71,7 @@ struct HomeView: View {
                                 }
                                 
                                 // 주간 제철 기록장
-                                WeeklyRecordView()
+//                                WeeklyRecordView()
                             }
                             .onTapGesture {
                                 enabledAnswer.toggle()
@@ -79,16 +88,17 @@ struct HomeView: View {
                                 .padding(.vertical, 16)
                             
                             // 제철 시세
-                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
+//                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
                             
                         }
                     }
+                    .scrollDisabled(true)
                 }
-                if enabledQuiz, !enabledAnswer {
-                    WeeklyFoodQuizView(enabledQuiz: $enabledQuiz, enabledAnswer: $enabledAnswer)
-                } else if enabledQuiz, enabledAnswer {
-                    WeeklyFoodAnswerView(enabledQuiz: $enabledQuiz)
-                }
+//                if enabledQuiz, !enabledAnswer {
+//                    WeeklyFoodQuizView(enabledQuiz: $enabledQuiz, enabledAnswer: $enabledAnswer)
+//                } else if enabledQuiz, enabledAnswer {
+//                    WeeklyFoodAnswerView(enabledQuiz: $enabledQuiz)
+//                }
             }
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
@@ -124,6 +134,8 @@ struct HomeView: View {
                     AppVersionView()
                 case .notification:
                     NotificationView()
+                case .myPage:
+                    MVPMyPageView()
                 }
             }
         }

@@ -22,4 +22,5 @@ enum AppRoute:Hashable {
     case appVersion
     case contract
     case notification
+    case myPage
 }

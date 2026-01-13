@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MyPageView: View {
-    @StateObject private var navigationManager = NavigationManager()
+//    @StateObject private var navigationManager = NavigationManager()
+    @EnvironmentObject private var navigationManager: NavigationManager
+
     @State private var favoriteFoods: [Food] = [
         Food(id: 1, name: "사과"),
         Food(id: 2, name: "딸기"),
@@ -21,7 +21,7 @@ struct MyPageView: View {
     private let settings:[String] = ["공지사항", "이용약관", "앱 정보", "오픈소스"]
     private let accountMenu:[String] = ["로그아웃", "회원탈퇴"]
     var body: some View {
-        NavigationStack(path: $navigationManager.path) {
+//        NavigationStack(path: $navigationManager.path) {
             VStack(spacing: 0) {
                 // 상단 바
                 VStack(spacing: 12) {
@@ -204,24 +204,24 @@ struct MyPageView: View {
             }
             .background(Color.white)
             .ignoresSafeArea(edges: .bottom)
-            .navigationDestination(for: AppRoute.self) { route in
-                switch route {
-                case .profileSetting:
-                    ProfileSettingView()
-                case .myActivity:
-                    MyActivityView()
-                case .appVersion:
-                    AppVersionView()
-                case .contract:
-                    ContractView()
-                case .notification:
-                    NotificationView()
-                default:
-                    ProfileSettingView()
-                }
-            }
-        }
-        .navigationBarBackButtonHidden()
+//            .navigationDestination(for: AppRoute.self) { route in
+//                switch route {
+//                case .profileSetting:
+//                    ProfileSettingView()
+//                case .myActivity:
+//                    MyActivityView()
+//                case .appVersion:
+//                    AppVersionView()
+//                case .contract:
+//                    ContractView()
+//                case .notification:
+//                    NotificationView()
+//                default:
+//                    ProfileSettingView()
+//                }
+//            }
+//        }
+//        .navigationBarBackButtonHidden()
         .environmentObject(navigationManager)
     }
 }

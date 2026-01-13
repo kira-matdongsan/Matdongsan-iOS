@@ -9,11 +9,11 @@ import SwiftUI
 
 struct FoodStory: View {
     @State var selectedCategory:String = "전체"
-    var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
+    var stories:[String] = ["전체", "레시피", "제철기록"]
     //    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
     @State var colorMap:[String:UIColor] = [
         "레시피":UIColor.mdOrange40,
-        "플레이스":UIColor.mdGreen40,
+//        "플레이스":UIColor.mdGreen40,
         "제철기록":UIColor.mdTeal40,
         "전체":UIColor.mdCoolgray10
     ]
@@ -97,7 +97,7 @@ struct FoodStory: View {
                 
                 FoodRecipeCell()
                 
-                FoodPlaceCell()
+//                FoodPlaceCell()
                 
             }
             .padding(16)
@@ -166,34 +166,34 @@ struct FoodStory: View {
                         .padding(4)
                     }
                     
-                    Divider()
-                    
-                    Button {
-                        showStorySheet = false
-                        navigationManager.navigate(to: AppRoute.place)
-                    } label: {
-                        HStack (spacing: 10) {
-                            Image("place-icon")
-                                .resizable()
-                                .frame(width: 48, height: 48)
-                            VStack (alignment:.leading, spacing: 4) {
-                                Text("플레이스")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundStyle(.mdGray90)
-                                Text("제철음식을 맛볼 수 있는 공간 소개")
-                                    .font(.system(size: 14, weight: .regular))
-                                    .foregroundStyle(.mdGray60)
-                            }
-                            Spacer()
-                        }
-                        .padding(4)
-                    }
+//                    Divider()
+//                    
+//                    Button {
+//                        showStorySheet = false
+//                        navigationManager.navigate(to: AppRoute.place)
+//                    } label: {
+//                        HStack (spacing: 10) {
+//                            Image("place-icon")
+//                                .resizable()
+//                                .frame(width: 48, height: 48)
+//                            VStack (alignment:.leading, spacing: 4) {
+//                                Text("플레이스")
+//                                    .font(.system(size: 16, weight: .bold))
+//                                    .foregroundStyle(.mdGray90)
+//                                Text("제철음식을 맛볼 수 있는 공간 소개")
+//                                    .font(.system(size: 14, weight: .regular))
+//                                    .foregroundStyle(.mdGray60)
+//                            }
+//                            Spacer()
+//                        }
+//                        .padding(4)
+//                    }
                     
                     Spacer()
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
-                .presentationDetents([.height(300)])
+                .presentationDetents([.height(250)])
                 .presentationCornerRadius(32)
             }
             

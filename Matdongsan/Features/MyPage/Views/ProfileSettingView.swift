@@ -26,9 +26,9 @@ struct ProfileSettingView: View {
                     .frame(width: 72, height: 72)
                     .clipShape(Circle())
                 
-                Image("edit_icon_2")
-                    .resizable()
-                    .frame(width: 18, height: 18)
+//                Image("edit_icon_2")
+//                    .resizable()
+//                    .frame(width: 18, height: 18)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
@@ -88,7 +88,7 @@ struct ProfileSettingView: View {
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.mdCoolgray90)
                     TextField("닉네임을 입력하세요", text: $nickname)
-                        .foregroundStyle(.mdCoolgray90)
+                        .foregroundStyle(.mdCoolgray60)
                         .font(.system(size: 13, weight: .semibold))
                         .padding()
                         .cornerRadius(8)
@@ -97,6 +97,7 @@ struct ProfileSettingView: View {
                                 .stroke(Color(.mdCoolgray10))
                         )
                         .focused($isFocused)
+                        .disabled(true)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -131,20 +132,20 @@ struct ProfileSettingView: View {
             Spacer()
             
             // 저장하기 버튼
-            Button(action: {
-                // 저장 액션
-            }) {
-                Text("저장하기")
-                    .font(.system(size: 14, weight: .semibold))
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.mdCoolgray20)
-                    .foregroundColor(.mdCoolgray60)
-                    .cornerRadius(8)
-                    .padding(.horizontal, 15)
-            }
-            .padding(.bottom, 24)
-            .disabled(true)
+//            Button(action: {
+//                // 저장 액션
+//            }) {
+//                Text("저장하기")
+//                    .font(.system(size: 14, weight: .semibold))
+//                    .frame(maxWidth: .infinity)
+//                    .padding()
+//                    .background(.mdCoolgray20)
+//                    .foregroundColor(.mdCoolgray60)
+//                    .cornerRadius(8)
+//                    .padding(.horizontal, 15)
+//            }
+//            .padding(.bottom, 24)
+//            .disabled(true)
         }
         .background(Color.white.ignoresSafeArea())
         .navigationTitle("프로필 설정")
