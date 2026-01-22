@@ -46,7 +46,9 @@ struct HomeView: View {
                         Button {
                             navigationManager.navigate(to: .myPage)
                         } label: {
-                            Image("search-normal-80")
+                            Image("user")
+                                .resizable()
+                                .frame(width: 20, height: 20)
                         }
                         
                         // 검색 아이콘
@@ -60,7 +62,7 @@ struct HomeView: View {
                     .frame(height: 54)
                     
                     ScrollView {
-                        VStack (spacing: 20) {
+                        VStack (spacing: 0) {
                             
                             VStack (spacing: 0) {
                                 // 주간 제철 음식
@@ -77,6 +79,7 @@ struct HomeView: View {
                                 enabledAnswer.toggle()
                             }
                             .padding(.horizontal, 16)
+                            .padding(.vertical, 16)
                             
                             CustomDivider(opacity: 0.5)
                                 .padding(.vertical, 16)
@@ -84,8 +87,8 @@ struct HomeView: View {
                             // 투표결과
                             VoteResultView(voteResult: dummyVoteResult)
                             
-                            CustomDivider(opacity: 0.5)
-                                .padding(.vertical, 16)
+//                            CustomDivider(opacity: 0.5)
+//                                .padding(.vertical, 16)
                             
                             // 제철 시세
 //                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
