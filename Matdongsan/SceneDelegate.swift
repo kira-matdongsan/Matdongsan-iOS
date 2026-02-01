@@ -20,7 +20,7 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         // 얘네 없이도 되긴 하는데 왜 필요한 건지 찾아봐야됨
         
-        window?.rootViewController = UIHostingController(rootView: MainTabView()) // UIKit와 호환될 수 있도록
+        window?.rootViewController = UIHostingController(rootView: RootView()) // UIKit와 호환될 수 있도록
         window?.makeKeyAndVisible()
         
     }

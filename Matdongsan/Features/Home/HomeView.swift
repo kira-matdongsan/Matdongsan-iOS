@@ -77,6 +77,7 @@ struct HomeView: View {
                             }
                             .onTapGesture {
                                 enabledAnswer.toggle()
+                                // TODO: 한번 클릭했는지 저장하기 (1주일마다)
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 16)
