@@ -9,9 +9,12 @@ import SwiftUI
 
 struct ProfileSettingView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var email: String = "strawberry@gmail.com"
-    @State private var nickname: String = "말랑딸기찹쌀떡"
-    @State private var profileImage: Image? = Image(systemName: "person.fill")
+    
+    @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
+    
+    @State var nickname: String = ""
+    var profileImage: Image? = Image(systemName: "person.fill")
+    
     @State private var type: Int = 0
     // 0 - email, 1 - naver, 2 - kakao
     @FocusState var isFocused:Bool
@@ -46,7 +49,7 @@ struct ProfileSettingView: View {
                         .foregroundColor(.mdCoolgray90)
                     
                     if type == 0 {
-                        TextField("", text: $email)
+                        TextField("", text: .constant(viewModel.myPage?.email ?? ""))
                             .foregroundStyle(.mdCoolgray60)
                             .font(.system(size: 13, weight: .light))
                             .disabled(true)
@@ -97,7 +100,6 @@ struct ProfileSettingView: View {
                                 .stroke(Color(.mdCoolgray10))
                         )
                         .focused($isFocused)
-                        .disabled(true)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -132,20 +134,21 @@ struct ProfileSettingView: View {
             Spacer()
             
             // 저장하기 버튼
-//            Button(action: {
-//                // 저장 액션
-//            }) {
-//                Text("저장하기")
-//                    .font(.system(size: 14, weight: .semibold))
-//                    .frame(maxWidth: .infinity)
-//                    .padding()
-//                    .background(.mdCoolgray20)
-//                    .foregroundColor(.mdCoolgray60)
-//                    .cornerRadius(8)
-//                    .padding(.horizontal, 15)
-//            }
-//            .padding(.bottom, 24)
-//            .disabled(true)
+            Button(action: {
+                Task {
+                    await viewModel.changeNickname(nickname: nickname)
+                }
+            }) {
+                Text("저장하기")
+                    .font(.system(size: 14, weight: .semibold))
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.mdCoolgray20)
+                    .foregroundColor(.mdCoolgray60)
+                    .cornerRadius(8)
+                    .padding(.horizontal, 15)
+            }
+            .padding(.bottom, 24)
         }
         .background(Color.white.ignoresSafeArea())
         .navigationTitle("프로필 설정")
@@ -157,6 +160,10 @@ struct ProfileSettingView: View {
                     isFocused = false
                 }
             }
+        }
+        .task {
+            await viewModel.loadMyPage()
+            nickname = viewModel.nickname
         }
     }
 }

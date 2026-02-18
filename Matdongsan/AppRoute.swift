@@ -11,8 +11,8 @@ enum AppRoute:Hashable {
     case homeView
     case detailView
     case placeSearch
-    case record
-    case recipe
+    case record(foodName: String, foodEngName: String)
+    case recipe(foodName: String, foodEngName: String)
     case place
     case search
     case calendar

@@ -15,8 +15,10 @@ struct DishVotingView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @StateObject private var viewModel = PhotoPickerViewModel()
+    @StateObject private var voteViewModel = VotingViewModel()
     
     let imgSelectionLimit:Int = 5
+    var dishId: Int
     var dishName:String = "찐옥수수"
     var votingEnabled:Bool {
         !viewModel.selectedImages.isEmpty
@@ -136,33 +138,10 @@ struct DishVotingView: View {
                         Spacer()
                         
                         Button {
-                            // 이미지 업로드
-                            // 1. presigned urls 받기
-                            let requestDto = PresignedUrlsRequestDto(fileType: FileType.DISH.rawValue, fileNames: (0..<viewModel.selectedImages.count).map { "\($0).png" })
                             Task {
-                                do {
-                                    try APIService().getImgPresignedUrls(requestDto) { response in
-                                        let imgUrls:[ImageUrlResponse] = response.contents
-                                        for (i, imgUrl) in imgUrls.enumerated() {
-                                            // 2. S3에 이미지 업로드
-                                            guard let imageData = viewModel.selectedImages[i].pngData() else { continue }
-                                            do {
-                                                try APIService().uploadImgtoS3(imgUrl.presignedUrl, imageData) {
-                                                    // s3에 이미지 업로드 완료
-                                                    // TODO : access url로 post하기
-                                                    print(imgUrl.accessUrl)
-                                                    print("success")
-                                                }
-                                            } catch {
-                                                print(error.localizedDescription)
-                                            }
-                                        }
-                                    }
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
+                                await voteViewModel.uploadImagesAndVote(selectedImages: viewModel.selectedImages, dishId: dishId)
+                                isPresentCompletionAlert = true
                             }
-                            isPresentCompletionAlert = true
                         } label: {
                             Text("투표하기")
                                 .font(.system(size: 14, weight: .semibold))
@@ -212,5 +191,5 @@ struct DishVotingView: View {
 
 
 #Preview {
-    DishVotingView()
+    DishVotingView(dishId: 0)
 }

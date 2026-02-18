@@ -8,17 +8,13 @@
 import SwiftUI
 
 struct ThisweekPlaceholderView: View {
-    
     @EnvironmentObject private var navigationManager:NavigationManager
-
-    let month: Int = 7
-    let week: String = "넷"
+    @ObservedObject var viewModel: HomeViewModel
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }
-    
     var body: some View {
         HStack (alignment: .top) {
             VStack (alignment: .leading, spacing: 10) {
@@ -31,13 +27,13 @@ struct ThisweekPlaceholderView: View {
                     .cornerRadius(32)
                 
                 VStack (alignment: .leading, spacing: 3) {
-                    Text("\(month)월 \(week)째주")
+                    Text(viewModel.weekText)
                     Text("제철 음식은?")
                 }
-                .font(.system(size: 18, weight: .bold))
+                .font(.system(size: 18, weight: .semibold))
                 
                 Text("\(dateFormatter.string(from: Date()))")
-                    .font(.system(size: 10, weight: .bold))
+                    .font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(.mdCoolgray70)
             }
             Spacer()
@@ -50,10 +46,12 @@ struct ThisweekPlaceholderView: View {
         .background(.mdYellow30)
         .cornerRadius(24)
         .frame(height: 148)
-        
+            .task {
+                await viewModel.fetchHome()
+            }
     }
 }
 
 #Preview {
-    ThisweekPlaceholderView()
+    ThisweekPlaceholderView(viewModel: HomeViewModel())
 }

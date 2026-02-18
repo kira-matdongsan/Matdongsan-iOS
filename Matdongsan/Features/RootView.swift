@@ -8,19 +8,22 @@
 import SwiftUI
 
 struct RootView: View {
-    @StateObject private var auth = AuthState()
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @State private var showLoginAfterOnboarding = false
 
     var body: some View {
-        Group {
-            if auth.isLoggedIn {
-                MainTabView()
-            } else {
-                LoginView()
-            }
+        if hasSeenOnboarding {
+            MainTabView(showLogin: showLoginAfterOnboarding)
+        } else {
+            OnboardingView(
+                onLoginTap: {
+                    hasSeenOnboarding = true
+                    showLoginAfterOnboarding = true
+                },
+                onSkipTap: {
+                    hasSeenOnboarding = true
+                }
+            )
         }
-        .onAppear {
-            auth.checkAppleLogin()
-        }
-        .environmentObject(auth)
     }
 }

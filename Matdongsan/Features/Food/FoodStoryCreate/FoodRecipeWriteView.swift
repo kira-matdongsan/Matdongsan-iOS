@@ -244,11 +244,11 @@ struct FoodRecipeWriteView: View {
             Button {
                 let ingredientsStr = ingredients.joined(separator: ", ")
                 Task {
-                    await viewModel.postRecipe(foodId: 1,
+                    try await viewModel.postRecipe(foodId: foodId ?? 0,
                                          name: title,
                                          ingredients: ingredientsStr,
                                          instructions: content,
-                                         imageUrls: [])
+                                               selectedImages: photoPickerViewModel.selectedImages)
                 }
             } label: {
                 Text("등록하기")

@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State var showLogin: Bool
+    @StateObject private var auth = AuthState()
+
     var body: some View {
-        LoginView()
-//        HomeView()
+        HomeView()
+            .fullScreenCover(isPresented: $showLogin) {
+                LoginView()
+            }
+            .environmentObject(auth)
 //            .tabItem {
 //                Image(systemName: "1.square.fill")
 //                Text("First")
@@ -37,5 +43,5 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(showLogin: true)
 }

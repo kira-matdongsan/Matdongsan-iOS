@@ -10,11 +10,16 @@ import SwiftUI
 struct DishRankingView: View {
     
     @StateObject private var viewModel = DishRankingViewModel()
-
+    var foodName: String = "딸기"
+    var foodEngName: String = "strawberry"
     let columns = [GridItem(.flexible())]
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
     @State var isPresentedImageView:Bool = false
+    
+    private var items: [DishRankItemModel?] {
+        viewModel.contents.map { Optional($0) } + [nil]
+    }
     
     var body: some View {
         VStack (spacing: 16) {
@@ -22,7 +27,7 @@ struct DishRankingView: View {
                 Text("맛동산 Pick 제철요리")
                     .font(.system(size: 16, weight: .bold))
                 HStack {
-                    Text("맛동산에서 선정된 옥수수의 제철요리는 무엇일까요?")
+                    Text("맛동산에서 선정된 \(foodName)의 제철요리는 무엇일까요?")
                         .foregroundStyle(.mdCoolgray60)
                         .font(.system(size: 14, weight: .light))
                     Spacer()
@@ -33,7 +38,7 @@ struct DishRankingView: View {
             VStack (spacing: 8) {
                 HStack{
                     HStack (spacing: 4) {
-                        Text("투표기간 | 25.07.07~25.07.13")
+                        Text("투표기간 | \(viewModel.votingDateText)")
                     }
                     .padding(.vertical, 4)
                     .padding(.horizontal, 8)
@@ -53,22 +58,16 @@ struct DishRankingView: View {
                 .font(.system(size: 11))
                 .padding(.horizontal, 8)
                 
-                TabView (selection: $selectedTab) {
-                    // 한 페이지에 3개씩 묶어서 보여줌
-                    if let items = viewModel.ranking?.dishes {
-                        ForEach(0..<(items.count % 3 == 0 ? items.count/3 : items.count/3+1), id: \.self) { pageIndex in
+                if !viewModel.contents.isEmpty {
+                    TabView (selection: $selectedTab) {
+                        // 한 페이지에 3개씩 묶어서 보여줌
+                        ForEach(0..<((items.count + 2) / 3), id: \.self) { pageIndex in
                             let start = pageIndex * 3
                             let end = min(start + 3, items.count)
-                            let pageItems = items[start..<end]
-                            
                             LazyVGrid(columns: columns, spacing: 0) {
-                                ForEach(pageItems) { item in
-                                    if item.id == items.last?.id {
-                                        NavigationLink(destination: NewDishVotingView()) {
-                                            AddingBanner()
-                                        }
-                                        
-                                    } else {
+                                ForEach(start..<end, id: \.self) { index in
+                                    let item = items[index]
+                                    if let item = item {
                                         HStack {
                                             Button {
                                                 isPresentedImageView.toggle()
@@ -77,7 +76,7 @@ struct DishRankingView: View {
                                             }
                                             // TODO Button style
                                             
-                                            NavigationLink(destination: DishVotingView(), label: {
+                                            NavigationLink(destination: DishVotingView(dishId: item.id, dishName: item.name), label: {
                                                 Text("투표하기")
                                                     .font(.system(size: 14, weight: .bold))
                                                     .foregroundStyle(.mdCoolgray90)
@@ -89,7 +88,10 @@ struct DishRankingView: View {
                                                     .padding(.trailing, 16) // temp
                                             })
                                         }
-                                        
+                                    } else {
+                                        NavigationLink(destination: NewDishVotingView(foodName: foodName, foodEngName: foodEngName)) {
+                                            AddingBanner()
+                                        }
                                     }
                                 }
                                 .padding(.horizontal, 8)
@@ -104,32 +106,37 @@ struct DishRankingView: View {
                             }
                         }
                     }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never)) // temp
-                .frame(height: currentHeight)
-                .onPreferenceChange(ViewHeightKey.self) { newHeights in
-                    if let selectedHeight = newHeights[selectedTab] {
-                        withAnimation(.smooth(duration: 0.1)) {
-                            currentHeight = selectedHeight
+                    .tabViewStyle(.page(indexDisplayMode: .never)) // temp
+                    .frame(height: currentHeight)
+                    .onPreferenceChange(ViewHeightKey.self) { newHeights in
+                        if let selectedHeight = newHeights[selectedTab] {
+                            withAnimation(.smooth(duration: 0.1)) {
+                                currentHeight = selectedHeight
+                            }
+                        }
+                    }
+                    .popover(isPresented: $isPresentedImageView) {
+                        if #available(iOS 18.0, *) {
+                            ZStack {
+                                Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4)
+                                    .ignoresSafeArea()
+                                    .onTapGesture {
+                                        isPresentedImageView.toggle()
+                                    }
+                                
+                                ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0))
+                                    .presentationBackground(.ultraThinMaterial.opacity(0.5))
+                                    .presentationCompactAdaptation(.fullScreenCover)
+                            }
+                            
+                        } else {
+                            // Fallback on earlier versions
                         }
                     }
                 }
-                .popover(isPresented: $isPresentedImageView) {
-                    if #available(iOS 18.0, *) {
-                        ZStack {
-                            Color(uiColor: UIColor(hexCode: "21272A")).opacity(0.4)
-                                .ignoresSafeArea()
-                                .onTapGesture {
-                                    isPresentedImageView.toggle()
-                                }
-                            
-                            ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0))
-                                .presentationBackground(.ultraThinMaterial.opacity(0.5))
-                                .presentationCompactAdaptation(.fullScreenCover)
-                        }
-                        
-                    } else {
-                        // Fallback on earlier versions
+                else {
+                    NavigationLink(destination: NewDishVotingView(foodName: foodName, foodEngName: foodEngName)) {
+                        AddingBanner()
                     }
                 }
             }
@@ -142,7 +149,7 @@ struct DishRankingView: View {
 }
 
 #Preview {
-    DishRankingView()
+    DishRankingView(foodName: "딸기")
 }
 
 struct ViewHeightKey: PreferenceKey {
@@ -190,19 +197,25 @@ struct DishCell: View {
                         .resizable()
                         .scaledToFit()
                 }
-                Text("\(item.rank)")
+                Text("\(item.rank ?? 0)")
             }
             .frame(width: 26)
             .font(.system(size: 14, weight: .bold))
             .foregroundStyle(.mdGray60)
             
-            Image("cornfirst")
-                .resizable()
-                .frame(width: 72, height: 72)
-                .cornerRadius(8)
+            AsyncImage(url: URL(string: item.thumbnailUrl ?? "")) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 72, height: 72)
+            .clipped()
+            .cornerRadius(8)
             
             VStack (alignment:.leading, spacing: 8) {
-                Text("\(item.voteCount)명이 선택했어요.")
+                Text("\(item.voteCount ?? 0)명이 선택했어요.")
                     .padding(4)
                     .font(.system(size: 11, weight: .light))
                     .fontWeight(.thin)

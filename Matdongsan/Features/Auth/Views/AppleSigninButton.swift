@@ -10,7 +10,8 @@ import _AuthenticationServices_SwiftUI
 
 struct AppleSigninButton: View {
     @EnvironmentObject var auth: AuthState
-
+    @ObservedObject var loginViewModel: LoginViewModel
+    
     var body: some View{
         SignInWithAppleButton(
             onRequest: { request in
@@ -22,24 +23,19 @@ struct AppleSigninButton: View {
                     print("Apple Login Successful")
                     switch authResults.credential {
                     case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                        // 계정 정보 가져오기
-                        let userIdentifier = appleIDCredential.user
-                        let fullName = appleIDCredential.fullName
-                        let email = appleIDCredential.email
-                        let identityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
-                        let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8)
-                        
-                        KeychainItem.currentUserIdentifier = userIdentifier
+                        guard
+                            let identityTokenData = appleIDCredential.identityToken,
+                            let identityToken = String(data: identityTokenData, encoding: .utf8)
+                        else {
+                            return
+                        }
                         auth.checkAppleLogin()
-
-                        print(userIdentifier, fullName, email, identityToken, authorizationCode)
+                        loginViewModel.socialSignIn(provider: "APPLE", accessToken: identityToken)
+                        
                     case let passwordCredential as ASPasswordCredential:
                         let username = passwordCredential.user
                         let password = passwordCredential.password
-                        KeychainItem.currentUserIdentifier = username
                         auth.checkAppleLogin()
-
-                        print(username, password)
                     default:
                         break
                     }

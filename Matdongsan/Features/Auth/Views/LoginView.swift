@@ -9,6 +9,12 @@ import SwiftUI
 import NidThirdPartyLogin
 
 struct LoginView: View {
+    @StateObject private var viewModel = LoginViewModel(
+        kakaoLoginService: KakaoLoginService(),
+        authAPIService: AuthAPIService()
+    )
+    @State private var goToMain = false
+
     var body: some View {
         VStack {
             Image("loginLogo")
@@ -21,7 +27,7 @@ struct LoginView: View {
                 .padding(14)
                 .foregroundStyle(.mdWarmGray90)
             
-            AppleSigninButton()
+            AppleSigninButton(loginViewModel: viewModel)
                 .cornerRadius(15)
                 .frame(width: 260, height: 50)
                 .padding(.bottom, 18)
@@ -74,7 +80,7 @@ struct LoginView: View {
             
             
             Button {
-                kakaoLogin()
+                viewModel.loginWithKakao()
             } label: {
                 Image("kakaoBtn")
                     .resizable()
@@ -86,37 +92,15 @@ struct LoginView: View {
             .background(.black)
             .cornerRadius(15)
             .foregroundColor(.white)
-            
-            //            HStack {
-            //                Button {
-            //                    // TODO
-            //                } label: {
-            //                    Text("비밀번호 찾기")
-            //                }
-            //
-            //                Text("/")
-            //                    .padding(-3.0)
-            //
-            //                Button {
-            //                    // TODO
-            //                } label: {
-            //                    Text("회원가입")
-            //                }
-            //            }
-            //            .font(.callout)
-            //            .tint(.mdGray100)
         }
-        //            .toolbar(content: {
-        //                ToolbarItem(placement: .topBarLeading) {
-        //                    Button {
-        //                        // TODO
-        //                    } label: {
-        //                        Image(systemName: "chevron.backward")
-        //                            .tint(.black)
-        //                    }
-        //                    .padding(10)
-        //                }
-        //            })
+        .onReceive(viewModel.$loginSucceeded) { success in
+            if success {
+                goToMain = true
+            }
+        }
+        .fullScreenCover(isPresented: $goToMain) {
+            MainTabView(showLogin: false)
+        }
     }
 }
 

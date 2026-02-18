@@ -152,10 +152,10 @@ struct FoodRecordWriteView: View {
                 // 등록하기 버튼
                 Button {
                     Task {
-                        await viewModel.postNote(foodId: 1,
+                        try await viewModel.postNote(foodId: foodId ?? 0,
                                                  content: content,
                                                  recordedDate: "\(dateFormatterDash.string(from: date))",
-                                                 imageUrls: [])
+                                                 selectedImages: photoPickerViewModel.selectedImages)
                     }
                 } label: {
                     Text("등록하기")

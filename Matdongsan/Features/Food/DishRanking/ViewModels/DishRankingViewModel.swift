@@ -22,7 +22,15 @@ final class DishRankingViewModel: ObservableObject {
     }
     
     var participantText: String {
-        "\(ranking?.totalVoteCount ?? 0)명 참여중"
+        "\(ranking?.totalVoteCount ?? -1)명 참여중"
+    }
+    
+    var votingDateText: String {
+        "\(ranking?.voteStartDate ?? "0")~\(ranking?.voteEndDate ?? "0")"
+    }
+    
+    var contents: [DishRankItemModel] {
+        ranking?.contents ?? []
     }
 
     func fetchRanking() async {
@@ -30,11 +38,12 @@ final class DishRankingViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            ranking = try await provider.getDishRanking(1)
+            ranking = try await provider.getDishRanking(170)
         } catch {
             errorMessage = error.localizedDescription
         }
 
         isLoading = false
     }
+    
 }

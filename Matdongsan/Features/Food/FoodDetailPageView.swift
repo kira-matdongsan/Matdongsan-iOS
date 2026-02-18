@@ -25,16 +25,16 @@ struct FoodDetailPageView: View {
                 FoodDetailInfoView(viewModel: viewModel, position: $position)
                     .id(1)
                 CustomDivider()
-                DishRankingView()
+                DishRankingView(foodName: viewModel.foodName, foodEngName: viewModel.foodEngName)
                 CustomDivider()
-                FoodStory()
+                FoodStory(foodName: viewModel.foodName, foodEngName: viewModel.foodEngName)
             }
             .scrollTargetLayout()
             .blur(radius: isBlurred ? 4 : 0)
         }
         .scrollPosition($position)
         .navigationBarBackButtonHidden()
-        .navigationTitle("옥수수")
+        .navigationTitle(viewModel.foodName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -48,14 +48,14 @@ struct FoodDetailPageView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .task {
-            await viewModel.fetchFood(id: 1)
+            await viewModel.fetchFood(id: 170)
         }
     }
 }
 
 #Preview {
     if #available(iOS 18.0, *) {
-        FoodDetailPageView(foodId: 1)
+        FoodDetailPageView(foodId: 170)
     } else {
         // Fallback on earlier versions
     }

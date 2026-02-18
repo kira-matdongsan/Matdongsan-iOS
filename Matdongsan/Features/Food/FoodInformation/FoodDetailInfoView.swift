@@ -10,11 +10,9 @@ import SwiftUI
 @available(iOS 18.0, *)
 struct FoodDetailInfoView: View {
     
-//    let food: FoodModel
-    let viewModel: FoodViewModel
+    @ObservedObject var viewModel: FoodViewModel
 
     @State private var fold:Bool = true
-    @State private var foodName:String = "옥수수"
     @Binding var position:ScrollPosition
     var detailCategories:[String] = ["제철시기", "주요산지", "효능", "구입요령", "손질요령"]
     var detailInfo:[String:String] = [
@@ -89,7 +87,7 @@ struct FoodDetailInfoView: View {
                 } else {
                     VStack (alignment: .leading) {
                         HStack {
-                            Text("\(food) 자세히 알아보기")
+                            Text("\(food.name) 자세히 알아보기")
                                 .foregroundStyle(.mdCoolgray90)
                             Spacer()
                             Image(systemName: "chevron.up")
@@ -145,7 +143,7 @@ struct FoodDetailInfoView: View {
                                     .font(.system(size: 12))
                             }
                             Divider()
-                            ForEach(food.nutrients.nutritionItems) { nutrition in
+                            ForEach(food.nutrients?.nutritionItems ?? []) { nutrition in
                                 HStack {
                                     Text(nutrition.title)
                                     Spacer()

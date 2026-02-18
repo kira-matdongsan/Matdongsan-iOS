@@ -7,27 +7,24 @@
 
 import Foundation
 
-struct FoodResponse: Codable {
-    let data: FoodModel
-}
-
 struct FoodModel: Codable {
+    let weekText: String
     let id: Int
     let name: String
-    let englishName: String
-    let subtitle: String
-    let description: String
-    let imageUrl: String
-    let color: String
-    let isFeatured: Bool
-    let lastFeaturedDate: String
-    let isLiked: Bool
-    let seasonMonths: String
-    let regions: String
-    let benefits: String
-    let buyingTips: String
-    let preparationTips: String
-    let nutrients: Nutrients
+    let englishName: String?
+    let subtitle: String?
+    let description: String?
+    let imageUrl: String?
+    let color: String?
+    let isFeatured: Bool?
+    let lastFeaturedDate: String?
+    let isLiked: Bool?
+    let seasonMonths: String?
+    let regions: String?
+    let benefits: String?
+    let buyingTips: String?
+    let preparationTips: String?
+    let nutrients: Nutrients?
 }
 
 struct DetailInfoItem: Identifiable {
@@ -40,24 +37,24 @@ extension FoodModel {
 
     var detailInfoItems: [DetailInfoItem] {
         [
-            DetailInfoItem(title: "제철시기", value: seasonMonths),
-            DetailInfoItem(title: "주요산지", value: regions),
-            DetailInfoItem(title: "효능", value: benefits),
-            DetailInfoItem(title: "구입요령", value: buyingTips),
-            DetailInfoItem(title: "손질요령", value: preparationTips)
+            DetailInfoItem(title: "제철시기", value: seasonMonths ?? ""),
+            DetailInfoItem(title: "주요산지", value: regions ?? ""),
+            DetailInfoItem(title: "효능", value: benefits ?? ""),
+            DetailInfoItem(title: "구입요령", value: buyingTips ?? ""),
+            DetailInfoItem(title: "손질요령", value: preparationTips ?? "")
         ]
     }
 }
 
 struct Nutrients: Codable {
-    let servingSizeLabel: String
-    let servingSizeGram: Int
-    let calories: Int
-    let carbohydrate: Double
-    let dietaryFiber: Double
-    let sugars: Double
-    let protein: Double
-    let fat: Double
+    let servingSizeLabel: String?
+    let servingSizeGram: Int?
+    let calories: Int?
+    let carbohydrate: Double?
+    let dietaryFiber: Double?
+    let sugars: Double?
+    let protein: Double?
+    let fat: Double?
 }
 
 struct NutritionItem: Identifiable {
@@ -93,6 +90,7 @@ extension Nutrients {
 
 extension FoodModel {
     static let mock = FoodModel(
+        weekText: "2026년 2월 둘째주",
         id: 1,
         name: "옥수수",
         englishName: "Corn",

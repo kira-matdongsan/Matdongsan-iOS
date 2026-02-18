@@ -15,5 +15,9 @@ struct FoodNetworkConst {
     
     static let postRecord: String = "/stories/seasonal-note"
     static let postRecipe: String = "/stories/recipe"
+    
+    static let getStories: String = "/stories"
+    static let deleteStory: String = "stories/"
 
+    static let newDishVote: String = "/dishes"
 }

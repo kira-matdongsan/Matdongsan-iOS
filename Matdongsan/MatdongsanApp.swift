@@ -22,13 +22,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         return true
     }
-    
-    // scene delegate 연결
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        let sceneConfig = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = SceneDelegate.self
-        return sceneConfig
-    }
 }
 
 @main
@@ -36,8 +29,6 @@ struct MatdongsanApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     init() {
-        KakaoSDK.initSDK(appKey: "87307be9ae9968790e414ca67b20e251")
-
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.backgroundColor = UIColor.white // 원하는 배경색
@@ -55,7 +46,7 @@ struct MatdongsanApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainTabView() // 실행안되는듯
+            RootView()
         }
     }
 }

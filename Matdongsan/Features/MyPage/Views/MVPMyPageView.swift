@@ -9,14 +9,15 @@ import SwiftUI
 
 struct MVPMyPageView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
+    @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
     
-    @State private var favoriteFoods: [Food] = [
-        Food(id: 1, name: "사과"),
-        Food(id: 2, name: "딸기"),
-        Food(id: 3, name: "바나나"),
-        Food(id: 4, name: "포도"),
-        Food(id: 5, name: "2"),
-        Food(id: 6, name: "3")]
+//    @State private var favoriteFoods: [Food] = [
+//        Food(id: 1, name: "사과"),
+//        Food(id: 2, name: "딸기"),
+//        Food(id: 3, name: "바나나"),
+//        Food(id: 4, name: "포도"),
+//        Food(id: 5, name: "2"),
+//        Food(id: 6, name: "3")]
     private let settings:[String] = ["공지사항", "이용약관", "앱 정보", "오픈소스"]
     private let accountMenu:[String] = ["로그아웃", "회원탈퇴"]
     var body: some View {
@@ -56,18 +57,24 @@ struct MVPMyPageView: View {
                             navigationManager.navigate(to: .profileSetting)
                         } label: {
                             ZStack(alignment: .topTrailing) {
-                                Image("dongsan-profile")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 72, height: 72)
-                                    .clipShape(Circle())
+                                AsyncImage(url: URL(string: viewModel.profileImage)) { image in
+                                    image
+                                        .resizable()
+                                } placeholder: {
+                                    Image("dongsan-profile")
+                                        .resizable()
+                                }
+                                .scaledToFit()
+                                .frame(width: 72, height: 72)
+                                .clipShape(Circle())
+                                
                                 Image(systemName: "plus.circle.fill")
                                     .foregroundColor(.mdCoolgray90)
                                     .background(Circle().fill(Color.white))
                             }
                         }
                         
-                        Text("말랑딸기찹쌀떡")
+                        Text(viewModel.nickname)
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(.mdGray90)
                     }
@@ -138,6 +145,9 @@ struct MVPMyPageView: View {
         }
         .background(Color.white)
         .ignoresSafeArea(edges: .bottom)
+        .task {
+            await viewModel.loadMyPage()
+        }
     }
 }
 

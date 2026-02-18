@@ -8,27 +8,39 @@
 import SwiftUI
 
 struct FoodRecordCell: View {
-    
-    private var nickname: String = "도란도란3"
-    private var createdAt: String = "2025.05.09"
-    private var title: String = "2024.10.08의 기록"
-    private var content: String = "길가에 트럭을 보면 그냥 지나치지 못하고 항상 옥수수를 사먹는데 이태원 길가에 있던 옥수수 사장님이 개시 손님이라고 해서 뭔가 기분이 좋았당! 집에 가서 먹으려고 했는데 못참고 길옥수수를 했다."
-    @State private var isLiked: Bool = false
-    private var likeCnt: Int = 0
-    var images:[String] = ["corn", "launchImage", "corn"]
+    @Binding var story: StoryModel
+    var record: SeasonalRecord {
+        guard case let .seasonal(record) = story.content else {
+            return SeasonalRecord(
+                title: "",
+                recordedDate: "",
+                content: "",
+                images: [],
+                thumnails: []
+            )
+        }
+        return record
+    }
     @State var isClicked = false
     @State var selectedId = 0
-    
+    @State private var showDeleteAlert = false
+    var onDelete: () -> Void
+
     var body: some View {
-        VStack {
+        VStack (spacing: 0) {
             HStack (spacing: 8) {
-                Image("user-profile")
-                    .frame(width: 36, height: 36)
+                AsyncImage(url: URL(string: story.profileImageUrl ?? "")) { image in
+                    image.resizable()
+                } placeholder: {
+                    Color.gray.opacity(0.2)
+                }
+                .frame(width: 36, height: 36)
+                
                 VStack (alignment: .leading, spacing: 2) {
-                    Text(nickname)
+                    Text(story.nickname)
                         .foregroundStyle(.mdCoolgray90)
                         .font(.system(size: 14))
-                    Text(createdAt)
+                    Text(story.createdAt)
                         .foregroundStyle(.mdCoolgray30)
                         .fontWeight(.light)
                         .font(.system(size: 11))
@@ -39,25 +51,33 @@ struct FoodRecordCell: View {
                 Image("record-icon")
                     .frame(width: 24, height: 24)
             }
+            .padding(.bottom, 10)
             
             Divider()
+            .padding(.bottom, 10)
             
             HStack {
-                LazyHGrid(rows: [GridItem()], spacing: 6) {
-                    ForEach(Array(images.enumerated()), id: \.offset) { i, imageName in
-                        Image(imageName)
-                            .resizable()
+                if !record.thumnails.isEmpty {
+                    LazyHGrid(rows: [GridItem()], spacing: 6) {
+                        ForEach(Array(record.thumnails.enumerated()), id: \.offset) { i, imageUrl in
+                            AsyncImage(url: URL(string: imageUrl)) { image in
+                                image.resizable()
+                            } placeholder: {
+                                Color.gray.opacity(0.2)
+                            }
                             .frame(width: 78, height: 78)
                             .cornerRadius(10)
                             .onTapGesture {
                                 selectedId = i
                                 isClicked.toggle()
                             }
+                        }
                     }
+                    .frame(height: 78)
+                    Spacer()
                 }
-                .frame(height: 78)
-                Spacer()
             }
+            .padding(.bottom, record.thumnails.isEmpty ? 0 : 10)
             .popover(isPresented: $isClicked) {
                 if #available(iOS 18.0, *) {
                     ZStack {
@@ -79,11 +99,11 @@ struct FoodRecordCell: View {
             VStack (alignment: .leading, spacing: 8) {
                 HStack {
                     Image("note-text")
-                    Text(title)
+                    Text(record.title)
                         .font(.system(size: 12, weight: .semibold))
                 }
                 
-                Text(content)
+                Text(record.content)
                     .foregroundStyle(.mdCoolgray90)
                     .font(.system(size: 13, weight: .light))
                     .lineSpacing(1.8)
@@ -93,29 +113,31 @@ struct FoodRecordCell: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(.mdCoolgray10.opacity(0.5))
             .cornerRadius(8)
+            .padding(.bottom, 10)
             
             Divider()
-            
+                .padding(.bottom, 10)
+
             HStack (alignment: .center, spacing: 4) {
-                Button {
-                    // TODO
-                    self.isLiked.toggle()
-                } label: {
-                    isLiked ? Image(systemName: "heart.fill")
-                        .imageScale(.large)
-                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
-                        .imageScale(.large)
-                        .foregroundStyle(.mdCoolgray40)
-                }
+//                Button {
+//                    // TODO
+//                    self.isLiked.toggle()
+//                } label: {
+//                    isLiked ? Image(systemName: "heart.fill")
+//                        .imageScale(.large)
+//                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
+//                        .imageScale(.large)
+//                        .foregroundStyle(.mdCoolgray40)
+//                }
                 
-                Text("\(likeCnt)")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.mdCoolgray40)
+//                Text("\(likeCnt)")
+//                    .font(.system(size: 11, weight: .bold))
+//                    .foregroundStyle(.mdCoolgray40)
                 
                 Spacer()
                 
                 Button {
-                    // TODO
+                    showDeleteAlert = true
                 } label: {
                     Image("vertical-ellipsis")
                         .foregroundStyle(.mdCoolgray50)
@@ -129,9 +151,17 @@ struct FoodRecordCell: View {
         .background(.white)
         .cornerRadius(16)
         .shadow(color: .mdCoolgray10, radius: 6, x: 1, y: 2)
+        .alert("삭제하시겠습니까?", isPresented: $showDeleteAlert) {
+            Button("삭제", role: .destructive) {
+                onDelete()
+            }
+            Button("취소", role: .cancel) { }
+        } message: {
+            Text("이 작업은 되돌릴 수 없습니다.")
+        }
     }
 }
 
 #Preview {
-    FoodRecordCell()
+    FoodRecordCell(story: .constant(.mockRecord), onDelete: {})
 }

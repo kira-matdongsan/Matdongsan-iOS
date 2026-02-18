@@ -10,9 +10,8 @@ import SwiftUI
 struct ThisweekFoodView: View {
     @EnvironmentObject private var navigationManager:NavigationManager
 
-    private var food: String = "옥수수 🌽"
-    private var subTitle: String = "알맹이부터 수염까지\n아낌없이 주는"
-    
+    @ObservedObject var viewModel: HomeViewModel
+
     var body: some View {
         HStack {
             VStack (alignment: .leading, spacing: 12) {
@@ -23,11 +22,11 @@ struct ThisweekFoodView: View {
                     .background(.mdYellow10)
                     .cornerRadius(32)
                 
-                Text(food)
+                Text(viewModel.foodName)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(.mdGray90)
                 
-                Text(subTitle)
+                Text(viewModel.subTitle)
                     .font(.system(size: 13, weight: .bold))
                     .lineLimit(2)
                     .foregroundStyle(.mdGray90)
@@ -36,13 +35,19 @@ struct ThisweekFoodView: View {
             
             Spacer()
             
-            Image("corn02")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 97, height: 105)
-                .onTapGesture {
-                    navigationManager.navigate(to: .detailView)
-                }
+            AsyncImage(url: URL(string: viewModel.thumnail ?? "")) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 97, height: 105)
+            .clipped()
+            .cornerRadius(8)
+            .onTapGesture {
+                navigationManager.navigate(to: .detailView)
+            }
         }
         .padding(.vertical, 16)
         .padding(.horizontal, 24)
@@ -54,6 +59,5 @@ struct ThisweekFoodView: View {
 }
 
 #Preview {
-    ThisweekFoodView()
-//        .background(.mdGray10)
+    ThisweekFoodView(viewModel: HomeViewModel())
 }
