@@ -25,13 +25,20 @@ struct FoodRecordWriteView: View {
     @State var initialSelected:Bool = false
     @State var showing:Bool = false
         
-    @StateObject private var viewModel = PhotoPickerViewModel()
-    
+    @StateObject private var photoPickerViewModel = PhotoPickerViewModel()
+    @StateObject private var viewModel = FoodRecordViewModel()
+
     @EnvironmentObject var navigationManager:NavigationManager
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
+        return formatter
+    }
+    
+    private var dateFormatterDash: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
     
@@ -135,7 +142,7 @@ struct FoodRecordWriteView: View {
                             }
                             
                             // 사진
-                            PhotoAddView(viewModel: viewModel, imgSelectionLimit: imgSelectionLimit)
+                            PhotoAddView(viewModel: photoPickerViewModel, imgSelectionLimit: imgSelectionLimit)
                         }
                         .padding(24)
                     }
@@ -144,7 +151,12 @@ struct FoodRecordWriteView: View {
 
                 // 등록하기 버튼
                 Button {
-                    
+                    Task {
+                        try await viewModel.postNote(foodId: foodId ?? 0,
+                                                 content: content,
+                                                 recordedDate: "\(dateFormatterDash.string(from: date))",
+                                                 selectedImages: photoPickerViewModel.selectedImages)
+                    }
                 } label: {
                     Text("등록하기")
                         .font(.system(size: 14, weight: .semibold))
@@ -157,7 +169,7 @@ struct FoodRecordWriteView: View {
                         .padding(.vertical, 24)
                         .background(isFocused ? Color.mdCoolgray10 : Color.mdCoolgray10.opacity(0.5))
                 }
-                .disabled(!isCompletable)
+                .disabled(!isCompletable || viewModel.isPosting)
                 
             }
             .ignoresSafeArea(.keyboard)

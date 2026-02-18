@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MyPageView: View {
     @StateObject private var navigationManager = NavigationManager()
+
     @State private var favoriteFoods: [Food] = [
         Food(id: 1, name: "사과"),
         Food(id: 2, name: "딸기"),

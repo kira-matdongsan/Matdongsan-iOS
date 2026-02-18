@@ -9,9 +9,12 @@ import SwiftUI
 
 struct ProfileSettingView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var email: String = "strawberry@gmail.com"
-    @State private var nickname: String = "말랑딸기찹쌀떡"
-    @State private var profileImage: Image? = Image(systemName: "person.fill")
+    
+    @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
+    
+    @State var nickname: String = ""
+    var profileImage: Image? = Image(systemName: "person.fill")
+    
     @State private var type: Int = 0
     // 0 - email, 1 - naver, 2 - kakao
     @FocusState var isFocused:Bool
@@ -26,9 +29,9 @@ struct ProfileSettingView: View {
                     .frame(width: 72, height: 72)
                     .clipShape(Circle())
                 
-                Image("edit_icon_2")
-                    .resizable()
-                    .frame(width: 18, height: 18)
+//                Image("edit_icon_2")
+//                    .resizable()
+//                    .frame(width: 18, height: 18)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
@@ -46,7 +49,7 @@ struct ProfileSettingView: View {
                         .foregroundColor(.mdCoolgray90)
                     
                     if type == 0 {
-                        TextField("", text: $email)
+                        TextField("", text: .constant(viewModel.myPage?.email ?? ""))
                             .foregroundStyle(.mdCoolgray60)
                             .font(.system(size: 13, weight: .light))
                             .disabled(true)
@@ -88,7 +91,7 @@ struct ProfileSettingView: View {
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.mdCoolgray90)
                     TextField("닉네임을 입력하세요", text: $nickname)
-                        .foregroundStyle(.mdCoolgray90)
+                        .foregroundStyle(.mdCoolgray60)
                         .font(.system(size: 13, weight: .semibold))
                         .padding()
                         .cornerRadius(8)
@@ -132,7 +135,9 @@ struct ProfileSettingView: View {
             
             // 저장하기 버튼
             Button(action: {
-                // 저장 액션
+                Task {
+                    await viewModel.changeNickname(nickname: nickname)
+                }
             }) {
                 Text("저장하기")
                     .font(.system(size: 14, weight: .semibold))
@@ -144,7 +149,6 @@ struct ProfileSettingView: View {
                     .padding(.horizontal, 15)
             }
             .padding(.bottom, 24)
-            .disabled(true)
         }
         .background(Color.white.ignoresSafeArea())
         .navigationTitle("프로필 설정")
@@ -156,6 +160,10 @@ struct ProfileSettingView: View {
                     isFocused = false
                 }
             }
+        }
+        .task {
+            await viewModel.loadMyPage()
+            nickname = viewModel.nickname
         }
     }
 }

@@ -8,28 +8,40 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State var showLogin: Bool
+    @StateObject private var auth = AuthState()
+
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Image(systemName: "1.square.fill")
-                    Text("First")
-                }
-            FoodListView()
-                .tabItem {
-                    Image(systemName: "2.square.fill")
-                    Text("Second")
-                }
-            MyPageView()
-                .tabItem {
-                    Image(systemName: "3.square.fill")
-                    Text("Third")
-                }
-        }
-        .toolbarBackground(.white, for: .tabBar)
+        HomeView()
+            .fullScreenCover(isPresented: $showLogin) {
+                LoginView()
+            }
+            .environmentObject(auth)
+//            .tabItem {
+//                Image(systemName: "1.square.fill")
+//                Text("First")
+//            }
+//        TabView {
+//            HomeView()
+//                .tabItem {
+//                    Image(systemName: "1.square.fill")
+//                    Text("First")
+//                }
+//            FoodListView()
+//                .tabItem {
+//                    Image(systemName: "2.square.fill")
+//                    Text("Second")
+//                }
+//            MyPageView()
+//                .tabItem {
+//                    Image(systemName: "3.square.fill")
+//                    Text("Third")
+//                }
+//        }
+//        .toolbarBackground(.white, for: .tabBar)
     }
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(showLogin: true)
 }

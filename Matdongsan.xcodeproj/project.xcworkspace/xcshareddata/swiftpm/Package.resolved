@@ -1,6 +1,24 @@
 {
-  "originHash" : "dd0a1f046d5ab1865c0202dbcbf2cf40023badfac1d3fd0948e4c65a44de9a02",
+  "originHash" : "12adfceb7b353f0bb9e8b24f48c0fb23857c1a08affbb1a94c12d64ea5691134",
   "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "7be73f6c2b5cd90e40798b06ebd5da8f9f79cf88",
+        "version" : "5.11.0"
+      }
+    },
+    {
+      "identity" : "kakao-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kakao/kakao-ios-sdk",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5978979157a5a0521c9c56fd0156aec794caa21c"
+      }
+    },
     {
       "identity" : "naveridlogin-sdk-ios-swift",
       "kind" : "remoteSourceControl",

@@ -15,23 +15,26 @@ struct FoodDetailPageView: View {
     @State var position: ScrollPosition
         = .init(y: 0)
     
+    let foodId: Int64
+    @StateObject private var viewModel = FoodViewModel()
+    
     var body: some View {
         ScrollView {
             VStack (spacing: 16) {
-                FoodCardView()
-                FoodDetailInfoView(position: $position)
+                FoodCardView(viewModel: viewModel)
+                FoodDetailInfoView(viewModel: viewModel, position: $position)
                     .id(1)
                 CustomDivider()
-                DishRankingView()
+                DishRankingView(foodName: viewModel.foodName, foodEngName: viewModel.foodEngName)
                 CustomDivider()
-                FoodStory()
+                FoodStory(foodName: viewModel.foodName, foodEngName: viewModel.foodEngName)
             }
             .scrollTargetLayout()
             .blur(radius: isBlurred ? 4 : 0)
         }
         .scrollPosition($position)
         .navigationBarBackButtonHidden()
-        .navigationTitle("옥수수")
+        .navigationTitle(viewModel.foodName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -44,12 +47,15 @@ struct FoodDetailPageView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
+        .task {
+            await viewModel.fetchFood(id: 170)
+        }
     }
 }
 
 #Preview {
     if #available(iOS 18.0, *) {
-        FoodDetailPageView()
+        FoodDetailPageView(foodId: 170)
     } else {
         // Fallback on earlier versions
     }

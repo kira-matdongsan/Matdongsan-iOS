@@ -8,56 +8,60 @@
 import SwiftUI
 
 struct FoodCardView: View {
+    @ObservedObject var viewModel: FoodViewModel
+
+    @State var isLiked: Bool = false
     
-    private var foodTitle: String = "옥수수 Corn"
-    private var seasonWeek: String = "2025년 7월 둘째주"
-    @State private var isLiked: Bool = false
-    
-    @State private var flip: Bool = true
-    @State private var scale: CGFloat = 1
-    
-    private var description: String = "7월 둘째주 선정된 제철음식은 바로 ‘옥수수' 에요. 더워지기 시작하는 초여름에는 아삭아삭한 초당옥수수부터 땡볕 더위엔 쫀득쫀득한 찰옥수수까지 다양한 식감으로 여름 대표 간식으로 불리운답니다."
-    
-    private var descTitle: String = "알맹이부터 수염까지 아낌없이 주는"
+    @State var flip: Bool = true
+    @State var scale: CGFloat = 1
     
     var body: some View {
         ZStack {
             if flip {
                 // card front
                 ZStack (alignment:.bottom) {
-                    Image("corn")
-                        .padding(.bottom, 70)
+                    AsyncImage(url: URL(string: viewModel.imageUrl)) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 316)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 70)
                     
                     HStack (alignment: .bottom) {
                         VStack (alignment: .leading){
-                            Text(seasonWeek)
+                            Text(viewModel.weekText)
                                 .padding(.vertical, 4)
                                 .padding(.horizontal, 10)
                                 .background(.mdWarmGray80)
                                 .cornerRadius(16)
-                                .foregroundStyle(.mdYellow30)
+                                .foregroundStyle(Color(uiColor: viewModel.color))
                                 .font(.system(size: 11))
                             
-                            Text(foodTitle)
+                            Text(viewModel.title)
                                 .fontWeight(.semibold)
                                 .padding(10)
-                                .background(.mdYellow30)
+                                .background(Color(uiColor: viewModel.color))
                                 .cornerRadius(16)
                                 .tint(.mdCoolgray80)
                                 .font(.system(size: 18, weight: .bold))
                         }
                         Spacer()
-                        Button {
-                            // TODO
-                            self.isLiked.toggle()
-                        } label: {
-                            isLiked ? Image(systemName: "heart.fill")
-                                .imageScale(.large)
-                                .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
-                                .imageScale(.large)
-                                .foregroundStyle(.mdCoolgray20)
-                        }
-                        .padding(.bottom, 10)
+//                        Button {
+//                            // TODO - API call
+//                            self.isLiked.toggle()
+//                        } label: {
+//                            viewModel.food?.isLiked ?? false ? Image(systemName: "heart.fill")
+//                                .imageScale(.large)
+//                                .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
+//                                .imageScale(.large)
+//                                .foregroundStyle(.mdCoolgray20)
+//                        }
+//                        .padding(.bottom, 10)
                     }
                     .padding(16) // horizon
                 }
@@ -68,24 +72,34 @@ struct FoodCardView: View {
             } else {
                 // card back
                 ZStack {
-                    Image("corn")
-                        .padding(.bottom, 70)
+                    AsyncImage(url: URL(string: viewModel.imageUrl)) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 316)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 70)
+                    
                     Rectangle()
-                        .foregroundStyle(.mdYellow30)
+                        .foregroundStyle(Color(uiColor: viewModel.color))
                         .opacity(0.9)
                     VStack (alignment: .leading, spacing: 8){
                         Spacer()
-                        Text(seasonWeek)
+                        Text(viewModel.weekText)
                             .padding(.vertical, 4)
                             .padding(.horizontal, 10)
                             .background(.mdWarmGray80)
                             .cornerRadius(16)
-                            .foregroundStyle(.mdYellow30)
+                            .foregroundStyle(Color(uiColor: viewModel.color))
                             .font(.system(size: 11))
-                        Text(descTitle)
+                        Text(viewModel.subTitle)
                             .bold()
                             .font(.system(size: 14, weight: .semibold))
-                        Text(description)
+                        Text(viewModel.description)
                             .font(.system(size: 12, weight: .regular))
                     }
                     .padding(16)
@@ -116,11 +130,13 @@ struct FoodCardView: View {
                     scale = 1.0
                 }
             }
-
+        }
+        .task {
+            await viewModel.fetchFood(id: foodId ?? 0)
         }
     }
 }
 
 #Preview {
-    FoodCardView()
+    FoodCardView(viewModel: FoodViewModel())
 }

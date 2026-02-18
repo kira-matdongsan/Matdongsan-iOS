@@ -16,14 +16,15 @@ struct NewDishVotingView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     let imgSelectionLimit:Int = 5
-    var foodName:String = "옥수수"
-    var foodEngName:String = "corn"
+    var foodName:String = ""
+    var foodEngName:String = "strawberry"
     @State var dishName:String = ""
     @State var isPresentAlert:Bool = false
     @State var isPresentCompletionAlert:Bool = false
     
     @StateObject private var viewModel = PhotoPickerViewModel()
-    
+    @StateObject private var voteViewModel = VotingViewModel()
+
     var votingEnabled:Bool {
         !viewModel.selectedImages.isEmpty && !dishName.isEmpty // temp
     }
@@ -212,36 +213,10 @@ struct NewDishVotingView: View {
                         Spacer()
                         
                         Button {
-                            // 이미지 업로드
-                            // 1. presigned urls 받기
-                            let requestDto = PresignedUrlsRequestDto(fileType: FileType.DISH.rawValue, fileNames: (0..<viewModel.selectedImages.count).map { "\($0).png" })
                             Task {
-                                do {
-                                    try APIService().getImgPresignedUrls(requestDto) { response in
-                                        let imgUrls:[ImageUrlResponse] = response.contents
-                                        for (i, imgUrl) in imgUrls.enumerated() {
-                                            // 2. S3에 이미지 업로드
-                                            guard let imageData = viewModel.selectedImages[i].pngData() else { continue }
-                                            do {
-                                                try APIService().uploadImgtoS3(imgUrl.presignedUrl, imageData) {
-                                                    // s3에 이미지 업로드 완료
-                                                    // TODO : access url로 post하기
-                                                    print(imgUrl.accessUrl)
-                                                    print("success")
-                                                    
-                                                    // 업로딩 완료 팝업
-                                                    isPresentCompletionAlert = true
-                                                }
-                                            } catch {
-                                                print(error.localizedDescription)
-                                            }
-                                        }
-                                    }
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
+                                await voteViewModel.uploadImagesAndNewVote(selectedImages: viewModel.selectedImages, dishName: dishName, foodId: Int(foodId ?? 170))
+                                isPresentCompletionAlert = true
                             }
-                            isPresentCompletionAlert = true // temp
                         } label: {
                             Text("투표하기")
                                 .font(.system(size: 14, weight: .semibold))

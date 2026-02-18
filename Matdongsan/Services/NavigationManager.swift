@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class NavigationManager: ObservableObject {
     @Published var path = NavigationPath()
     

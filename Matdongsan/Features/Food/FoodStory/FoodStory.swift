@@ -8,28 +8,28 @@
 import SwiftUI
 
 struct FoodStory: View {
-    @State var selectedCategory:String = "전체"
-    var stories:[String] = ["전체", "레시피", "플레이스", "제철기록"]
+    @EnvironmentObject var navigationManager:NavigationManager
+    
+    @StateObject private var viewModel = FoodStoryViewModel(foodId: 170)
+    
+    var foodName: String = ""
+    var foodEngName: String = ""
+    var stories:[String] = ["전체", "레시피", "제철기록"]
     //    var storyIconMap:[String:String] = ["레시피":"recipe-icon", "플레이스":"place-icon", "제철기록":"record-icon"]
     @State var colorMap:[String:UIColor] = [
         "레시피":UIColor.mdOrange40,
-        "플레이스":UIColor.mdGreen40,
         "제철기록":UIColor.mdTeal40,
         "전체":UIColor.mdCoolgray10
     ]
     
     @State var selectedSortIndex:Int = 0
-    @State var selectedSort:String = "최신순"
     @State var isPopoverSort:Bool = false
     
     @State var selectedFilterIndex:Int = 0
-    @State var selectedFilter:String = "전체"
     @State var isPopoverFilter:Bool = false
     
     @State var showStorySheet:Bool = false
-    
-    @EnvironmentObject var navigationManager:NavigationManager
-    
+        
     var body: some View {
         ZStack {
             VStack (spacing: 16) {
@@ -50,7 +50,7 @@ struct FoodStory: View {
                         isPopoverSort.toggle()
                     } label: {
                         HStack (spacing: 4) {
-                            Text(selectedSort)
+                            Text(viewModel.selectedSort)
                                 .tint(.mdCoolgray60)
                             Image("arrow-circle-down")
                         }
@@ -64,12 +64,12 @@ struct FoodStory: View {
                         isPopoverFilter.toggle()
                     } label: {
                         HStack (spacing: 4) {
-                            Text(selectedFilter)
-                                .tint(selectedFilter == "전체" ? .mdCoolgray60 : .white)
-                            Image(selectedFilter == "전체" ? "arrow-circle-down" : "arrow-circle-down-w" )
+                            Text(viewModel.selectedFilter)
+                                .tint(viewModel.selectedFilter == "전체" ? .mdCoolgray60 : .white)
+                            Image(viewModel.selectedFilter == "전체" ? "arrow-circle-down" : "arrow-circle-down-w" )
                         }
                         .padding(4)
-                        .background(Color(uiColor: colorMap[selectedFilter] ?? .mdCoolgray10))
+                        .background(Color(uiColor: colorMap[viewModel.selectedFilter] ?? .mdCoolgray10))
                         .cornerRadius(4)
                     }
                     
@@ -91,16 +91,32 @@ struct FoodStory: View {
                 }
                 .font(.system(size: 14))
                 
-                PlaceholderView()
-                
-                FoodRecordCell()
-                
-                FoodRecipeCell()
-                
-                FoodPlaceCell()
-                
+                if viewModel.filteredStories.isEmpty {
+                    PlaceholderView()
+                }
+
+                ForEach(viewModel.filteredStories.map(\.id), id: \.self) { id in
+                    if let index = viewModel.stories.firstIndex(where: { $0.id == id }) {
+                        let storyBinding = $viewModel.stories[index]
+                        let storyValue = viewModel.stories[index]
+
+                        switch storyValue.content {
+                        case .recipe:
+                            FoodRecipeCell(story: storyBinding, onDelete:{
+                                Task {
+                                    await viewModel.deleteStory(storyId: id)
+                                }
+                            })
+                        case .seasonal:
+                            FoodRecordCell(story: storyBinding, onDelete:{
+                                Task {
+                                    await viewModel.deleteStory(storyId: id)
+                                }
+                            })
+                        }
+                    }
+                }
             }
-            .padding(.horizontal, 8)
             .padding(16)
             .sheet(isPresented: $showStorySheet) {
                 VStack {
@@ -125,7 +141,7 @@ struct FoodStory: View {
                     
                     Button {
                         showStorySheet = false
-                        navigationManager.navigate(to: AppRoute.recipe)
+                        navigationManager.navigate(to: AppRoute.recipe(foodName: foodName, foodEngName: foodEngName))
                     } label: {
                         HStack (spacing: 10) {
                             Image("recipe-icon")
@@ -148,7 +164,7 @@ struct FoodStory: View {
                     
                     Button {
                         showStorySheet = false
-                        navigationManager.navigate(to: AppRoute.record)
+                        navigationManager.navigate(to: AppRoute.record(foodName: foodName, foodEngName: foodEngName))
                     } label: {
                         HStack (spacing: 10) {
                             Image("record-icon")
@@ -167,34 +183,34 @@ struct FoodStory: View {
                         .padding(4)
                     }
                     
-                    Divider()
-                    
-                    Button {
-                        showStorySheet = false
-                        navigationManager.navigate(to: AppRoute.place)
-                    } label: {
-                        HStack (spacing: 10) {
-                            Image("place-icon")
-                                .resizable()
-                                .frame(width: 48, height: 48)
-                            VStack (alignment:.leading, spacing: 4) {
-                                Text("플레이스")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundStyle(.mdGray90)
-                                Text("제철음식을 맛볼 수 있는 공간 소개")
-                                    .font(.system(size: 14, weight: .regular))
-                                    .foregroundStyle(.mdGray60)
-                            }
-                            Spacer()
-                        }
-                        .padding(4)
-                    }
+//                    Divider()
+//                    
+//                    Button {
+//                        showStorySheet = false
+//                        navigationManager.navigate(to: AppRoute.place)
+//                    } label: {
+//                        HStack (spacing: 10) {
+//                            Image("place-icon")
+//                                .resizable()
+//                                .frame(width: 48, height: 48)
+//                            VStack (alignment:.leading, spacing: 4) {
+//                                Text("플레이스")
+//                                    .font(.system(size: 16, weight: .bold))
+//                                    .foregroundStyle(.mdGray90)
+//                                Text("제철음식을 맛볼 수 있는 공간 소개")
+//                                    .font(.system(size: 14, weight: .regular))
+//                                    .foregroundStyle(.mdGray60)
+//                            }
+//                            Spacer()
+//                        }
+//                        .padding(4)
+//                    }
                     
                     Spacer()
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
-                .presentationDetents([.height(300)])
+                .presentationDetents([.height(250)])
                 .presentationCornerRadius(32)
             }
             
@@ -206,7 +222,7 @@ struct FoodStory: View {
                         isPopoverSort = false
                     }
                     .zIndex(99)
-                SortDropdownView(selectedSortIdx: $selectedSortIndex, isPresenting: $isPopoverSort, selectedSort: $selectedSort)
+                SortDropdownView(selectedSortIdx: $selectedSortIndex, isPresenting: $isPopoverSort, selectedSort: $viewModel.selectedSort)
                     .zIndex(100)
                     .position(x: 70, y: 120) // temp
             }
@@ -219,10 +235,13 @@ struct FoodStory: View {
                         isPopoverFilter = false
                     }
                     .zIndex(99)
-                FilterDropdownView(selectedIdx: $selectedFilterIndex, isPresenting: $isPopoverFilter, selectedItem: $selectedFilter)
+                FilterDropdownView(selectedIdx: $selectedFilterIndex, isPresenting: $isPopoverFilter, selectedItem: $viewModel.selectedFilter)
                     .zIndex(100)
                     .position(x: 155, y: 160) // temp
             }
+        }
+        .task {
+            await viewModel.fetchStories()
         }
     }
 }

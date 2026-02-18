@@ -11,4 +11,8 @@ enum NetworkError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
+    case emptyData
+    case serverError(statusCode: Int)
+    case decodingError(Error)
+    case networkError(Error)
 }
