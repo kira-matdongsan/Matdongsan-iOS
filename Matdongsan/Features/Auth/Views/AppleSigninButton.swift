@@ -33,8 +33,6 @@ struct AppleSigninButton: View {
                         loginViewModel.socialSignIn(provider: "APPLE", accessToken: identityToken)
                         
                     case let passwordCredential as ASPasswordCredential:
-                        let username = passwordCredential.user
-                        let password = passwordCredential.password
                         auth.checkAppleLogin()
                     default:
                         break

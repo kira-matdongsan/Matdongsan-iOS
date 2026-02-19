@@ -10,12 +10,15 @@ import SwiftUI
 struct MainTabView: View {
     @State var showLogin: Bool
     @StateObject private var auth = AuthState()
+    @StateObject private var authManager = AuthManager()
 
     var body: some View {
         HomeView()
             .fullScreenCover(isPresented: $showLogin) {
-                LoginView()
+                LoginView(authManager: authManager)
+                    .environmentObject(authManager)
             }
+            .environmentObject(authManager)
             .environmentObject(auth)
 //            .tabItem {
 //                Image(systemName: "1.square.fill")

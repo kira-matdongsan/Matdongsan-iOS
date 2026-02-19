@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UnloginMyPageView: View {
-    @StateObject private var navigationManager = NavigationManager()
+    @EnvironmentObject private var navigationManager: NavigationManager
     
     var body: some View {
         VStack {
@@ -31,7 +31,7 @@ struct UnloginMyPageView: View {
                 
                 // 로그인 버튼
                 Button(action: {
-                    
+                    navigationManager.navigate(to: .login)
                 }) {
                     Text("로그인")
                         .fontWeight(.semibold)

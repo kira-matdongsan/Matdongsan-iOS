@@ -23,4 +23,7 @@ enum AppRoute:Hashable {
     case contract
     case notification
     case myPage
+    case login
+    case dishVoting(dishId: Int, dishName: String)
+    case newDishVoting(foodName: String, foodEngName: String)
 }

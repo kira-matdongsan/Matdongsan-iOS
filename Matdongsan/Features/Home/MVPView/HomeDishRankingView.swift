@@ -73,7 +73,7 @@ struct HomeDishRankingView: View {
                                     if let item = item {
                                         HStack {
                                             Button {
-                                                isPresentedImageView.toggle()
+//                                                isPresentedImageView.toggle()
                                             } label: {
                                                 DishCell(item: item)
                                             }

@@ -9,18 +9,19 @@ import Foundation
 import Combine
 
 final class LoginViewModel: ObservableObject {
-
-    @Published var loginSucceeded = false
     
     private let kakaoLoginService: KakaoLoginService
     private let authAPIService: AuthAPIService
+    private let authManager: AuthManager
 
     init(
         kakaoLoginService: KakaoLoginService,
-        authAPIService: AuthAPIService
+        authAPIService: AuthAPIService,
+        authManager: AuthManager
     ) {
         self.kakaoLoginService = kakaoLoginService
         self.authAPIService = authAPIService
+        self.authManager = authManager
     }
 
     func loginWithKakao() {
@@ -41,11 +42,12 @@ final class LoginViewModel: ObservableObject {
             switch result {
             case .success(let response):
                 print("맛동산 로그인 성공")
-                KeychainManager.shared.save(key: "accessToken", value: response.accessToken)
-                KeychainManager.shared.save(key: "refreshToken", value: response.refreshToken)
-//                let token = KeychainManager.shared.read(key: "accessToken")
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                self.loginSucceeded = true
+                Task { @MainActor in
+                    self.authManager.login(
+                        access: response.accessToken,
+                        refresh: response.refreshToken
+                    )
+                }
             case .failure(let error):
                 print("맛동산 로그인 실패", error)
             }

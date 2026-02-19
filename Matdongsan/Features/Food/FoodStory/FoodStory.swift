@@ -9,9 +9,11 @@ import SwiftUI
 
 struct FoodStory: View {
     @EnvironmentObject var navigationManager:NavigationManager
-    
+    @EnvironmentObject var authManager: AuthManager
+
     @StateObject private var viewModel = FoodStoryViewModel(foodId: 170)
-    
+    @State private var showLoginAlert = false
+
     var foodName: String = ""
     var foodEngName: String = ""
     var stories:[String] = ["전체", "레시피", "제철기록"]
@@ -77,7 +79,11 @@ struct FoodStory: View {
                     
                     // 작성
                     Button {
-                        showStorySheet.toggle()
+                        if authManager.isLoggedIn {
+                            showStorySheet.toggle()
+                        } else {
+                            showLoginAlert = true
+                        }
                     } label: {
                         Text("작성하기")
                         Image("message-edit")
@@ -102,13 +108,13 @@ struct FoodStory: View {
 
                         switch storyValue.content {
                         case .recipe:
-                            FoodRecipeCell(story: storyBinding, onDelete:{
+                            FoodRecipeCell(story: storyBinding, foodName: foodName, onDelete:{
                                 Task {
                                     await viewModel.deleteStory(storyId: id)
                                 }
                             })
                         case .seasonal:
-                            FoodRecordCell(story: storyBinding, onDelete:{
+                            FoodRecordCell(story: storyBinding, foodName: foodName, onDelete:{
                                 Task {
                                     await viewModel.deleteStory(storyId: id)
                                 }
@@ -239,6 +245,14 @@ struct FoodStory: View {
                     .zIndex(100)
                     .position(x: 155, y: 160) // temp
             }
+        }
+        .alert("로그인이 필요합니다", isPresented: $showLoginAlert) {
+            Button("취소", role: .cancel) { }
+            Button("로그인 하기") {
+                navigationManager.navigate(to: .login)
+            }
+        } message: {
+            Text("투표는 로그인 후 이용하실 수 있어요.")
         }
         .task {
             await viewModel.fetchStories()

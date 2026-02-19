@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct DishRankingView: View {
+    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var navigationManager: NavigationManager
+
+    @State private var showLoginAlert = false
     
     @StateObject private var viewModel = DishRankingViewModel()
     var foodName: String = "딸기"
@@ -16,6 +20,7 @@ struct DishRankingView: View {
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
     @State var isPresentedImageView:Bool = false
+    @State var selectedItem: Int = 0
     
     private var items: [DishRankItemModel?] {
         viewModel.contents.map { Optional($0) } + [nil]
@@ -71,25 +76,37 @@ struct DishRankingView: View {
                                         HStack {
                                             Button {
                                                 isPresentedImageView.toggle()
+                                                selectedItem = index
                                             } label: {
                                                 DishCell(item: item)
                                             }
-                                            // TODO Button style
                                             
-                                            NavigationLink(destination: DishVotingView(dishId: item.id, dishName: item.name), label: {
+                                            Button {
+                                                if authManager.isLoggedIn {
+                                                    navigationManager.navigate(to: .dishVoting(dishId: item.id, dishName: item.name))
+                                                } else {
+                                                    showLoginAlert = true
+                                                }
+                                            } label: {
                                                 Text("투표하기")
                                                     .font(.system(size: 14, weight: .bold))
                                                     .foregroundStyle(.mdCoolgray90)
-                                                    .background{
+                                                    .background {
                                                         RoundedRectangle(cornerRadius: 8)
                                                             .stroke(.mdCoolgray10)
                                                             .frame(width: 65, height: 36)
                                                     }
-                                                    .padding(.trailing, 16) // temp
-                                            })
+                                                    .padding(.trailing, 16)
+                                            }
                                         }
                                     } else {
-                                        NavigationLink(destination: NewDishVotingView(foodName: foodName, foodEngName: foodEngName)) {
+                                        Button {
+                                            if authManager.isLoggedIn {
+                                                navigationManager.navigate(to: .newDishVoting(foodName: foodName, foodEngName: foodEngName))
+                                            } else {
+                                                showLoginAlert = true
+                                            }
+                                        } label: {
                                             AddingBanner()
                                         }
                                     }
@@ -124,9 +141,11 @@ struct DishRankingView: View {
                                         isPresentedImageView.toggle()
                                     }
                                 
-                                ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0))
-                                    .presentationBackground(.ultraThinMaterial.opacity(0.5))
-                                    .presentationCompactAdaptation(.fullScreenCover)
+                                if let imgUrl = viewModel.contents[selectedItem].thumbnailUrl {
+                                    ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0), imageUrls: [imgUrl], foodName: foodName)
+                                        .presentationBackground(.ultraThinMaterial.opacity(0.5))
+                                        .presentationCompactAdaptation(.fullScreenCover)
+                                }
                             }
                             
                         } else {
@@ -135,13 +154,27 @@ struct DishRankingView: View {
                     }
                 }
                 else {
-                    NavigationLink(destination: NewDishVotingView(foodName: foodName, foodEngName: foodEngName)) {
+                    Button {
+                        if authManager.isLoggedIn {
+                            navigationManager.navigate(to: .newDishVoting(foodName: foodName, foodEngName: foodEngName))
+                        } else {
+                            showLoginAlert = true
+                        }
+                    } label: {
                         AddingBanner()
                     }
                 }
             }
         }
         .padding(16)
+        .alert("로그인이 필요합니다", isPresented: $showLoginAlert) {
+            Button("취소", role: .cancel) { }
+            Button("로그인 하기") {
+                navigationManager.navigate(to: .login)
+            }
+        } message: {
+            Text("투표는 로그인 후 이용하실 수 있어요.")
+        }
         .task {
             await viewModel.fetchRanking()
         }

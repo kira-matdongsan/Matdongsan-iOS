@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileSettingView: View {
     @Environment(\.dismiss) private var dismiss
-    
+    @EnvironmentObject var authManager: AuthManager
     @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
     
     @State var nickname: String = ""
@@ -117,15 +117,17 @@ struct ProfileSettingView: View {
                 HStack(spacing: 8) {
                     Button(action: {
                         // 로그아웃 액션
+                        authManager.logout()
+                        dismiss()
                     }) {
                         Text("로그아웃")
                     }
-                    Text("|")
-                    Button(action: {
-                        // 회원탈퇴 액션
-                    }) {
-                        Text("회원탈퇴")
-                    }
+//                    Text("|")
+//                    Button(action: {
+//                        // 회원탈퇴 액션
+//                    }) {
+//                        Text("회원탈퇴")
+//                    }
                 }
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(.mdGray30)

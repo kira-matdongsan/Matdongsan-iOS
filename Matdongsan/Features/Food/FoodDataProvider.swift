@@ -218,7 +218,7 @@ struct FoodDataProvider {
     
     // 제철 음식 레시피 스토리 작성
     func postFoodRecipe(foodId: Int64, request: FoodRecipeRequestModel) async throws {
-        let endpoint: String = FoodNetworkConst.baseUrl + "\(foodId)" + FoodNetworkConst.postRecord
+        let endpoint: String = FoodNetworkConst.baseUrl + "\(foodId)" + FoodNetworkConst.postRecipe
         
         guard let url = URL(string: endpoint) else {
             throw NetworkError.invalidURL
