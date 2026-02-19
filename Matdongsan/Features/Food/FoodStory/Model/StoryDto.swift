@@ -27,7 +27,7 @@ struct StoryDto: Codable, Identifiable {
     let createdAt: String
     let images: [PostImageDto]
 
-    let content: String
+    let content: String?
     let recordedDate: String?
     
     let name: String?
@@ -73,7 +73,7 @@ extension StoryDto {
                 SeasonalRecord(
                     title: name ?? "",
                     recordedDate: recordedDate ?? "",
-                    content: content,
+                    content: content ?? "",
                     images: imageUrls,
                     thumnails: thumbnailUrls
                 )

@@ -9,10 +9,20 @@ import SwiftUI
 import NidThirdPartyLogin
 
 struct LoginView: View {
-    @StateObject private var viewModel = LoginViewModel(
-        kakaoLoginService: KakaoLoginService(),
-        authAPIService: AuthAPIService()
-    )
+    
+    @EnvironmentObject var authManager: AuthManager
+    @StateObject private var viewModel: LoginViewModel
+    
+    init(authManager: AuthManager) {
+        _viewModel = StateObject(
+            wrappedValue: LoginViewModel(
+                kakaoLoginService: KakaoLoginService(),
+                authAPIService: AuthAPIService(),
+                authManager: authManager
+            )
+        )
+    }
+    
     @State private var goToMain = false
 
     var body: some View {
@@ -93,7 +103,7 @@ struct LoginView: View {
             .cornerRadius(15)
             .foregroundColor(.white)
         }
-        .onReceive(viewModel.$loginSucceeded) { success in
+        .onReceive(authManager.$isLoggedIn) { success in
             if success {
                 goToMain = true
             }
@@ -105,5 +115,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(authManager: AuthManager())
 }

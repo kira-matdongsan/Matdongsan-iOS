@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FoodRecordCell: View {
     @Binding var story: StoryModel
+    var foodName: String = ""
     var record: SeasonalRecord {
         guard case let .seasonal(record) = story.content else {
             return SeasonalRecord(
@@ -61,7 +62,9 @@ struct FoodRecordCell: View {
                     LazyHGrid(rows: [GridItem()], spacing: 6) {
                         ForEach(Array(record.thumnails.enumerated()), id: \.offset) { i, imageUrl in
                             AsyncImage(url: URL(string: imageUrl)) { image in
-                                image.resizable()
+                                image
+                                    .resizable()
+                                    .scaledToFill()
                             } placeholder: {
                                 Color.gray.opacity(0.2)
                             }
@@ -87,7 +90,7 @@ struct FoodRecordCell: View {
                                 isClicked.toggle()
                             }
                         
-                        ImageGridView(isPresented: $isClicked, selectedId: $selectedId)
+                        ImageGridView(isPresented: $isClicked, selectedId: $selectedId, imageUrls: record.images, foodName: foodName)
                             .presentationBackground(Color.clear.opacity(0.01))
                             .presentationCompactAdaptation(.fullScreenCover)
                     }

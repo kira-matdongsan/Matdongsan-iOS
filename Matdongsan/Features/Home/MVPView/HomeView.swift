@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var navigationManager = NavigationManager()
     @StateObject private var viewModel: HomeViewModel = HomeViewModel()
-    let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+    @EnvironmentObject var authManager: AuthManager
     
     let month: Int = 7
     let week: String = "넷"
@@ -115,11 +115,17 @@ struct HomeView: View {
                 case .notification:
                     NotificationView()
                 case .myPage:
-                    if isLoggedIn {
+                    if authManager.isLoggedIn {
                         MVPMyPageView()
                     } else {
                         UnloginMyPageView()
                     }
+                case .login:
+                    LoginView(authManager: authManager)
+                case .dishVoting(let dishId, let dishName):
+                    DishVotingView(dishId: dishId, dishName: dishName)
+                case .newDishVoting(let foodName, let foodEngName):
+                    NewDishVotingView(foodName: foodName, foodEngName: foodEngName)
                 }
             }
         }

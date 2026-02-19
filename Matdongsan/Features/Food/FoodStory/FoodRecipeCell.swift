@@ -10,7 +10,7 @@ import SwiftUI
 struct FoodRecipeCell: View {
     
     @Binding var story: StoryModel
-        
+    var foodName: String = ""
     var recipe: Recipe {
         if case let .recipe(recipe) = story.content {
             return recipe
@@ -91,6 +91,7 @@ struct FoodRecipeCell: View {
                                 AsyncImage(url: URL(string: imageUrl)) { image in
                                     image
                                         .resizable()
+                                        .scaledToFill()
                                 } placeholder: {
                                     Color.gray.opacity(0.2)
                                 }
@@ -118,7 +119,7 @@ struct FoodRecipeCell: View {
                                     isClicked.toggle()
                                 }
                             
-                            ImageGridView(isPresented: $isClicked, selectedId: $selectedId)
+                            ImageGridView(isPresented: $isClicked, selectedId: $selectedId, imageUrls: recipe.images, foodName: foodName)
                                 .presentationBackground(Color.clear.opacity(0.01))
                                 .presentationCompactAdaptation(.fullScreenCover)
                         }
