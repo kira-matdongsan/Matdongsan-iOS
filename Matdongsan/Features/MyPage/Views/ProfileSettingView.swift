@@ -15,8 +15,8 @@ struct ProfileSettingView: View {
     @State var nickname: String = ""
     var profileImage: Image? = Image(systemName: "person.fill")
     
-    @State private var type: Int = 0
-    // 0 - email, 1 - naver, 2 - kakao
+//    @State private var type: Int = 0
+    // 0 - email or apple, 1 - naver, 2 - kakao
     @FocusState var isFocused:Bool
 
     var body: some View {
@@ -43,6 +43,7 @@ struct ProfileSettingView: View {
             
             VStack (spacing: 8) {
                 // 이메일 입력 (비활성화)
+                let type = viewModel.loginType
                 VStack(alignment: .leading, spacing: 8) {
                     Text("이메일")
                         .font(.system(size: 13, weight: .semibold))
@@ -91,7 +92,7 @@ struct ProfileSettingView: View {
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.mdCoolgray90)
                     TextField("닉네임을 입력하세요", text: $nickname)
-                        .foregroundStyle(.mdCoolgray60)
+                        .foregroundStyle(.mdCoolgray90)
                         .font(.system(size: 13, weight: .semibold))
                         .padding()
                         .cornerRadius(8)
@@ -139,6 +140,7 @@ struct ProfileSettingView: View {
             Button(action: {
                 Task {
                     await viewModel.changeNickname(nickname: nickname)
+                    dismiss()
                 }
             }) {
                 Text("저장하기")

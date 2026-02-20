@@ -23,6 +23,17 @@ final class MyPageViewModel: ObservableObject {
         myPage?.profileImageUrl ?? ""
     }
     
+    var loginType: Int {
+        switch myPage?.loginType {
+        case "KAKAO":
+            return 2
+        case "APPLE":
+            return 0
+        default:
+            return 0
+        }
+    }
+    
     func loadMyPage() async {
         do {
             myPage = try await provider.fetchMyPage()

@@ -48,7 +48,7 @@ struct FoodDetailPageView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .task {
-            await viewModel.fetchFood(id: 170)
+            await viewModel.fetchFood(id: foodId ?? 170)
         }
     }
 }

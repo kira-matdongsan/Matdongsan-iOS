@@ -176,7 +176,7 @@ struct DishRankingView: View {
             Text("투표는 로그인 후 이용하실 수 있어요.")
         }
         .task {
-            await viewModel.fetchRanking()
+            await viewModel.fetchRanking(foodId: foodId ?? 170)
         }
     }
 }

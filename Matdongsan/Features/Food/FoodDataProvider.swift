@@ -83,7 +83,7 @@ struct FoodDataProvider {
     
     // 제철 요리 투표
     func postDishVote(dishId: Int64, imgUrls: [String]) async throws {
-        let endpoint: String = NetworkConst.dish + "\(dishId)" + NetworkConst.vote
+        let endpoint: String = NetworkConst.dish + "/\(dishId)" + NetworkConst.vote
         
         guard let url = URL(string: endpoint) else {
             throw NetworkError.invalidURL

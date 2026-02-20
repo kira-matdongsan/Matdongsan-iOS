@@ -156,6 +156,7 @@ struct FoodRecordWriteView: View {
                                                  content: content,
                                                  recordedDate: "\(dateFormatterDash.string(from: date))",
                                                  selectedImages: photoPickerViewModel.selectedImages)
+                        navigationManager.pop()
                     }
                 } label: {
                     Text("등록하기")

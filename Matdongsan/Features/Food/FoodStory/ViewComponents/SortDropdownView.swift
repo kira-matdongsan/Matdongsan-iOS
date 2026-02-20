@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SortDropdownView: View {
     
-    var sorts:[String] = ["최신순", "좋아요순"]
+    var sorts:[String] = ["최신순"] //, "좋아요순"]
     @Binding var selectedSortIdx:Int
     @Binding var isPresenting:Bool
     @Binding var selectedSort:String

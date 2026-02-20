@@ -21,12 +21,12 @@ final class ThisweekFoodViewModel: ObservableObject {
         self.provider = provider
     }
     
-    func fetchRanking() async {
+    func fetchRanking(foodId: Int64) async {
         isLoading = true
         errorMessage = nil
 
         do {
-            model = try await provider.getFoodInfo(170)
+            model = try await provider.getFoodInfo(foodId)
             print(model)
         } catch {
             errorMessage = error.localizedDescription

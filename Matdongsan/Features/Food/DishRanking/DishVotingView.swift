@@ -82,6 +82,8 @@ struct DishVotingView: View {
                                                     ZStack (alignment: .topTrailing) {
                                                         Image(uiImage: viewModel.selectedImages[i])
                                                             .resizable()
+                                                            .aspectRatio(contentMode: .fill)
+                                                            .frame(width: 68, height: 68)
                                                             .clipShape(RoundedRectangle(cornerRadius: 8))
                                                         
                                                         Button {
@@ -93,7 +95,6 @@ struct DishVotingView: View {
                                                                 .padding(4)
                                                         }
                                                     }
-                                                    .frame(width: 68, height: 68)
                                                 }
                                                 
                                                 if 1..<imgSelectionLimit ~= viewModel.selectedImages.count {
@@ -116,7 +117,7 @@ struct DishVotingView: View {
                                     }
                                     
                                     Group {
-                                        Text("투표에 사용한 사진은 ‘마이페이지 > 내활동'에서 삭제할 수 있어요.")
+//                                        Text("투표에 사용한 사진은 ‘마이페이지 > 내활동'에서 삭제할 수 있어요.")
                                         Divider()
                                         Text("\(viewModel.selectedImages.count)/\(imgSelectionLimit)")
                                             .foregroundStyle(.mdCoolgray40)

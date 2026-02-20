@@ -33,17 +33,25 @@ final class DishRankingViewModel: ObservableObject {
         ranking?.contents ?? []
     }
 
-    func fetchRanking() async {
+    func fetchRanking(foodId: Int64) async {
         isLoading = true
         errorMessage = nil
 
         do {
-            ranking = try await provider.getDishRanking(170)
+            ranking = try await provider.getDishRanking(foodId)
         } catch {
             errorMessage = error.localizedDescription
         }
 
         isLoading = false
+    }
+    
+    func fetchImages() async {
+        do {
+            ranking = try await provider.getDishRanking(foodId ?? 170)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
 }
