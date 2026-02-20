@@ -133,7 +133,7 @@ struct HomeDishRankingView: View {
         }
         .padding(16)
         .task {
-            await viewModel.fetchRanking()
+            await viewModel.fetchRanking(foodId: foodId ?? 170)
         }
     }
 }

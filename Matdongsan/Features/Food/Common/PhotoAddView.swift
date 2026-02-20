@@ -55,8 +55,10 @@ struct PhotoAddView: View {
                                     ZStack (alignment: .topTrailing) {
                                         Image(uiImage: viewModel.selectedImages[i])
                                             .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 68, height: 68)
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                                        
+
                                         Button {
                                             // 이미지 삭제
                                             viewModel.imgSelection.remove(at: i)
@@ -66,7 +68,6 @@ struct PhotoAddView: View {
                                                 .padding(4)
                                         }
                                     }
-                                    .frame(width: 68, height: 68)
                                 }
                                 
                                 if 1..<imgSelectionLimit ~= viewModel.selectedImages.count {

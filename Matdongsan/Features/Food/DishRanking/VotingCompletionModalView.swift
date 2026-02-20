@@ -23,6 +23,7 @@ struct VotingCompletionModalView: View {
             ZStack {
                 Image(uiImage: img ?? UIImage(named: "cornfirst")!) // temp
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
                 Color.black.opacity(0.2)
                 HStack (spacing: 4) {
                     Text(dishName)

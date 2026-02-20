@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct AppVersionView: View {
-    let currentVersion = "1.0"
-    let latestVersion = "1.2"
-
+    @State private var latestVersion = ""
+    
+    let currentVersion: String =
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        
     var body: some View {
         VStack(spacing: 16) {
-            // 앱 로고 카드
+
             VStack(spacing: 12) {
                 Image("appversion-img")
                     .resizable()
@@ -27,7 +29,6 @@ struct AppVersionView: View {
             .padding(.horizontal, 24)
             .shadow(color: Color.black.opacity(0.05), radius: 5, y: 2)
 
-            // 버전 정보
             VStack(spacing: 8) {
                 HStack {
                     Text("사용중인 버전")
@@ -44,7 +45,7 @@ struct AppVersionView: View {
                         .font(.system(size: 14, weight: .regular))
                         .foregroundColor(.mdGray80)
                     Spacer()
-                    Text(latestVersion)
+                    Text(latestVersion.isEmpty ? "-" : latestVersion)
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.mdGray50)
                 }
@@ -55,7 +56,32 @@ struct AppVersionView: View {
         }
         .navigationTitle("앱 버전")
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color.white)
+        .task {
+            await fetchLatestVersion()
+        }
+    }
+
+    func fetchLatestVersion() async {
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        let urlString = "https://itunes.apple.com/lookup?bundleId=\(bundleID)&country=kr"
+        
+        guard let url = URL(string: urlString) else { return }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+
+            if
+                let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                let results = json["results"] as? [[String: Any]],
+                let appStoreVersion = results.first?["version"] as? String
+            {
+                await MainActor.run {
+                    self.latestVersion = appStoreVersion
+                }
+            }
+        } catch {
+            print("버전 조회 실패:", error)
+        }
     }
 }
 

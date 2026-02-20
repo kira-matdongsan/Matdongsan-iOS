@@ -249,6 +249,7 @@ struct FoodRecipeWriteView: View {
                                          ingredients: ingredientsStr,
                                          instructions: content,
                                                selectedImages: photoPickerViewModel.selectedImages)
+                    navigationManager.pop()
                 }
             } label: {
                 Text("등록하기")
