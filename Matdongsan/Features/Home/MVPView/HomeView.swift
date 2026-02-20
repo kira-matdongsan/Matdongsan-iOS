@@ -70,7 +70,7 @@ struct HomeView: View {
                                 .padding(.vertical, 16)
                             
                             // 투표결과
-                            HomeDishRankingView(foodName: viewModel.foodName)
+                            HomeDishRankingView(foodName: viewModel.foodName, foodId: viewModel.model?.featuredFood.foodId ?? 170)
                             
                             // 제철 시세
 //                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)

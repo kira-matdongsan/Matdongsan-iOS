@@ -66,12 +66,12 @@ struct NutritionItem: Identifiable {
 extension Nutrients {
     var nutritionItems: [NutritionItem] {
         [
-            NutritionItem(title: "에너지", value: "\(calories)kcal"),
-            NutritionItem(title: "탄수화물", value: "\(carbohydrate)g"),
-            NutritionItem(title: "식이섬유", value: "\(dietaryFiber)g"),
-            NutritionItem(title: "당", value: "\(sugars)g"),
-            NutritionItem(title: "단백질", value: "\(protein)g"),
-            NutritionItem(title: "지방", value: "\(fat)g")
+            NutritionItem(title: "에너지", value: "\(calories ?? 0)kcal"),
+            NutritionItem(title: "탄수화물", value: "\(carbohydrate ?? 0)g"),
+            NutritionItem(title: "식이섬유", value: "\(dietaryFiber ?? 0)g"),
+            NutritionItem(title: "당", value: "\(sugars ?? 0)g"),
+            NutritionItem(title: "단백질", value: "\(protein ?? 0)g"),
+            NutritionItem(title: "지방", value: "\(fat ?? 0)g")
         ]
     }
 }
