@@ -12,6 +12,8 @@ struct FoodNetworkConst {
     
     static let info: String = "/info"
     static let rank: String = "/dishes"
+    static let dishes: String = "https://mds.hyeinisfree.me/api/v1/dishes/"
+    static let images: String = "/images"
     
     static let postRecord: String = "/stories/seasonal-note"
     static let postRecipe: String = "/stories/recipe"

@@ -42,16 +42,22 @@ final class FoodRecipeViewModel: ObservableObject {
         let imgUrls = response.contents
 
         // 2️⃣ S3 업로드
-        for (i, imgUrl) in imgUrls.enumerated() {
-            guard let imageData = selectedImages[i].pngData() else { continue }
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for (i, imgUrl) in imgUrls.enumerated() {
+                guard let imageData = selectedImages[i].jpegData(compressionQuality: 0.5) else { continue }
 
-            try await APIService().uploadImgtoS3(
-                imgUrl.presignedUrl,
-                imageData
-            )
+                group.addTask {
+                    try await APIService().uploadImgtoS3(
+                        imgUrl.presignedUrl,
+                        imageData
+                    )
+                }
+            }
 
-            print("uploaded:", imgUrl.accessUrl)
+            try await group.waitForAll()
         }
+        
+        // 3. post
 
         let request = FoodRecipeRequestModel(
             name: name,

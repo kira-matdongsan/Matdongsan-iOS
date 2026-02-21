@@ -98,7 +98,7 @@ struct FoodStory: View {
                 .font(.system(size: 14))
                 
                 if viewModel.filteredStories.isEmpty {
-                    PlaceholderView()
+                    PlaceholderView(showStorySheet: $showStorySheet, showLoginAlert: $showLoginAlert)
                 }
 
                 ForEach(viewModel.filteredStories.map(\.id), id: \.self) { id in

@@ -26,6 +26,10 @@ struct DishRankingView: View {
         viewModel.contents.map { Optional($0) } + [nil]
     }
     
+    private var imgUrls: [String] {
+        viewModel.imageData?.contents.map(\.imageUrl) ?? []
+    }
+    
     var body: some View {
         VStack (spacing: 16) {
             VStack (alignment: .leading, spacing: 4) {
@@ -75,8 +79,12 @@ struct DishRankingView: View {
                                     if let item = item {
                                         HStack {
                                             Button {
-                                                isPresentedImageView.toggle()
                                                 selectedItem = index
+                                                let dishId = Int64(item.id)
+                                                Task {
+                                                    await viewModel.fetchImages(dishId: dishId)
+                                                    isPresentedImageView = true
+                                                }
                                             } label: {
                                                 DishCell(item: item)
                                             }
@@ -140,14 +148,12 @@ struct DishRankingView: View {
                                     .onTapGesture {
                                         isPresentedImageView.toggle()
                                     }
-                                
-                                if let imgUrl = viewModel.contents[selectedItem].thumbnailUrl {
-                                    ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0), imageUrls: [imgUrl], foodName: foodName)
+                                if !imgUrls.isEmpty {
+                                    ImageGridView(isPresented: $isPresentedImageView, selectedId: .constant(0), imageUrls: imgUrls, foodName: foodName)
                                         .presentationBackground(.ultraThinMaterial.opacity(0.5))
                                         .presentationCompactAdaptation(.fullScreenCover)
                                 }
                             }
-                            
                         } else {
                             // Fallback on earlier versions
                         }

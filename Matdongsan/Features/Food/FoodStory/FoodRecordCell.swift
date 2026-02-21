@@ -27,6 +27,8 @@ struct FoodRecordCell: View {
     @State private var showDeleteAlert = false
     var onDelete: () -> Void
 
+    let cardWidth = UIScreen.main.bounds.width - 32
+
     var body: some View {
         VStack (spacing: 0) {
             HStack (spacing: 8) {
@@ -57,29 +59,46 @@ struct FoodRecordCell: View {
             Divider()
             .padding(.bottom, 10)
             
-            HStack {
-                if !record.thumnails.isEmpty {
-                    LazyHGrid(rows: [GridItem()], spacing: 6) {
-                        ForEach(Array(record.thumnails.enumerated()), id: \.offset) { i, imageUrl in
-                            AsyncImage(url: URL(string: imageUrl)) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Color.gray.opacity(0.2)
+            HStack(spacing: 6) {
+                let thumbnails = record.thumnails
+                let displayImages = thumbnails.prefix(4)
+                let extraCount = thumbnails.count - 4
+
+                ForEach(Array(displayImages.enumerated()), id: \.offset) { i, imageUrl in
+                    ZStack(alignment: .topTrailing) {
+                        AsyncImage(url: URL(string: imageUrl)) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        } placeholder: {
+                            Color.gray.opacity(0.2)
+                        }
+                        .frame(width: 78, height: 78)
+                        .clipped()
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            selectedId = i
+                            isClicked.toggle()
+                        }
+
+                        // 마지막 + 추가 이미지 있을 때
+                        if i == 3 && extraCount > 0 {
+                            ZStack {
+                                Color(uiColor: UIColor(hexCode: "#21272A")).opacity(0.5)
+                                    .cornerRadius(32)
+
+                                Text("+\(extraCount)")
+                                    .font(.system(size: 10, weight: .semibold))
+                                    .foregroundColor(.white)
                             }
-                            .frame(width: 78, height: 78)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                selectedId = i
-                                isClicked.toggle()
-                            }
+                            .frame(width: 24, height: 24)
+                            .padding(.top, 4)
+                            .padding(.trailing, 4)
                         }
                     }
-                    .frame(height: 78)
-                    Spacer()
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, record.thumnails.isEmpty ? 0 : 10)
             .popover(isPresented: $isClicked) {
                 if #available(iOS 18.0, *) {

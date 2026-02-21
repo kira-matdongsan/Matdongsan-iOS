@@ -12,6 +12,7 @@ import Combine
 final class DishRankingViewModel: ObservableObject {
 
     @Published var ranking: DishRankingModel?
+    @Published var imageData: ImageDataDto?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     
@@ -46,9 +47,9 @@ final class DishRankingViewModel: ObservableObject {
         isLoading = false
     }
     
-    func fetchImages() async {
+    func fetchImages(dishId: Int64) async {
         do {
-            ranking = try await provider.getDishRanking(foodId ?? 170)
+            imageData = try await provider.getDishImages(dishId)
         } catch {
             errorMessage = error.localizedDescription
         }
