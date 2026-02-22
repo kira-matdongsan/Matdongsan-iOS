@@ -114,6 +114,8 @@ struct HomeView: View {
                     AppVersionView()
                 case .contract:
                     ContractView()
+                case .privacy:
+                    PrivacyPolicyView()
                 case .notification:
                     NotificationView()
                 case .myPage:

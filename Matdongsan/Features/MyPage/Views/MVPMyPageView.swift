@@ -125,15 +125,19 @@ struct MVPMyPageView: View {
                         }
                         
                         
-                        // 오픈소스
-                        HStack {
-                            Text("오픈소스")
-                                .font(.system(size: 14))
-                                .foregroundColor(.mdCoolgray40)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 12))
-                                .foregroundColor(.gray.opacity(0.6))
+                        // 개인정보
+                        Button {
+                            navigationManager.navigate(to: .privacy)
+                        } label: {
+                            HStack {
+                                Text("개인정보처리방침")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.mdCoolgray40)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.gray.opacity(0.6))
+                            }
                         }
                     }
                     .padding(.horizontal, 24)
