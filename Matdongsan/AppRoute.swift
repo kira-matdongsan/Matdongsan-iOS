@@ -21,6 +21,7 @@ enum AppRoute:Hashable {
     case myActivity
     case appVersion
     case contract
+    case privacy
     case notification
     case myPage
     case login
