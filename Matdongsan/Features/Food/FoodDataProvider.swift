@@ -81,6 +81,39 @@ struct FoodDataProvider {
         }
     }
     
+    // 제철 요리 이미지들 조회
+    func getDishImages(_ id: Int64) async throws -> ImageDataDto {
+        let endpoint: String = FoodNetworkConst.dishes + "\(id)" + FoodNetworkConst.images
+        
+        guard let url = URL(string: endpoint) else {
+            throw NetworkError.invalidURL
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await session.data(for: urlRequest)
+        
+        if let responseString = String(data: data, encoding: .utf8) {
+            print(responseString)
+        }
+        guard let response = response as? HTTPURLResponse,
+              (200..<300) ~= response.statusCode else {
+            throw NetworkError.invalidResponse
+        }
+        
+        do {
+            let decoded = try JSONDecoder().decode(
+                ResponseDto<ImageDataDto>.self,
+                from: data
+            )
+            return decoded.data
+        } catch {
+            throw NetworkError.invalidData
+        }
+    }
+    
     // 제철 요리 투표
     func postDishVote(dishId: Int64, imgUrls: [String]) async throws {
         let endpoint: String = NetworkConst.dish + "/\(dishId)" + NetworkConst.vote

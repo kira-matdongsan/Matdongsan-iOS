@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KakaoSDKUser
 
 struct OnboardingView: View {
     let onLoginTap: () -> Void
@@ -91,6 +92,16 @@ struct OnboardingView: View {
             }
         }
         .ignoresSafeArea()
+        .task {
+            TokenManager.shared.clear()
+            UserApi.shared.logout { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("카카오 로그아웃 완료")
+                }
+            }
+        }
     }
 }
 

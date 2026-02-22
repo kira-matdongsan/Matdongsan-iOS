@@ -15,6 +15,8 @@ struct FoodCardView: View {
     @State var flip: Bool = true
     @State var scale: CGFloat = 1
     
+    let cardWidth = UIScreen.main.bounds.width - 32
+    
     var body: some View {
         ZStack {
             if flip {
@@ -23,8 +25,9 @@ struct FoodCardView: View {
                     AsyncImage(url: URL(string: viewModel.imageUrl)) { image in
                         image
                             .resizable()
-                            .scaledToFit()
-                            .frame(height: 316)
+                            .scaledToFill()
+                            .frame(width: 312, height: 316)
+                            .clipped()
                     } placeholder: {
                         ProgressView()
                     }
@@ -75,8 +78,9 @@ struct FoodCardView: View {
                     AsyncImage(url: URL(string: viewModel.imageUrl)) { image in
                         image
                             .resizable()
-                            .scaledToFit()
-                            .frame(height: 316)
+                            .scaledToFill()
+                            .frame(width: 312, height: 316)
+                            .clipped()
                     } placeholder: {
                         ProgressView()
                     }
@@ -104,16 +108,16 @@ struct FoodCardView: View {
                     }
                     .padding(16)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
                 }
                 .background()
                 .cornerRadius(24)
                 .shadow(color: .mdCoolgray20, radius: 4, x: 1, y: 2)
             }
         }
-        .padding([.horizontal, .top], 16)
         .scaleEffect(scale)
         .rotation3DEffect(.degrees(flip ? 180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.2)
+        .frame(width: cardWidth)
+        .padding([.horizontal, .top], 16)
         .animation(.easeInOut(duration: 0.4), value: flip)
         .onTapGesture {
             // Step 1: scale down

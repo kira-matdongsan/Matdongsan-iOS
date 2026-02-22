@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct PlaceholderView: View {
+    @EnvironmentObject var navigationManager:NavigationManager
+    @EnvironmentObject var authManager: AuthManager
+    
+    @Binding var showStorySheet: Bool
+    @Binding var showLoginAlert: Bool
+    
     var body: some View {
-        
-        
         VStack (spacing: 16) {
             Image("modal-icon")
                 .frame(width: 48, height: 48)
@@ -20,7 +24,11 @@ struct PlaceholderView: View {
                 .foregroundStyle(.mdCoolgray90)
             
             Button {
-                // TODO
+                if authManager.isLoggedIn {
+                    showStorySheet.toggle()
+                } else {
+                    showLoginAlert = true
+                }
             } label: {
                 Text("작성하기")
             }
@@ -43,5 +51,5 @@ struct PlaceholderView: View {
 }
 
 #Preview {
-    PlaceholderView()
+    PlaceholderView(showStorySheet: .constant(false), showLoginAlert: .constant(false))
 }

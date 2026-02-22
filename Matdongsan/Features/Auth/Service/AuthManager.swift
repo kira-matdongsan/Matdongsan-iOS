@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import KakaoSDKUser
 
 @MainActor
 final class AuthManager: ObservableObject {
@@ -24,6 +24,13 @@ final class AuthManager: ObservableObject {
     
     func logout() {
         TokenManager.shared.clear()
+        UserApi.shared.logout { error in
+            if let error = error {
+                print(error)
+            } else {
+                print("카카오 로그아웃 완료")
+            }
+        }
         isLoggedIn = false
     }
 }
