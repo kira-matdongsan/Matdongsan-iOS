@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    @AppStorage("enabledAnswer") private var enabledAnswer: Bool = false
+    @AppStorage("enabledAnswerDate") private var enabledAnswerDate: Double = 0
+    
     @StateObject private var navigationManager = NavigationManager()
     @StateObject private var viewModel: HomeViewModel = HomeViewModel()
     @EnvironmentObject var authManager: AuthManager
@@ -20,7 +23,6 @@ struct HomeView: View {
         return formatter
     }
     @State var enabledQuiz: Bool = true
-    @State var enabledAnswer: Bool = false
 
     var weeks:[Int] = [4,5,6,7,8,9,10]
     var foodId: Int? {
@@ -60,8 +62,8 @@ struct HomeView: View {
                                 }
                             }
                             .onTapGesture {
-                                enabledAnswer.toggle()
-                                // TODO: 한번 클릭했는지 저장하기 (1주일마다)
+                                enabledAnswer = true
+                                enabledAnswerDate = Date().timeIntervalSince1970
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 16)
@@ -132,7 +134,21 @@ struct HomeView: View {
         .navigationBarBackButtonHidden()
         .environmentObject(navigationManager)
         .task {
+            checkWeeklyReset()
             await viewModel.fetchHome()
+        }
+    }
+    
+    private func checkWeeklyReset() {
+        guard enabledAnswer else { return }
+        
+        let savedDate = Date(timeIntervalSince1970: enabledAnswerDate)
+        let now = Date()
+        
+        if let diff = Calendar.current.dateComponents([.day], from: savedDate, to: now).day,
+           diff >= 14 {
+            enabledAnswer = false
+            enabledAnswerDate = 0
         }
     }
 }
