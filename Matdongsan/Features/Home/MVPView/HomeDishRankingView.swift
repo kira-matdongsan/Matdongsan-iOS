@@ -19,7 +19,7 @@ struct HomeDishRankingView: View {
     @State var isPresentedImageView:Bool = false
     
     private var items: [DishRankItemModel?] {
-        viewModel.contents.map { Optional($0) } + [nil]
+        viewModel.contents.map { Optional($0) }
     }
     
     var body: some View {
@@ -73,15 +73,7 @@ struct HomeDishRankingView: View {
                                     let item = items[index]
                                     if let item = item {
                                         HStack {
-                                            Button {
-//                                                isPresentedImageView.toggle()
-                                            } label: {
-                                                DishCell(item: item)
-                                            }
-                                        }
-                                    } else {
-                                        NavigationLink(destination: NewDishVotingView(foodName: foodName)) {
-                                            AddingBanner()
+                                            DishCell(item: item)
                                         }
                                     }
                                 }

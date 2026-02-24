@@ -17,6 +17,7 @@ struct MainTabView: View {
             .fullScreenCover(isPresented: $showLogin) {
                 LoginView(authManager: authManager)
                     .environmentObject(authManager)
+                    .presentationBackground(.white)
             }
             .environmentObject(authManager)
             .environmentObject(auth)
