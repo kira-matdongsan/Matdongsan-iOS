@@ -119,10 +119,12 @@ struct FoodRecordCell: View {
             }
             
             VStack (alignment: .leading, spacing: 8) {
-                HStack {
-                    Image("note-text")
-                    Text(record.title)
-                        .font(.system(size: 12, weight: .semibold))
+                if !record.recordedDate.isEmpty {
+                    HStack {
+                        Image("note-text")
+                        Text(record.recordedDate)
+                            .font(.system(size: 12, weight: .semibold))
+                    }
                 }
                 
                 Text(record.content)
@@ -137,36 +139,38 @@ struct FoodRecordCell: View {
             .cornerRadius(8)
             .padding(.bottom, 10)
             
-            Divider()
-                .padding(.bottom, 10)
-
-            HStack (alignment: .center, spacing: 4) {
-//                Button {
-//                    // TODO
-//                    self.isLiked.toggle()
-//                } label: {
-//                    isLiked ? Image(systemName: "heart.fill")
-//                        .imageScale(.large)
-//                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
-//                        .imageScale(.large)
-//                        .foregroundStyle(.mdCoolgray40)
-//                }
+            if let isOwner = story.isOwner, isOwner {
                 
-//                Text("\(likeCnt)")
-//                    .font(.system(size: 11, weight: .bold))
-//                    .foregroundStyle(.mdCoolgray40)
+                Divider()
+                    .padding(.bottom, 10)
                 
-                Spacer()
-                
-                Button {
-                    showDeleteAlert = true
-                } label: {
-                    Image("vertical-ellipsis")
-                        .foregroundStyle(.mdCoolgray50)
+                HStack (alignment: .center, spacing: 4) {
+                    //                Button {
+                    //                    // TODO
+                    //                    self.isLiked.toggle()
+                    //                } label: {
+                    //                    isLiked ? Image(systemName: "heart.fill")
+                    //                        .imageScale(.large)
+                    //                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
+                    //                        .imageScale(.large)
+                    //                        .foregroundStyle(.mdCoolgray40)
+                    //                }
+                    
+                    //                Text("\(likeCnt)")
+                    //                    .font(.system(size: 11, weight: .bold))
+                    //                    .foregroundStyle(.mdCoolgray40)
+                    
+                    Spacer()
+                    
+                    Button {
+                        showDeleteAlert = true
+                    } label: {
+                        Image("trash")
+                            .foregroundStyle(.mdCoolgray50)
+                    }
                 }
+                .padding(.vertical, 1)
             }
-            .padding(.vertical, 1)
-
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)

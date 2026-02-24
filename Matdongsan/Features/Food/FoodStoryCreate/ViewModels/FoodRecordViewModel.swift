@@ -28,7 +28,10 @@ final class FoodRecordViewModel: ObservableObject {
         recordedDate: String,
         selectedImages: [UIImage]
     ) async throws {
+        guard !isPosting else { return }
+        
         isPosting = true
+        defer { isPosting = false }
         errorMessage = nil
         
         // 1️⃣ presigned urls 요청
@@ -73,6 +76,5 @@ final class FoodRecordViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
 
-        isPosting = false
     }
 }

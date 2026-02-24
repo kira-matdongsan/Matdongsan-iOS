@@ -12,6 +12,7 @@ struct StoryModel: Identifiable {
     let profileImageUrl: String?
     let type: StoryType
     let content: StoryContent
+    let isOwner: Bool?
     
     let likeCount: Int
     let isLiked: Bool
@@ -33,12 +34,13 @@ extension StoryModel {
                 thumnails: []
             )
         ),
+        isOwner: true,
         likeCount: 3,
         isLiked: false,
         createdAt: "2025.05.09"
     )
     
-    static let mockRecord = StoryModel(id: 2, nickname: "도란도란2", profileImageUrl: nil, type: .seasonalNote, content: .seasonal(SeasonalRecord(title: "titletitle", recordedDate: "2026.02.05", content: "기록기록기록합시다", images: [], thumnails: [])), likeCount: 4, isLiked: true, createdAt: "2026.02.05")
+    static let mockRecord = StoryModel(id: 2, nickname: "도란도란2", profileImageUrl: nil, type: .seasonalNote, content: .seasonal(SeasonalRecord(title: "titletitle", recordedDate: "2026.02.05", content: "기록기록기록합시다", images: [], thumnails: [])), isOwner: true, likeCount: 4, isLiked: true, createdAt: "2026.02.05")
     
 }
 

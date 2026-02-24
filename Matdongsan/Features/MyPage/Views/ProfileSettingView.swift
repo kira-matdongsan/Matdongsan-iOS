@@ -14,9 +14,9 @@ struct ProfileSettingView: View {
     
     @State var nickname: String = ""
     var profileImage: Image? = Image(systemName: "person.fill")
-    
-//    @State private var type: Int = 0
-    // 0 - email or apple, 1 - naver, 2 - kakao
+    var isCompletable:Bool {
+        nickname != viewModel.nickname
+    }
     @FocusState var isFocused:Bool
 
     var body: some View {
@@ -135,7 +135,6 @@ struct ProfileSettingView: View {
             }
             
             Spacer()
-            
             // 저장하기 버튼
             Button(action: {
                 Task {
@@ -147,11 +146,12 @@ struct ProfileSettingView: View {
                     .font(.system(size: 14, weight: .semibold))
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(.mdCoolgray20)
-                    .foregroundColor(.mdCoolgray60)
+                    .background(isCompletable ? .mdSkyBlue50 : .mdCoolgray20)
+                    .foregroundStyle(isCompletable ? .white : .mdCoolgray60)
                     .cornerRadius(8)
                     .padding(.horizontal, 15)
             }
+            .disabled(!isCompletable)
             .padding(.bottom, 24)
         }
         .background(Color.white.ignoresSafeArea())

@@ -145,34 +145,34 @@ struct FoodRecipeCell: View {
                 }
             }
             
-            Divider()
-            
-            HStack (alignment: .center, spacing: 4) {
-//                Button {
-//                    // TODO
-//                    self.isLiked.toggle()
-//                } label: {
-//                    isLiked ? Image(systemName: "heart.fill")
-//                        .imageScale(.large)
-//                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
-//                        .imageScale(.large)
-//                        .foregroundStyle(.mdCoolgray40)
-//                }
+            if true { // let isOwner = story.isOwner, isOwner {
+                Divider()
                 
-//                Text("\(likeCnt)")
-//                    .font(.system(size: 11, weight: .bold))
-//                    .foregroundStyle(.mdCoolgray40)
+                HStack (alignment: .center, spacing: 4) {
+    //                Button {
+    //                    // TODO
+    //                    self.isLiked.toggle()
+    //                } label: {
+    //                    isLiked ? Image(systemName: "heart.fill")
+    //                        .imageScale(.large)
+    //                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
+    //                        .imageScale(.large)
+    //                        .foregroundStyle(.mdCoolgray40)
+    //                }
+                    
+    //                Text("\(likeCnt)")
+    //                    .font(.system(size: 11, weight: .bold))
+    //                    .foregroundStyle(.mdCoolgray40)
 
-                Spacer()
-                
-                Button {
-                    showDeleteAlert = true
-                } label: {
-                    Image("vertical-ellipsis")
+                    Spacer()
+                    Button {
+                        showDeleteAlert = true
+                    } label: {
+                        Image("trash")
+                    }
                 }
+                .padding(.vertical, 1)
             }
-            .padding(.vertical, 1)
-
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)

@@ -139,7 +139,7 @@ struct FoodPlaceCell: View {
                 Button {
                     // TODO
                 } label: {
-                    Image("vertical-ellipsis")
+                    Image("trash")
                 }
             }
             .padding(.vertical, 1)

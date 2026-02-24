@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "Trophy.svg",
+      "filename" : "trash.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Trophy 1.svg",
+      "filename" : "trash 1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Trophy 2.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

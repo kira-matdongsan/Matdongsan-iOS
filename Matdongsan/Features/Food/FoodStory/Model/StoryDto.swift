@@ -26,6 +26,7 @@ struct StoryDto: Codable, Identifiable {
     let type: String
     let createdAt: String
     let images: [PostImageDto]
+    let isOwner: Bool?
 
     let content: String?
     let recordedDate: String?
@@ -86,6 +87,7 @@ extension StoryDto {
             profileImageUrl: profileImageUrl,
             type: storyType,
             content: storyContent,
+            isOwner: isOwner,
             likeCount: likeCount ?? 0,
             isLiked: isLiked ?? false,
             createdAt: createdAt

@@ -18,7 +18,7 @@ struct FoodRecipeWriteView: View {
     var foodName:String = "옥수수"
     var foodEngName:String = "corn"
     var isCompletable:Bool {
-        !title.isEmpty && !content.isEmpty
+        !title.isEmpty && !content.isEmpty && !ingredients.isEmpty
     }
     @FocusState var isRecipeFocused:Bool
     @FocusState var isIngreFocused:Bool

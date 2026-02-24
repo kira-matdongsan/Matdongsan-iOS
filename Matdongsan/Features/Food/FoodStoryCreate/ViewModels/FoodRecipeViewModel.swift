@@ -29,7 +29,10 @@ final class FoodRecipeViewModel: ObservableObject {
         instructions: String,
         selectedImages: [UIImage]
     ) async throws {
+        guard !isPosting else { return }
+        
         isPosting = true
+        defer { isPosting = false }
         errorMessage = nil
         
         // 1️⃣ presigned urls 요청
@@ -75,7 +78,5 @@ final class FoodRecipeViewModel: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
         }
-
-        isPosting = false
     }
 }

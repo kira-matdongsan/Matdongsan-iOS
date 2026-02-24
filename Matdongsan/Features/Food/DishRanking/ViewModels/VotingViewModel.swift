@@ -17,6 +17,8 @@ class VotingViewModel: ObservableObject {
     var foodDataProvider: FoodDataProvider = FoodDataProvider()
 
     func uploadImagesAndVote(selectedImages: [UIImage], dishId: Int) async {
+        guard !isUploading else { return }
+
         isUploading = true
         defer { isUploading = false }
 
@@ -55,6 +57,8 @@ class VotingViewModel: ObservableObject {
     }
     
     func uploadImagesAndNewVote(selectedImages: [UIImage], dishName: String, foodId: Int) async {
+        guard !isUploading else { return }
+        
         isUploading = true
         defer { isUploading = false }
 

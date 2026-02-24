@@ -32,6 +32,9 @@ struct HomeView: View {
     var body: some View {
         NavigationStack(path: $navigationManager.path)  {
             ZStack {
+                Color.white
+                    .ignoresSafeArea()
+                
                 VStack (spacing: 0) {
                     // 탑바 (로고, 검색 아이콘)
                     HStack {

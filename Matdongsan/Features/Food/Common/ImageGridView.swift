@@ -20,12 +20,6 @@ struct ImageGridView: View {
         VStack {
             HStack(spacing: 8) {
                 Spacer()
-                Text(foodName)
-                    .padding(6)
-                    .background(Color(uiColor: UIColor(hexCode: "F4F4F4")).opacity(0.1))
-                    .cornerRadius(10)
-                    .font(.callout)
-                    .foregroundStyle(.white)
                 
                 Button {
                     isPresented.toggle()
