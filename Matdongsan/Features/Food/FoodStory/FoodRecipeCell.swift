@@ -145,7 +145,7 @@ struct FoodRecipeCell: View {
                 }
             }
             
-            if true { // let isOwner = story.isOwner, isOwner {
+            if let isOwner = story.isOwner, isOwner {
                 Divider()
                 
                 HStack (alignment: .center, spacing: 4) {
