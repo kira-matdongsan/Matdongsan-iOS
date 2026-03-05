@@ -132,16 +132,3 @@ private func sectionTitle(_ text: String) -> some View {
         .foregroundColor(.mdGray90)
         .padding(.top, 10)
 }
-
-private func articleTitle(_ text: String) -> some View {
-    Text(text)
-        .font(.system(size: 14, weight: .semibold))
-        .foregroundColor(.mdGray90)
-        .padding(.top, 6)
-}
-
-private func bodyText(_ text: String) -> some View {
-    Text(text)
-        .font(.system(size: 13))
-        .foregroundColor(.mdGray80)
-}
