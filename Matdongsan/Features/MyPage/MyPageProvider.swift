@@ -61,13 +61,35 @@ final class MyPageProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(123,responseString)
-        }
+        
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
         }
         print("닉네임 변경 완료")
+    }
+    
+    func deleteUser() async throws {
+        guard let url = URL(string: NetworkConst.delete) else {
+            throw NetworkError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if let token = TokenManager.shared.accessToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let responseString = String(data: data, encoding: .utf8) {
+            print(responseString)
+        }
+        guard let response = response as? HTTPURLResponse,
+              (200..<300).contains(response.statusCode) else {
+            throw NetworkError.invalidResponse
+        }
+        print("탈퇴 완료")
     }
 }

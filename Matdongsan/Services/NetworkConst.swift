@@ -25,4 +25,5 @@ struct NetworkConst {
     // MARK: - My page
     static let profile: String = baseURL + "profile"
     static let nickname: String = baseURL + "profile/nickname" // patch
+    static let delete: String = baseURL + "profile" // delete
 }
