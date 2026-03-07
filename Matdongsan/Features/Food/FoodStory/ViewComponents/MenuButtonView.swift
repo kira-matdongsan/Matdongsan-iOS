@@ -17,7 +17,6 @@ struct MenuButtonView: View {
     
     var body: some View {
         Button {
-            //
             selectedSortIdx = index
             selectedSort = sort
             isSelected = true

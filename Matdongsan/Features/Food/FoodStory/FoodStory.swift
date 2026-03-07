@@ -31,6 +31,10 @@ struct FoodStory: View {
     @State var isPopoverFilter:Bool = false
     
     @State var showStorySheet:Bool = false
+    
+    @State private var showActionMenu = false
+    @State private var actionMenuPosition: CGPoint = .zero
+    @State private var selectedStoryId: Int?
         
     var body: some View {
         ZStack {
@@ -112,12 +116,20 @@ struct FoodStory: View {
                                 Task {
                                     await viewModel.deleteStory(storyId: id)
                                 }
+                            }, onActionTap: { position, storyId in
+                                showActionMenu = true
+                                actionMenuPosition = position
+                                selectedStoryId = Int(storyId)
                             })
                         case .seasonal:
                             FoodRecordCell(story: storyBinding, foodName: foodName, onDelete:{
                                 Task {
                                     await viewModel.deleteStory(storyId: id)
                                 }
+                            }, onActionTap: { position, storyId in
+                                showActionMenu = true
+                                actionMenuPosition = position
+                                selectedStoryId = Int(storyId)
                             })
                         }
                     }
@@ -219,6 +231,7 @@ struct FoodStory: View {
                 .presentationDetents([.height(250)])
                 .presentationCornerRadius(32)
             }
+            .coordinateSpace(name: "scroll")
             
             // 정렬 메뉴
             if isPopoverSort {
@@ -245,7 +258,39 @@ struct FoodStory: View {
                     .zIndex(100)
                     .position(x: 155, y: 160) // temp
             }
+            
+            if showActionMenu {
+                Color.black.opacity(0.001)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        showActionMenu = false
+                    }
+                    .zIndex(99)
+                ActionDropdownView(
+                    isPresenting: $showActionMenu,
+                    onDelete: {
+                        if let id = selectedStoryId {
+                            // 여기서 alert 띄우기
+                            Task {
+//                                await viewModel.deleteStory(storyId: id)
+                            }
+                        }
+                    },
+                    onReport: {
+                        if let id = selectedStoryId {
+//                            viewModel.reportStory(storyId: id)
+                        }
+                    },
+                    onBlockUser: {
+                        if let id = selectedStoryId {
+//                            viewModel.blockUser(storyId: id)
+                        }
+                    }
+                )
+                .position(actionMenuPosition)
+            }
         }
+        .padding(.bottom, 50) // for drop down menu
         .alert("로그인이 필요합니다", isPresented: $showLoginAlert) {
             Button("취소", role: .cancel) { }
             Button("로그인 하기") {
