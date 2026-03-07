@@ -167,7 +167,6 @@ struct DishVotingView: View {
                 VotingCompletionModalView(dishName: dishName, isPresent: $isPresentCompletionAlert, img: viewModel.selectedImages.first)
                     .padding(24)
                     .onDisappear {
-                        // 완료 모달 닫힐때 등록하기 화면도 닫히게
                         self.presentationMode.wrappedValue.dismiss()
                     }
             }

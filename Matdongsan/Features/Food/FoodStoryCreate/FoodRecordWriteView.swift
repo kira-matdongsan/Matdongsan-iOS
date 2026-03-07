@@ -10,6 +10,8 @@ import PhotosUI
 import Combine
 
 struct FoodRecordWriteView: View {
+    @EnvironmentObject var navigationManager:NavigationManager
+
     let characterLimit:Int = 500
     let imgSelectionLimit:Int = 10
     
@@ -22,14 +24,13 @@ struct FoodRecordWriteView: View {
     
     @State var content:String = ""
     @State var date:Date = Date()
-    @State var initialSelected:Bool = false
-    @State var showing:Bool = false
-        
+    @State var initialDateSelected:Bool = false
+    @State var showingDatePicker:Bool = false
+    @State var showCompletionAlert: Bool = false
+
     @StateObject private var photoPickerViewModel = PhotoPickerViewModel()
     @StateObject private var viewModel = FoodRecordViewModel()
 
-    @EnvironmentObject var navigationManager:NavigationManager
-    
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
@@ -56,7 +57,7 @@ struct FoodRecordWriteView: View {
                 .padding(16)
                 
                 ScrollView {
-                    // 기록 TF? TV?
+                    // 기록 영역
                     ZStack {
                         VStack (spacing: 24) {
                             VStack (spacing: 8) {
@@ -65,7 +66,7 @@ struct FoodRecordWriteView: View {
                                     HStack {
                                         Image("menu-board")
                                             .frame(width: 18, height: 18)
-                                        if initialSelected {
+                                        if initialDateSelected {
                                             Text("\(dateFormatter.string(from: date))")
                                                 .font(.system(size: 12, weight: .regular))
                                                 .foregroundStyle(.mdCoolgray90)
@@ -85,7 +86,7 @@ struct FoodRecordWriteView: View {
                                     .background(.mdCoolgray10)
                                     .cornerRadius(16)
                                     .onTapGesture {
-                                        showing.toggle()
+                                        showingDatePicker.toggle()
                                     }
                                     
                                     Spacer()
@@ -156,7 +157,9 @@ struct FoodRecordWriteView: View {
                                                  content: content,
                                                  recordedDate: "\(dateFormatterDash.string(from: date))",
                                                  selectedImages: photoPickerViewModel.selectedImages)
-                        navigationManager.pop()
+                        if viewModel.isSuccess {
+                            showCompletionAlert = true
+                        }
                     }
                 } label: {
                     Text("등록하기")
@@ -173,38 +176,17 @@ struct FoodRecordWriteView: View {
                 .disabled(!isCompletable || viewModel.isPosting)
                 
             }
-            .ignoresSafeArea(.keyboard)
-            .navigationBarBackButtonHidden()
-            .navigationTitle("제철기록 작성하기")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        navigationManager.pop()
-                    } label: {
-                        Image("close-circle")
-                            .frame(width: 24, height: 24)
-                    }
-                }
-                
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button ("닫기") {
-                        isFocused = false
-                    }
-                }
-            }
             .onTapGesture {
                 isFocused = false
             }
             
-            if showing {
+            if showingDatePicker {
                 VStack (spacing: 0) {
                     HStack {
                         Spacer()
                         Button("완료") {
-                            initialSelected = true
-                            showing = false
+                            initialDateSelected = true
+                            showingDatePicker = false
                         }
                         .padding(6)
                         .background(.mdCoolgray10)
@@ -219,8 +201,8 @@ struct FoodRecordWriteView: View {
                                displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .onChange(of: date) { oldValue, newValue in
-                        initialSelected = true
-                        showing = false
+                        initialDateSelected = true
+                        showingDatePicker = false
                     }
                     .background(Color.white
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -228,8 +210,42 @@ struct FoodRecordWriteView: View {
                 }
                 .padding(10)
                 .frame(width:300)
-                .offset(x:18, y:75)  // temp
+                .offset(x:18, y:75)
                 .padding(10)
+            }
+            
+            if showCompletionAlert {
+                Color.mdGray50
+                    .opacity(0.1)
+                    .ignoresSafeArea()
+                
+                CreateCompletionModalView(storyType: "제철기록을", isPresent: $showCompletionAlert)
+                    .padding(24)
+                    .onDisappear {
+                        navigationManager.pop()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+        .ignoresSafeArea(.keyboard)
+        .navigationBarBackButtonHidden()
+        .navigationTitle("제철기록 작성하기")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    navigationManager.pop()
+                } label: {
+                    Image("close-circle")
+                        .frame(width: 24, height: 24)
+                }
+            }
+            
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button ("닫기") {
+                    isFocused = false
+                }
             }
         }
     }
