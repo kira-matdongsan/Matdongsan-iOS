@@ -35,6 +35,12 @@ struct FoodStory: View {
     @State private var showActionMenu = false
     @State private var actionMenuPosition: CGPoint = .zero
     @State private var selectedStoryId: Int?
+    
+    @State private var showDeleteAlert = false
+    @State private var showReportAlert = false
+    @State private var showBlockUserAlert = false
+    
+    @State var reportReason = ""
         
     var body: some View {
         ZStack {
@@ -269,24 +275,16 @@ struct FoodStory: View {
                 ActionDropdownView(
                     isPresenting: $showActionMenu,
                     onDelete: {
-                        if let id = selectedStoryId {
-                            // 여기서 alert 띄우기
-                            Task {
-//                                await viewModel.deleteStory(storyId: id)
-                            }
-                        }
+                        showDeleteAlert = true
                     },
                     onReport: {
-                        if let id = selectedStoryId {
-//                            viewModel.reportStory(storyId: id)
-                        }
+                        showReportAlert = true
                     },
                     onBlockUser: {
-                        if let id = selectedStoryId {
-//                            viewModel.blockUser(storyId: id)
-                        }
+                        showBlockUserAlert = true
                     }
                 )
+                .zIndex(101)
                 .position(actionMenuPosition)
             }
         }
@@ -298,6 +296,35 @@ struct FoodStory: View {
             }
         } message: {
             Text("투표는 로그인 후 이용하실 수 있어요.")
+        }
+        .alert("삭제하시겠습니까?", isPresented: $showDeleteAlert) {
+            Button("삭제", role: .destructive) {
+                if let id = selectedStoryId {
+                    Task {
+                        await viewModel.deleteStory(storyId: Int64(id))
+                    }
+                }
+            }
+            Button("취소", role: .cancel) {
+                showDeleteAlert = false
+            }
+        } message: {
+            Text("이 작업은 되돌릴 수 없습니다.")
+        }
+        .alert("신고하시겠습니까?", isPresented: $showReportAlert) {
+            TextField("신고사유를 입력해 주세요.", text: $reportReason)
+            Button("신고하기", role: .destructive) {
+                if let id = selectedStoryId {
+                    Task {
+//                        await viewModel.reportStory(storyId: id, reason: reason)
+                    }
+                }
+            }
+            Button("취소", role: .cancel) {
+                showReportAlert = false
+            }
+        } message: {
+            Text("신고된 게시글은 담당자 확인 후 이용약관 및 운영정책에 따라 조치됩니다.")
         }
         .task {
             await viewModel.fetchStories()
