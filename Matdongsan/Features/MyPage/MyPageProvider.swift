@@ -24,9 +24,9 @@ final class MyPageProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(123,responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let httpResponse = response as? HTTPURLResponse,
               (200..<300).contains(httpResponse.statusCode) else {
             throw NetworkError.invalidResponse
@@ -83,9 +83,9 @@ final class MyPageProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse

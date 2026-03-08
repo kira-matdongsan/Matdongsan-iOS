@@ -34,9 +34,10 @@ struct FoodDataProvider {
             throw NetworkError.invalidResponse
         }
         
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
+        
         do {
             let decoded = try JSONDecoder().decode(
                 ResponseDto<FoodModel>.self,
@@ -68,9 +69,9 @@ struct FoodDataProvider {
         }
         
         do {
-            if let responseString = String(data: data, encoding: .utf8) {
-                print(responseString)
-            }
+//            if let responseString = String(data: data, encoding: .utf8) {
+//                print(responseString)
+//            }
             let decoded = try JSONDecoder().decode(
                 ResponseDto<DishRankingModel>.self,
                 from: data
@@ -95,9 +96,9 @@ struct FoodDataProvider {
         
         let (data, response) = try await session.data(for: urlRequest)
         
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
@@ -138,9 +139,9 @@ struct FoodDataProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -173,9 +174,9 @@ struct FoodDataProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -196,18 +197,18 @@ struct FoodDataProvider {
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, response) = try await session.data(for: urlRequest)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
         }
         
         do {
-            if let responseString = String(data: data, encoding: .utf8) {
-                print(responseString)
-            }
+//            if let responseString = String(data: data, encoding: .utf8) {
+//                print(responseString)
+//            }
             let decoded = try JSONDecoder().decode(
                 ResponseDto<PagedStoryDto>.self,
                 from: data
@@ -239,9 +240,9 @@ struct FoodDataProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -271,9 +272,9 @@ struct FoodDataProvider {
         }
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -325,16 +326,12 @@ struct FoodDataProvider {
         }
         
         let (data, response) = try await session.data(for: urlRequest)
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
-        }
-        
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
         }
     }
 }

@@ -39,6 +39,8 @@ struct HomeView: View {
                     // 탑바 (로고, 검색 아이콘)
                     HStack {
                         Image("small-logo")
+                            .resizable()
+                            .frame(width: 70, height: 22)
                         Spacer()
                         
                         // MVP: 홈
