@@ -14,8 +14,8 @@ struct DishRankingView: View {
     @State private var showLoginAlert = false
     
     @StateObject private var viewModel = DishRankingViewModel()
-    var foodName: String = "딸기"
-    var foodEngName: String = "strawberry"
+    var foodName: String = ""
+    var foodEngName: String = ""
     let columns = [GridItem(.flexible())]
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
