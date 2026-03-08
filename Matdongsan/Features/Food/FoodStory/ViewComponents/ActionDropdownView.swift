@@ -10,38 +10,42 @@ struct ActionDropdownView: View {
 
     @Binding var isPresenting: Bool
     
+    var isOwner: Bool
     var onDelete: (() -> Void)?
     var onReport: (() -> Void)?
     var onBlockUser: (() -> Void)?
 
     var body: some View {
-        LazyVGrid(columns: [GridItem()], spacing: 0) {
+        VStack(spacing:0) {
+            VStack(spacing: 0) {
+                if let onDelete, isOwner {
+                    actionButton("삭제하기") {
+                        onDelete()
+                    }
+                }
 
-            if let onDelete {
-                actionButton("삭제하기") {
-                    onDelete()
+                if let onReport, !isOwner {
+                    actionButton("게시글 신고") {
+                        onReport()
+                    }
+                }
+
+                if let onBlockUser, !isOwner {
+                    dividerIfNeeded()
+                    actionButton("사용자 차단") {
+                        onBlockUser()
+                    }
                 }
             }
-
-            if let onReport {
-                dividerIfNeeded()
-                actionButton("게시글 신고") {
-                    onReport()
-                }
-            }
-
-            if let onBlockUser {
-                dividerIfNeeded()
-                actionButton("사용자 차단") {
-                    onBlockUser()
-                }
-            }
+            .frame(width: 106)
+            .background(.white)
+            .cornerRadius(8)
+            .clipped()
+            .shadow(color: .mdCoolgray20, radius: 10, x: 0, y: 4)
+            
+            Spacer()
         }
-        .frame(width: 106)
-        .background(.white)
-        .cornerRadius(8)
-        .clipped()
-        .shadow(color: .mdCoolgray20, radius: 10, x: 0, y: 4)
+        .frame(height: 58)
     }
 
     private func actionButton(_ title: String, action: @escaping () -> Void) -> some View {
@@ -72,6 +76,7 @@ struct ActionDropdownView: View {
 #Preview {
     ActionDropdownView(
         isPresenting: .constant(true),
+        isOwner: false,
         onDelete: {},
         onReport: {},
         onBlockUser: {}

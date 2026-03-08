@@ -31,7 +31,7 @@ struct FoodRecordCell: View {
     @State private var selectedActionIdx = 0
 
     var onDelete: () -> Void
-    var onActionTap: (CGPoint, Int64) -> Void
+    var onActionTap: (CGPoint, Int64, Bool) -> Void
 
     let cardWidth = UIScreen.main.bounds.width - 32
 
@@ -172,7 +172,7 @@ struct FoodRecordCell: View {
                         Button {
                             let frame = geo.frame(in: .named("scroll"))
                             let position = CGPoint(x: frame.midX - 67, y: frame.maxY + 35)
-                            onActionTap(position, story.id)
+                            onActionTap(position, story.id, story.isOwner ?? false)
                         } label: {
                             Image("vertical-ellipsis")
                         }
@@ -199,5 +199,5 @@ struct FoodRecordCell: View {
 }
 
 #Preview {
-    FoodRecordCell(story: .constant(.mockRecord), onDelete: {}, onActionTap: {_,_ in})
+    FoodRecordCell(story: .constant(.mockRecord), onDelete: {}, onActionTap: {_,_,_ in})
 }
