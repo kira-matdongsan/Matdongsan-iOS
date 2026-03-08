@@ -135,7 +135,7 @@ struct FoodCardView: View {
                 }
             }
         }
-        .task {
+        .task(id: foodId) {
             await viewModel.fetchFood(id: foodId ?? 0)
         }
     }

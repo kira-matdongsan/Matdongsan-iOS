@@ -11,7 +11,7 @@ struct FoodStory: View {
     @EnvironmentObject var navigationManager:NavigationManager
     @EnvironmentObject var authManager: AuthManager
 
-    @StateObject private var viewModel = FoodStoryViewModel(foodId: foodId ?? 170)
+    @StateObject private var viewModel = FoodStoryViewModel(foodId: foodId ?? 0)
     @State private var showLoginAlert = false
 
     var foodName: String = ""

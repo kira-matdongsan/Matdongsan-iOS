@@ -181,8 +181,8 @@ struct DishRankingView: View {
         } message: {
             Text("투표는 로그인 후 이용하실 수 있어요.")
         }
-        .task {
-            await viewModel.fetchRanking(foodId: foodId ?? 170)
+        .task(id: foodId) {
+            await viewModel.fetchRanking(foodId: foodId ?? 0)
         }
     }
 }

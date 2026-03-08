@@ -75,7 +75,7 @@ struct HomeView: View {
                                 .padding(.vertical, 16)
                             
                             // 투표결과
-                            HomeDishRankingView(foodName: viewModel.foodName, foodId: viewModel.model?.featuredFood.foodId ?? 170)
+                            HomeDishRankingView(foodName: viewModel.foodName, foodId: viewModel.model?.featuredFood.foodId ?? 0)
                             
                             // 제철 시세
 //                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)
