@@ -36,9 +36,7 @@ final class LoginViewModel: ObservableObject {
     }
 
     func socialSignIn(provider: String, accessToken: String) {
-        print(accessToken)
         authAPIService.postSocialSignIn(provider, accessToken) { result in
-            print(result)
             switch result {
             case .success(let response):
                 print("맛동산 로그인 성공")

@@ -27,7 +27,6 @@ final class ThisweekFoodViewModel: ObservableObject {
 
         do {
             model = try await provider.getFoodInfo(foodId)
-            print(model)
         } catch {
             errorMessage = error.localizedDescription
         }

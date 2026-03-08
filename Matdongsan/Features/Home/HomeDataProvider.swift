@@ -33,9 +33,9 @@ struct HomeDataProvider {
             throw NetworkError.invalidResponse
         }
         
-        if let responseString = String(data: data, encoding: .utf8) {
-            print(responseString)
-        }
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
         do {
             let decoded = try JSONDecoder().decode(
                 ResponseDto<HomeModel>.self,

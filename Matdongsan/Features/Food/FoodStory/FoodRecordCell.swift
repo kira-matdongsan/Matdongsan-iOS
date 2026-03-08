@@ -23,9 +23,15 @@ struct FoodRecordCell: View {
         return record
     }
     @State var isClicked = false
-    @State var selectedId = 0
+    @State private var selectedImgId = 0
+        
     @State private var showDeleteAlert = false
+    
+    @State private var isPopoverAction = false
+    @State private var selectedActionIdx = 0
+
     var onDelete: () -> Void
+    var onActionTap: (CGPoint, Int64, Bool) -> Void
 
     let cardWidth = UIScreen.main.bounds.width - 32
 
@@ -77,7 +83,7 @@ struct FoodRecordCell: View {
                         .clipped()
                         .cornerRadius(10)
                         .onTapGesture {
-                            selectedId = i
+                            selectedImgId = i
                             isClicked.toggle()
                         }
 
@@ -109,7 +115,7 @@ struct FoodRecordCell: View {
                                 isClicked.toggle()
                             }
                         
-                        ImageGridView(isPresented: $isClicked, selectedId: $selectedId, imageUrls: record.images, foodName: foodName)
+                        ImageGridView(isPresented: $isClicked, selectedId: $selectedImgId, imageUrls: record.images, foodName: foodName)
                             .presentationBackground(Color.clear.opacity(0.01))
                             .presentationCompactAdaptation(.fullScreenCover)
                     }
@@ -139,7 +145,7 @@ struct FoodRecordCell: View {
             .cornerRadius(8)
             .padding(.bottom, 10)
             
-            if let isOwner = story.isOwner, isOwner {
+            if true { //let isOwner = story.isOwner, isOwner {
                 
                 Divider()
                     .padding(.bottom, 10)
@@ -162,12 +168,16 @@ struct FoodRecordCell: View {
                     
                     Spacer()
                     
-                    Button {
-                        showDeleteAlert = true
-                    } label: {
-                        Image("trash")
-                            .foregroundStyle(.mdCoolgray50)
+                    GeometryReader { geo in
+                        Button {
+                            let frame = geo.frame(in: .named("scroll"))
+                            let position = CGPoint(x: frame.midX - 67, y: frame.maxY + 35)
+                            onActionTap(position, story.id, story.isOwner ?? false)
+                        } label: {
+                            Image("vertical-ellipsis")
+                        }
                     }
+                    .frame(width: 24, height: 24)
                 }
                 .padding(.vertical, 1)
             }
@@ -189,5 +199,5 @@ struct FoodRecordCell: View {
 }
 
 #Preview {
-    FoodRecordCell(story: .constant(.mockRecord), onDelete: {})
+    FoodRecordCell(story: .constant(.mockRecord), onDelete: {}, onActionTap: {_,_,_ in})
 }

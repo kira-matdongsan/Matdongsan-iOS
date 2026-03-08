@@ -14,8 +14,8 @@ struct DishRankingView: View {
     @State private var showLoginAlert = false
     
     @StateObject private var viewModel = DishRankingViewModel()
-    var foodName: String = "딸기"
-    var foodEngName: String = "strawberry"
+    var foodName: String = ""
+    var foodEngName: String = ""
     let columns = [GridItem(.flexible())]
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
@@ -181,8 +181,8 @@ struct DishRankingView: View {
         } message: {
             Text("투표는 로그인 후 이용하실 수 있어요.")
         }
-        .task {
-            await viewModel.fetchRanking(foodId: foodId ?? 170)
+        .task(id: foodId) {
+            await viewModel.fetchRanking(foodId: foodId ?? 0)
         }
     }
 }

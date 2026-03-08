@@ -215,7 +215,7 @@ struct NewDishVotingView: View {
                         
                         Button {
                             Task {
-                                await voteViewModel.uploadImagesAndNewVote(selectedImages: viewModel.selectedImages, dishName: dishName, foodId: Int(foodId ?? 170))
+                                await voteViewModel.uploadImagesAndNewVote(selectedImages: viewModel.selectedImages, dishName: dishName, foodId: Int(foodId ?? 0))
                                 isPresentCompletionAlert = true
                             }
                         } label: {

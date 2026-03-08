@@ -61,7 +61,6 @@ final class FoodRecipeViewModel: ObservableObject {
         }
         
         // 3. post
-
         let request = FoodRecipeRequestModel(
             name: name,
             ingredients: ingredients,

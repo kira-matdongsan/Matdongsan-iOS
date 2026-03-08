@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logo (1).png",
+      "filename" : "completion_dongsan.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "completion_dongsan 1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "completion_dongsan 2.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

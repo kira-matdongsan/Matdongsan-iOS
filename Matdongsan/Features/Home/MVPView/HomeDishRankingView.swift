@@ -12,7 +12,7 @@ struct HomeDishRankingView: View {
     @StateObject private var viewModel = DishRankingViewModel()
 
     var foodName: String = ""
-    var foodId: Int = 170
+    var foodId: Int = 0
     let columns = [GridItem(.flexible())]
     @State var currentHeight:CGFloat = 360
     @State var selectedTab = 0
@@ -125,7 +125,7 @@ struct HomeDishRankingView: View {
             }
         }
         .padding(16)
-        .task {
+        .task(id: foodId) {
             await viewModel.fetchRanking(foodId: Int64(foodId))
         }
     }

@@ -39,6 +39,8 @@ struct HomeView: View {
                     // 탑바 (로고, 검색 아이콘)
                     HStack {
                         Image("small-logo")
+                            .resizable()
+                            .frame(width: 70, height: 22)
                         Spacer()
                         
                         // MVP: 홈
@@ -75,7 +77,7 @@ struct HomeView: View {
                                 .padding(.vertical, 16)
                             
                             // 투표결과
-                            HomeDishRankingView(foodName: viewModel.foodName, foodId: viewModel.model?.featuredFood.foodId ?? 170)
+                            HomeDishRankingView(foodName: viewModel.foodName, foodId: viewModel.model?.featuredFood.foodId ?? 0)
                             
                             // 제철 시세
 //                            FoodPriceView(foodPrice: HomeViewDummyData.dummySeasonalPrice)

@@ -123,12 +123,16 @@ struct ProfileSettingView: View {
                     }) {
                         Text("로그아웃")
                     }
-//                    Text("|")
-//                    Button(action: {
-//                        // 회원탈퇴 액션
-//                    }) {
-//                        Text("회원탈퇴")
-//                    }
+                    Text("|")
+                    Button(action: {
+                        Task {
+                            await viewModel.deleteUser()
+                            authManager.logout()
+                            dismiss()
+                        }
+                    }) {
+                        Text("회원탈퇴")
+                    }
                 }
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(.mdGray30)

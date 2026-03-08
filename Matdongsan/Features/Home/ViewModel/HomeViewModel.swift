@@ -43,7 +43,6 @@ class HomeViewModel: ObservableObject {
 
         do {
             model = try await provider.getHome()
-            print(model)
             UserDefaults.standard.set(model?.featuredFood.foodId, forKey: "foodId")
             foodId = Int64(model?.featuredFood.foodId ?? 0)
         } catch {

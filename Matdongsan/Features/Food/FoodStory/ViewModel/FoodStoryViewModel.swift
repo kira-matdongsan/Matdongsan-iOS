@@ -71,6 +71,17 @@ final class FoodStoryViewModel: ObservableObject {
             print("스토리 delete 실패:", error)
         }
     }
+    
+    // MARK: - report
+    public func reportStory(storyId: Int64) async {
+        do {
+//            try await provider.reportStory(storyId)
+            stories.removeAll { $0.id == storyId }
+            await fetchStories()
+        } catch {
+            print("스토리 report 실패:", error)
+        }
+    }
 
     
 }

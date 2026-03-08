@@ -49,4 +49,12 @@ final class MyPageViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
-}
+    
+    func deleteUser() async {
+        do {
+            try await provider.deleteUser()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+ }

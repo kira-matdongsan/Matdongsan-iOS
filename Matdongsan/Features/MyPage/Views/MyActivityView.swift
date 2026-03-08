@@ -56,8 +56,8 @@ struct MyActivityView: View {
                 if selectedTab == .written {
                     VStack(spacing: 16) {
                         FoodPlaceCell()
-                        FoodRecipeCell(story: .constant(.mockRecipe), onDelete: {})
-                        FoodRecordCell(story: .constant(.mockRecord), onDelete: {})
+                        FoodRecipeCell(story: .constant(.mockRecipe), onDelete: {}, onActionTap: {_,_,_ in})
+                        FoodRecordCell(story: .constant(.mockRecord), onDelete: {}, onActionTap: {_,_,_ in})
                     }
                 } else if selectedTab == .liked {
                     EmptyItemView(text: "좋아요한 글이 없어요")
