@@ -56,6 +56,7 @@ final class FoodStoryViewModel: ObservableObject {
             let mapped = dto.toDomain()
             stories.append(contentsOf: mapped)
             hasNext = dto.hasNext
+            print("스토리 fetch 성공")
         } catch {
             print("스토리 fetch 실패:", error)
         }
@@ -67,21 +68,33 @@ final class FoodStoryViewModel: ObservableObject {
             try await provider.deleteStory(storyId)
             stories.removeAll { $0.id == storyId }
             await fetchStories()
+            print("스토리 delete 성공")
         } catch {
             print("스토리 delete 실패:", error)
         }
     }
     
     // MARK: - report
-    public func reportStory(storyId: Int64) async {
+    public func reportStory(storyId: Int64, reason: String?) async {
         do {
-//            try await provider.reportStory(storyId)
+            try await provider.reportStory(storyId, reason: reason)
             stories.removeAll { $0.id == storyId }
             await fetchStories()
+            print("스토리 report 성공")
         } catch {
             print("스토리 report 실패:", error)
         }
     }
-
     
+    // MARK: - block user
+    public func blockUserOf(storyId: Int64) async {
+        do {
+            try await provider.blockUserOf(storyId)
+            stories.removeAll { $0.id == storyId }
+            await fetchStories()
+            print("스토리 유저 block 성공")
+        } catch {
+            print("스토리 유저 block 실패:", error)
+        }
+    }
 }

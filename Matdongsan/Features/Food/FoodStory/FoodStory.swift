@@ -227,7 +227,7 @@ struct FoodStory: View {
             Button("신고하기", role: .destructive) {
                 if let id = selectedStoryId {
                     Task {
-//                        await viewModel.reportStory(storyId: id, reason: reason)
+                        await viewModel.reportStory(storyId: Int64(id), reason: reportReason)
                     }
                 }
             }
@@ -236,6 +236,18 @@ struct FoodStory: View {
             }
         } message: {
             Text("신고된 게시글은 담당자 확인 후 이용약관 및 운영정책에 따라 조치됩니다.")
+        }
+        .alert("차단하시겠습니까?", isPresented: $showBlockUserAlert) {
+            Button("차단하기", role: .destructive) {
+                if let id = selectedStoryId {
+                    Task {
+                        await viewModel.blockUserOf(storyId: Int64(id))
+                    }
+                }
+            }
+            Button("취소", role: .cancel) {
+                showBlockUserAlert = false
+            }
         }
         .task {
             await viewModel.fetchStories()

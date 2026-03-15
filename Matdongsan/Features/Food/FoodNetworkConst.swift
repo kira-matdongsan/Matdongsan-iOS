@@ -20,6 +20,9 @@ struct FoodNetworkConst {
     
     static let getStories: String = "/stories"
     static let deleteStory: String = "stories/"
+    static let story: String = "stories/"
+    static let reportStory: String = "/report"
+    static let blockUser: String = "/block"
 
     static let newDishVote: String = "/dishes"
 }

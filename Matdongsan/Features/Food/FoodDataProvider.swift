@@ -69,9 +69,6 @@ struct FoodDataProvider {
         }
         
         do {
-//            if let responseString = String(data: data, encoding: .utf8) {
-//                print(responseString)
-//            }
             let decoded = try JSONDecoder().decode(
                 ResponseDto<DishRankingModel>.self,
                 from: data
@@ -94,11 +91,7 @@ struct FoodDataProvider {
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let (data, response) = try await session.data(for: urlRequest)
-        
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
+        let (_, response) = try await session.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
@@ -138,10 +131,7 @@ struct FoodDataProvider {
             throw NetworkError.invalidData
         }
         
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -173,10 +163,7 @@ struct FoodDataProvider {
             throw NetworkError.invalidData
         }
         
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -195,20 +182,16 @@ struct FoodDataProvider {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        if let token = TokenManager.shared.accessToken {
+            urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
         let (data, response) = try await session.data(for: urlRequest)
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
         }
         
         do {
-//            if let responseString = String(data: data, encoding: .utf8) {
-//                print(responseString)
-//            }
             let decoded = try JSONDecoder().decode(
                 ResponseDto<PagedStoryDto>.self,
                 from: data
@@ -239,10 +222,7 @@ struct FoodDataProvider {
             throw NetworkError.invalidData
         }
         
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -271,10 +251,7 @@ struct FoodDataProvider {
             throw NetworkError.invalidData
         }
         
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
@@ -325,10 +302,59 @@ struct FoodDataProvider {
             urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
-        let (data, response) = try await session.data(for: urlRequest)
-//        if let responseString = String(data: data, encoding: .utf8) {
-//            print(responseString)
-//        }
+        let (_, response) = try await session.data(for: urlRequest)
+        guard let response = response as? HTTPURLResponse,
+              (200..<300) ~= response.statusCode else {
+            throw NetworkError.invalidResponse
+        }
+    }
+    
+    // 제철 음식 스토리 신고
+    func reportStory(_ id: Int64, reason: String?) async throws {
+        let endpoint: String = FoodNetworkConst.baseUrl + FoodNetworkConst.story + "\(id)" + FoodNetworkConst.reportStory
+        
+        guard let url = URL(string: endpoint) else {
+            throw NetworkError.invalidURL
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = TokenManager.shared.accessToken {
+            urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        do {
+            if let reason = reason {
+                let body: [String: Any] = ["reason": reason]
+                urlRequest.httpBody = try JSONSerialization.data(withJSONObject: body)
+            }
+        } catch {
+            throw NetworkError.invalidData
+        }
+        
+        let (_, response) = try await session.data(for: urlRequest)
+        guard let response = response as? HTTPURLResponse,
+              (200..<300) ~= response.statusCode else {
+            throw NetworkError.invalidResponse
+        }
+    }
+    
+    // 제철 음식 스토리 작성자 차단
+    func blockUserOf(_ storyId: Int64) async throws {
+        let endpoint: String = FoodNetworkConst.baseUrl + FoodNetworkConst.story + "\(storyId)" + FoodNetworkConst.blockUser
+        
+        guard let url = URL(string: endpoint) else {
+            throw NetworkError.invalidURL
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = TokenManager.shared.accessToken {
+            urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        let (_, response) = try await session.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
