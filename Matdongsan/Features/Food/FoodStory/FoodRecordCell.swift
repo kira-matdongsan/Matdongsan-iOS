@@ -137,6 +137,8 @@ struct FoodRecordCell: View {
                     .foregroundStyle(.mdCoolgray90)
                     .font(.system(size: 13, weight: .light))
                     .lineSpacing(1.8)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -145,7 +147,7 @@ struct FoodRecordCell: View {
             .cornerRadius(8)
             .padding(.bottom, 10)
             
-            if true { //let isOwner = story.isOwner, isOwner {
+            if let isOwner = story.isOwner, isOwner {
                 
                 Divider()
                     .padding(.bottom, 10)

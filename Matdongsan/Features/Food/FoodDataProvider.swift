@@ -91,7 +91,7 @@ struct FoodDataProvider {
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let (_, response) = try await session.data(for: urlRequest)
+        let (data, response) = try await session.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse

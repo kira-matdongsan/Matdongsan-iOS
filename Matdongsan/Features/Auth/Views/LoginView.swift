@@ -102,6 +102,15 @@ struct LoginView: View {
             .background(.black)
             .cornerRadius(15)
             .foregroundColor(.white)
+            
+            Button {
+                goToMain = true
+            } label: {
+                Text("로그인 없이 이용하기")
+            }
+            .font(.system(size: 14))
+            .foregroundStyle(.mdWarmGray90)
+            .padding(.top, 20)
         }
         .onReceive(authManager.$isLoggedIn) { success in
             if success {
