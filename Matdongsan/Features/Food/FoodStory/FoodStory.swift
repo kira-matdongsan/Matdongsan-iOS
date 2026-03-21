@@ -10,10 +10,10 @@ import SwiftUI
 struct FoodStory: View {
     @EnvironmentObject var navigationManager:NavigationManager
     @EnvironmentObject var authManager: AuthManager
-
+    
     @StateObject private var viewModel = FoodStoryViewModel(foodId: foodId ?? 0)
     @State private var showLoginAlert = false
-
+    
     var foodName: String = ""
     var foodEngName: String = ""
     var stories:[String] = ["전체", "레시피", "제철기록"]
@@ -28,6 +28,16 @@ struct FoodStory: View {
     
     @State var selectedFilterIndex:Int = 0
     @State var isPopoverFilter:Bool = false
+    var selectedType: StoryType? {
+        switch viewModel.selectedFilter {
+        case "레시피":
+                .recipe
+        case "제철기록":
+                .seasonalNote
+        default:
+            nil
+        }
+    }
     
     @State var showStorySheet:Bool = false
     
@@ -41,7 +51,7 @@ struct FoodStory: View {
     @State private var showBlockUserAlert = false
     
     @State var reportReason = ""
-        
+    
     var body: some View {
         ZStack {
             VStack (spacing: 16) {
@@ -107,20 +117,22 @@ struct FoodStory: View {
                 }
                 .font(.system(size: 14))
                 
-                if viewModel.filteredStories.isEmpty {
+                if viewModel.stories.isEmpty {
                     PlaceholderView(showStorySheet: $showStorySheet, showLoginAlert: $showLoginAlert)
                 }
-
-                ForEach(viewModel.filteredStories.map(\.id), id: \.self) { id in
-                    if let index = viewModel.stories.firstIndex(where: { $0.id == id }) {
-                        let storyBinding = $viewModel.stories[index]
-                        let storyValue = viewModel.stories[index]
-
-                        switch storyValue.content {
+                
+                ForEach(Array(viewModel.stories.enumerated()), id: \.element.id) { index, story in
+                    let threshold = 3
+                    let isNearEnd = index >= viewModel.stories.count - threshold
+                    
+                    let storyBinding = $viewModel.stories[index]
+                    
+                    Group {
+                        switch story.content {
                         case .recipe:
                             FoodRecipeCell(story: storyBinding, foodName: foodName, onDelete:{
                                 Task {
-                                    await viewModel.deleteStory(storyId: id)
+                                    await viewModel.deleteStory(storyId: story.id)
                                 }
                             }, onActionTap: { position, storyId, isSelectedStoryOwner in
                                 showActionMenu = true
@@ -131,7 +143,7 @@ struct FoodStory: View {
                         case .seasonal:
                             FoodRecordCell(story: storyBinding, foodName: foodName, onDelete:{
                                 Task {
-                                    await viewModel.deleteStory(storyId: id)
+                                    await viewModel.deleteStory(storyId: story.id)
                                 }
                             }, onActionTap: { position, storyId, isSelectedStoryOwner in
                                 showActionMenu = true
@@ -139,6 +151,13 @@ struct FoodStory: View {
                                 selectedStoryId = Int(storyId)
                                 self.isSelectedStoryOwner = isSelectedStoryOwner
                             })
+                        }
+                    }
+                    .onAppear {
+                        if isNearEnd {
+                            Task {
+                                await viewModel.fetchStories(reset: false, type: selectedType)
+                            }
                         }
                     }
                 }
@@ -249,8 +268,14 @@ struct FoodStory: View {
                 showBlockUserAlert = false
             }
         }
+        .onChange(of: viewModel.selectedFilter, { oldValue, newValue in
+            guard oldValue != newValue else { return }
+            Task {
+                await viewModel.updateFilter(newValue)
+            }
+        })
         .task {
-            await viewModel.fetchStories()
+            await viewModel.fetchStories(reset: true, type: selectedType)
         }
     }
 }

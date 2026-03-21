@@ -25,7 +25,6 @@ struct FoodDataProvider {
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, response) = try await session.data(for: urlRequest)
                 
@@ -60,7 +59,6 @@ struct FoodDataProvider {
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, response) = try await session.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
@@ -89,7 +87,6 @@ struct FoodDataProvider {
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, response) = try await session.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
@@ -172,25 +169,40 @@ struct FoodDataProvider {
     }
     
     // 제철 음식 스토리 목록 조회
-    func getFoodStories(_ id: Int64) async throws -> PagedStoryDto {
-        let endpoint: String = FoodNetworkConst.baseUrl + "\(id)" + FoodNetworkConst.getStories
+    func getFoodStories(foodId: Int64, page: Int, type: String?) async throws -> PagedStoryDto {
+        let endpoint: String = FoodNetworkConst.baseUrl + "\(foodId)" + FoodNetworkConst.getStories
         
-        guard let url = URL(string: endpoint) else {
+        var components = URLComponents(string: endpoint)
+        components?.queryItems = [
+            URLQueryItem(name: "page", value: "\(page)"),
+        ]
+
+        if let type = type {
+            components?.queryItems?.append(
+                URLQueryItem(name: "type", value: type)
+            )
+        }
+
+        guard let url = components?.url else {
             throw NetworkError.invalidURL
         }
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         if let token = TokenManager.shared.accessToken {
             urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
+        
         let (data, response) = try await session.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse,
               (200..<300) ~= response.statusCode else {
             throw NetworkError.invalidResponse
         }
         
+//        if let responseString = String(data: data, encoding: .utf8) {
+//            print(responseString)
+//        }
+
         do {
             let decoded = try JSONDecoder().decode(
                 ResponseDto<PagedStoryDto>.self,

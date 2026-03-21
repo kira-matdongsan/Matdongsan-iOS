@@ -24,17 +24,17 @@ struct FoodRecordCell: View {
     }
     @State var isClicked = false
     @State private var selectedImgId = 0
-        
+    
     @State private var showDeleteAlert = false
     
     @State private var isPopoverAction = false
     @State private var selectedActionIdx = 0
-
+    
     var onDelete: () -> Void
     var onActionTap: (CGPoint, Int64, Bool) -> Void
-
+    
     let cardWidth = UIScreen.main.bounds.width - 32
-
+    
     var body: some View {
         VStack (spacing: 0) {
             HStack (spacing: 8) {
@@ -63,13 +63,13 @@ struct FoodRecordCell: View {
             .padding(.bottom, 10)
             
             Divider()
-            .padding(.bottom, 10)
+                .padding(.bottom, 10)
             
             HStack(spacing: 6) {
                 let thumbnails = record.thumnails
                 let displayImages = thumbnails.prefix(4)
                 let extraCount = thumbnails.count - 4
-
+                
                 ForEach(Array(displayImages.enumerated()), id: \.offset) { i, imageUrl in
                     ZStack(alignment: .topTrailing) {
                         AsyncImage(url: URL(string: imageUrl)) { image in
@@ -86,13 +86,13 @@ struct FoodRecordCell: View {
                             selectedImgId = i
                             isClicked.toggle()
                         }
-
+                        
                         // 마지막 + 추가 이미지 있을 때
                         if i == 3 && extraCount > 0 {
                             ZStack {
                                 Color(uiColor: UIColor(hexCode: "#21272A")).opacity(0.5)
                                     .cornerRadius(32)
-
+                                
                                 Text("+\(extraCount)")
                                     .font(.system(size: 10, weight: .semibold))
                                     .foregroundColor(.white)
@@ -147,42 +147,39 @@ struct FoodRecordCell: View {
             .cornerRadius(8)
             .padding(.bottom, 10)
             
-            if let isOwner = story.isOwner, isOwner {
+            Divider()
+                .padding(.bottom, 10)
+            
+            HStack (alignment: .center, spacing: 4) {
+                //                Button {
+                //                    // TODO
+                //                    self.isLiked.toggle()
+                //                } label: {
+                //                    isLiked ? Image(systemName: "heart.fill")
+                //                        .imageScale(.large)
+                //                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
+                //                        .imageScale(.large)
+                //                        .foregroundStyle(.mdCoolgray40)
+                //                }
                 
-                Divider()
-                    .padding(.bottom, 10)
+                //                Text("\(likeCnt)")
+                //                    .font(.system(size: 11, weight: .bold))
+                //                    .foregroundStyle(.mdCoolgray40)
                 
-                HStack (alignment: .center, spacing: 4) {
-                    //                Button {
-                    //                    // TODO
-                    //                    self.isLiked.toggle()
-                    //                } label: {
-                    //                    isLiked ? Image(systemName: "heart.fill")
-                    //                        .imageScale(.large)
-                    //                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
-                    //                        .imageScale(.large)
-                    //                        .foregroundStyle(.mdCoolgray40)
-                    //                }
-                    
-                    //                Text("\(likeCnt)")
-                    //                    .font(.system(size: 11, weight: .bold))
-                    //                    .foregroundStyle(.mdCoolgray40)
-                    
-                    Spacer()
-                    
-                    GeometryReader { geo in
-                        Button {
-                            let frame = geo.frame(in: .named("scroll"))
-                            let position = CGPoint(x: frame.midX - 67, y: frame.maxY + 35)
-                            onActionTap(position, story.id, story.isOwner ?? false)
-                        } label: {
-                            Image("vertical-ellipsis")
-                        }
+                Spacer()
+                
+                GeometryReader { geo in
+                    Button {
+                        let frame = geo.frame(in: .named("scroll"))
+                        let position = CGPoint(x: frame.midX - 67, y: frame.maxY + 35)
+                        onActionTap(position, story.id, story.isOwner ?? false)
+                    } label: {
+                        Image("vertical-ellipsis")
                     }
-                    .frame(width: 24, height: 24)
                 }
-                .padding(.vertical, 1)
+                .frame(width: 24, height: 24)
             }
+            .padding(.vertical, 1)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
