@@ -17,18 +17,18 @@ struct FoodRecipeCell: View {
         }
         fatalError("잘못된 타입")
     }
-        
+    
     @State private var isClicked = false
     @State private var selectedImgId = 0
-        
+    
     @State private var isPopoverAction = false
     @State private var selectedActionIdx = 0
-
+    
     var onDelete: () -> Void
     var onActionTap: (CGPoint, Int64, Bool) -> Void
     
     let cardWidth = UIScreen.main.bounds.width - 32
-
+    
     var body: some View {
         ZStack {
             VStack {
@@ -71,7 +71,7 @@ struct FoodRecipeCell: View {
                         Text("• 재료")
                             .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(.mdCoolgray90)
-
+                        
                         Text(recipe.ingredients.joined(separator: ", "))
                             .font(.system(size: 13, weight: .light))
                             .foregroundStyle(.mdCoolgray80)
@@ -82,7 +82,7 @@ struct FoodRecipeCell: View {
                             .bold()
                             .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(.mdCoolgray90)
-
+                        
                         Text(recipe.instructions)
                             .font(.system(size: 12, weight: .light))
                             .foregroundStyle(.mdCoolgray80)
@@ -94,7 +94,7 @@ struct FoodRecipeCell: View {
                         let thumbnails = recipe.thumnails
                         let displayImages = thumbnails.prefix(4)
                         let extraCount = thumbnails.count - 4
-
+                        
                         ForEach(Array(displayImages.enumerated()), id: \.offset) { i, imageUrl in
                             ZStack(alignment: .topTrailing) {
                                 AsyncImage(url: URL(string: imageUrl)) { image in
@@ -111,13 +111,13 @@ struct FoodRecipeCell: View {
                                     selectedImgId = i
                                     isClicked.toggle()
                                 }
-
+                                
                                 // 마지막 + 추가 이미지 있을 때
                                 if i == 3 && extraCount > 0 {
                                     ZStack {
                                         Color(uiColor: UIColor(hexCode: "#21272A")).opacity(0.5)
                                             .cornerRadius(32)
-
+                                        
                                         Text("+\(extraCount)")
                                             .font(.system(size: 10, weight: .semibold))
                                             .foregroundColor(.white)
@@ -149,39 +149,37 @@ struct FoodRecipeCell: View {
                     }
                 }
                 
-                if true { // let isOwner = story.isOwner, isOwner {
-                    Divider()
+                Divider()
+                
+                HStack (alignment: .center, spacing: 4) {
+                    //                Button {
+                    //                    // TODO
+                    //                    self.isLiked.toggle()
+                    //                } label: {
+                    //                    isLiked ? Image(systemName: "heart.fill")
+                    //                        .imageScale(.large)
+                    //                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
+                    //                        .imageScale(.large)
+                    //                        .foregroundStyle(.mdCoolgray40)
+                    //                }
                     
-                    HStack (alignment: .center, spacing: 4) {
-        //                Button {
-        //                    // TODO
-        //                    self.isLiked.toggle()
-        //                } label: {
-        //                    isLiked ? Image(systemName: "heart.fill")
-        //                        .imageScale(.large)
-        //                        .foregroundStyle(.mdCyan40) : Image(systemName: "heart")
-        //                        .imageScale(.large)
-        //                        .foregroundStyle(.mdCoolgray40)
-        //                }
-                        
-        //                Text("\(likeCnt)")
-        //                    .font(.system(size: 11, weight: .bold))
-        //                    .foregroundStyle(.mdCoolgray40)
-
-                        Spacer()
-                        GeometryReader { geo in
-                            Button {
-                                let frame = geo.frame(in: .named("scroll"))
-                                let position = CGPoint(x: frame.midX - 67, y: frame.maxY + 35)
-                                onActionTap(position, story.id, story.isOwner ?? false)
-                            } label: {
-                                Image("vertical-ellipsis")
-                            }
+                    //                Text("\(likeCnt)")
+                    //                    .font(.system(size: 11, weight: .bold))
+                    //                    .foregroundStyle(.mdCoolgray40)
+                    
+                    Spacer()
+                    GeometryReader { geo in
+                        Button {
+                            let frame = geo.frame(in: .named("scroll"))
+                            let position = CGPoint(x: frame.midX - 67, y: frame.maxY + 35)
+                            onActionTap(position, story.id, story.isOwner ?? false)
+                        } label: {
+                            Image("vertical-ellipsis")
                         }
-                        .frame(width: 24, height: 24)
                     }
-                    .padding(.vertical, 1)
+                    .frame(width: 24, height: 24)
                 }
+                .padding(.vertical, 1)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
