@@ -31,6 +31,43 @@ class HomeViewModel: ObservableObject {
     var thumnail: String? {
         model?.featuredFood.thumbnail
     }
+    
+    var recordMap: [String: WeeklyRecord] {
+        Dictionary(uniqueKeysWithValues: model?.weeklyRecord?.records.map {
+            ($0.date, $0)
+        } ?? [])
+    }
+    
+    private let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        f.locale = Locale(identifier: "ko_KR")
+        return f
+    }()
+
+    func key(from date: Date) -> String {
+        dateFormatter.string(from: date)
+    }
+    
+    func hasRecord(on date: Date) -> Bool {
+        recordMap[key(from: date)] != nil
+    }
+    
+    func record(on date: Date) -> WeeklyRecord? {
+        recordMap[key(from: date)]
+    }
+    
+    var todayRecord: WeeklyRecord? {
+        record(on: Date())
+    }
+    
+    var todayFoodName: String {
+        todayRecord?.foodName ?? ""
+    }
+
+    var todaySubTitle: String {
+        todayRecord?.subTitle ?? ""
+    }
 
     init(provider: HomeDataProvider = HomeDataProvider()) {
         self.provider = provider

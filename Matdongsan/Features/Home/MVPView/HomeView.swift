@@ -71,7 +71,11 @@ struct HomeView: View {
                                 enabledAnswerDate = Date().timeIntervalSince1970
                             }
                             .padding(.horizontal, 16)
-                            .padding(.vertical, 16)
+                            .padding(.top, 16)
+                            
+                            WeeklyRecordView(viewModel: viewModel)
+                                .padding(.horizontal, 16)
+                                .padding(.top, 16)
                             
                             CustomDivider(opacity: 0.5)
                                 .padding(.vertical, 16)
