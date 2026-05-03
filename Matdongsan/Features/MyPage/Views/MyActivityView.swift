@@ -55,7 +55,7 @@ struct MyActivityView: View {
             ScrollView {
                 if selectedTab == .written {
                     VStack(spacing: 16) {
-                        FoodPlaceCell()
+                        FoodPlaceCell(story: .constant(.mockRecipe), onDelete: {}, onActionTap: {_,_,_ in})
                         FoodRecipeCell(story: .constant(.mockRecipe), onDelete: {}, onActionTap: {_,_,_ in})
                         FoodRecordCell(story: .constant(.mockRecord), onDelete: {}, onActionTap: {_,_,_ in})
                     }

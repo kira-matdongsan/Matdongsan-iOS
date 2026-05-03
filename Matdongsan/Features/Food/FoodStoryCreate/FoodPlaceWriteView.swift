@@ -21,8 +21,8 @@ struct FoodPlaceWriteView: View {
         !content.isEmpty // TODO
     }
     
-    var tempPlace:Place = Place(placeName: "토오베", placeCategory: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층")
-    @State var place:Place?
+    var tempPlace:PlaceInfo = PlaceInfo(name: "토오베", category: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층")
+    @State var place:PlaceInfo?
     
     @FocusState var isFocused:Bool
     
@@ -82,9 +82,9 @@ struct FoodPlaceWriteView: View {
                                 
                                 VStack (alignment: .leading, spacing: 4) {
                                     HStack (alignment: .bottom, spacing: 8){
-                                        Text(place?.placeName ?? "")
+                                        Text(place?.name ?? "")
                                             .font(.system(size: 14, weight: .semibold))
-                                        Text(place?.placeCategory ?? "")
+                                        Text(place?.category ?? "")
                                             .font(.system(size: 13, weight: .regular))
                                         Spacer()
                                     }

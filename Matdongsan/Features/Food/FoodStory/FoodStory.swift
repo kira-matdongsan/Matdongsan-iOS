@@ -77,7 +77,7 @@ struct FoodStory: View {
                             Image("arrow-circle-down")
                         }
                         .padding(4)
-                        .background(.mdCoolgray10) //.opacity(0.5) temp
+                        .background(.mdCoolgray10)
                         .cornerRadius(4)
                     }
                     
@@ -151,73 +151,85 @@ struct FoodStory: View {
                                 selectedStoryId = Int(storyId)
                                 self.isSelectedStoryOwner = isSelectedStoryOwner
                             })
+                        case .place:
+                            FoodPlaceCell(story: storyBinding, foodName: foodName, onDelete:{
+                                Task {
+                                    await viewModel.deleteStory(storyId: story.id)
+                                }
+                            }, onActionTap: { position, storyId, isSelectedStoryOwner in
+                                showActionMenu = true
+                                actionMenuPosition = position
+                                selectedStoryId = Int(storyId)
+                                self.isSelectedStoryOwner = isSelectedStoryOwner
+                            })
                         }
-                    }
-                    .onAppear {
-                        if isNearEnd {
-                            Task {
-                                await viewModel.fetchStories(reset: false, type: selectedType)
-                            }
+                }
+                .onAppear {
+                    if isNearEnd {
+                        Task {
+                            await viewModel.fetchStories(reset: false, type: selectedType)
                         }
                     }
                 }
             }
-            .padding(16)
-            .sheet(isPresented: $showStorySheet) {
-                StoryCreateSheetView(showStorySheet: $showStorySheet, foodName: foodName, foodEngName: foodEngName)
-            }
-            .coordinateSpace(name: "scroll")
-            
-            // 정렬 메뉴
-            if isPopoverSort {
-                Color.black.opacity(0.001)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isPopoverSort = false
-                    }
-                    .zIndex(99)
-                SortDropdownView(selectedSortIdx: $selectedSortIndex, isPresenting: $isPopoverSort, selectedSort: $viewModel.selectedSort)
-                    .zIndex(100)
-                    .position(x: 70, y: 120) // temp
-            }
-            
-            // 필터 메뉴
-            if isPopoverFilter {
-                Color.black.opacity(0.001)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isPopoverFilter = false
-                    }
-                    .zIndex(99)
-                FilterDropdownView(selectedIdx: $selectedFilterIndex, isPresenting: $isPopoverFilter, selectedItem: $viewModel.selectedFilter)
-                    .zIndex(100)
-                    .position(x: 155, y: 160) // temp
-            }
-            
-            if showActionMenu {
-                Color.black.opacity(0.001)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        showActionMenu = false
-                    }
-                    .zIndex(99)
-                ActionDropdownView(
-                    isPresenting: $showActionMenu,
-                    isOwner: isSelectedStoryOwner,
-                    onDelete: {
-                        showDeleteAlert = true
-                    },
-                    onReport: {
-                        showReportAlert = true
-                    },
-                    onBlockUser: {
-                        showBlockUserAlert = true
-                    }
-                )
-                .zIndex(101)
-                .position(x: actionMenuPosition.x, y: actionMenuPosition.y - 20)
-            }
         }
+        .padding(16)
+        .sheet(isPresented: $showStorySheet) {
+            StoryCreateSheetView(showStorySheet: $showStorySheet, foodName: foodName, foodEngName: foodEngName)
+        }
+        .coordinateSpace(name: "scroll")
+        
+        // 정렬 메뉴
+        if isPopoverSort {
+            Color.black.opacity(0.001)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    isPopoverSort = false
+                }
+                .zIndex(99)
+            SortDropdownView(selectedSortIdx: $selectedSortIndex, isPresenting: $isPopoverSort, selectedSort: $viewModel.selectedSort)
+                .zIndex(100)
+                .position(x: 70, y: 120) // temp
+        }
+        
+        // 필터 메뉴
+        if isPopoverFilter {
+            Color.black.opacity(0.001)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    isPopoverFilter = false
+                }
+                .zIndex(99)
+            FilterDropdownView(selectedIdx: $selectedFilterIndex, isPresenting: $isPopoverFilter, selectedItem: $viewModel.selectedFilter)
+                .zIndex(100)
+                .position(x: 155, y: 160) // temp
+        }
+        
+        // 스토리 더보기 메뉴
+        if showActionMenu {
+            Color.black.opacity(0.001)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    showActionMenu = false
+                }
+                .zIndex(99)
+            ActionDropdownView(
+                isPresenting: $showActionMenu,
+                isOwner: isSelectedStoryOwner,
+                onDelete: {
+                    showDeleteAlert = true
+                },
+                onReport: {
+                    showReportAlert = true
+                },
+                onBlockUser: {
+                    showBlockUserAlert = true
+                }
+            )
+            .zIndex(101)
+            .position(x: actionMenuPosition.x, y: actionMenuPosition.y - 20)
+        }
+    }
         .padding(.bottom, 50) // for drop down menu
         .alert("로그인이 필요합니다", isPresented: $showLoginAlert) {
             Button("취소", role: .cancel) { }
@@ -277,7 +289,7 @@ struct FoodStory: View {
         .task {
             await viewModel.fetchStories(reset: true, type: selectedType)
         }
-    }
+}
 }
 
 #Preview {

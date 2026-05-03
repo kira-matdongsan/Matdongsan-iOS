@@ -20,7 +20,7 @@ struct PlaceSearchView: View {
         selectedId != -1 // TODO
     }
     
-    @State var results:[Place] = [Place](repeating: .init(placeName: "토오베", placeCategory: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층"), count: 10)
+    @State var results:[PlaceInfo] = [PlaceInfo](repeating: .init(name: "토오베", category: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층"), count: 10)
     
     var body: some View {
         VStack (spacing: 24) {
@@ -72,9 +72,9 @@ struct PlaceSearchView: View {
                             
                             VStack (alignment: .leading, spacing: 4) {
                                 HStack (alignment: .bottom, spacing: 8){
-                                    Text(result.placeName)
+                                    Text(result.name)
                                         .font(.system(size: 14, weight: .semibold))
-                                    Text(result.placeCategory)
+                                    Text(result.category)
                                         .font(.system(size: 13, weight: .regular))
                                     Spacer()
                                 }
