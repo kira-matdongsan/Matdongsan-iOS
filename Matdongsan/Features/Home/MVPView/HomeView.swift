@@ -107,8 +107,8 @@ struct HomeView: View {
                     FoodRecordWriteView(foodName: foodName, foodEngName: foodEngName)
                 case .recipe(let foodName, let foodEngName):
                     FoodRecipeWriteView(foodName: foodName, foodEngName: foodEngName)
-                case .place:
-                    FoodPlaceWriteView()
+                case .place(let foodName, let foodEngName):
+                    FoodPlaceWriteView(foodName: foodName, foodEngName: foodEngName)
                 case .search:
                     SearchView()
                 case .calendar:

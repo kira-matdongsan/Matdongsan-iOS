@@ -7,10 +7,10 @@
 
 
 struct FoodPlaceRequestModel: Encodable {
-    let name: String
+    var name: String?
     let content: String
-    let category: String
-    let address: String
-    let naverUrl: String
+    var category: String?
+    var address: String?
+    var naverUrl: String?
     let imageUrls: [String]
 }

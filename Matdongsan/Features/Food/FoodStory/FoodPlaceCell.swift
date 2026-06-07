@@ -85,10 +85,12 @@ struct FoodPlaceCell: View {
                         AsyncImage(url: URL(string: imageUrl)) { image in
                             image
                                 .resizable()
+                                .scaledToFill()
                         } placeholder: {
                             Color.gray.opacity(0.2)
                         }
                         .frame(width: 78, height: 78)
+                        .cornerRadius(10)
                         .onTapGesture {
                             isClicked.toggle()
                         }
