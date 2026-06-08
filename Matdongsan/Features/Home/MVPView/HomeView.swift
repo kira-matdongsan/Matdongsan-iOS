@@ -14,6 +14,7 @@ struct HomeView: View {
     @StateObject private var navigationManager = NavigationManager()
     @StateObject private var viewModel: HomeViewModel = HomeViewModel()
     @EnvironmentObject var authManager: AuthManager
+    @StateObject private var foodPlaceViewModel = FoodPlaceViewModel()
     
     let month: Int = 7
     let week: String = "넷"
@@ -103,12 +104,14 @@ struct HomeView: View {
                     }
                 case .placeSearch:
                     PlaceSearchView()
+                        .environmentObject(foodPlaceViewModel)
                 case .record(let foodName, let foodEngName):
                     FoodRecordWriteView(foodName: foodName, foodEngName: foodEngName)
                 case .recipe(let foodName, let foodEngName):
                     FoodRecipeWriteView(foodName: foodName, foodEngName: foodEngName)
                 case .place(let foodName, let foodEngName):
                     FoodPlaceWriteView(foodName: foodName, foodEngName: foodEngName)
+                        .environmentObject(foodPlaceViewModel)
                 case .search:
                     SearchView()
                 case .calendar:

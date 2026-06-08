@@ -21,15 +21,12 @@ struct FoodPlaceWriteView: View {
         !content.isEmpty // TODO
     }
     
-    var tempPlace:PlaceInfo = PlaceInfo(name: "토오베", category: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층")
-    @State var place:PlaceInfo?
-    
     @FocusState var isFocused:Bool
     
     @State var content:String = ""
     @State var showCompletionAlert: Bool = false
     
-    @StateObject private var viewModel = FoodPlaceViewModel()
+    @EnvironmentObject var viewModel: FoodPlaceViewModel
     @StateObject private var photoPickerViewModel = PhotoPickerViewModel()
     
     var body: some View {
@@ -56,7 +53,7 @@ struct FoodPlaceWriteView: View {
                                 
                                 Spacer()
                                 
-                                if place == nil {
+                                if viewModel.selectedPlace == nil {
                                     Button {
                                         navigationManager.navigate(to: AppRoute.placeSearch)
                                     } label: {
@@ -77,27 +74,27 @@ struct FoodPlaceWriteView: View {
                                 }
                             }
                             
-                            if place != nil {
+                            if let place = viewModel.selectedPlace {
                                 HStack (spacing: 8) {
-                                    Image("location")
+                                    Image("location-sk")
                                         .resizable()
                                         .frame(width: 40, height: 40)
                                     
                                     VStack (alignment: .leading, spacing: 4) {
                                         HStack (alignment: .bottom, spacing: 8){
-                                            Text(place?.name ?? "")
+                                            Text(place.displayTitle)
                                                 .font(.system(size: 14, weight: .semibold))
-                                            Text(place?.category ?? "")
+                                            Text(place.category)
                                                 .font(.system(size: 13, weight: .regular))
                                             Spacer()
                                         }
-                                        Text(place?.address ?? "")
+                                        Text(place.address)
                                             .font(.system(size: 12, weight: .regular))
                                     }
                                     .foregroundStyle(.mdCoolgray90)
                                     
                                     Button {
-                                        
+                                        viewModel.selectedPlace = nil
                                     } label: {
                                         Image("close")
                                             .resizable()
@@ -111,7 +108,8 @@ struct FoodPlaceWriteView: View {
                             }
                         }
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
+                        .padding(.top, 8)
+                        .padding(.bottom, 16)
                         .frame(maxWidth: .infinity)
                         .background()
                         .cornerRadius(8)
@@ -177,12 +175,17 @@ struct FoodPlaceWriteView: View {
                 // 등록하기 버튼
                 Button {
                     Task {
-                        try await viewModel.postPlace(foodId: foodId ?? 0,
-                                             name: foodName,
-                                             content: content,
-                                             selectedImages: photoPickerViewModel.selectedImages)
-                        if viewModel.isSuccess {
-                            showCompletionAlert = true
+                        if let place = viewModel.selectedPlace {
+                            try await viewModel.postPlace(foodId: foodId ?? 0,
+                                                          name: place.displayTitle,
+                                                          category: place.category,
+                                                          address: place.address,
+                                                          link: place.link,
+                                                          content: content,
+                                                          selectedImages: photoPickerViewModel.selectedImages)
+                            if viewModel.isSuccess {
+                                showCompletionAlert = true
+                            }
                         }
                     }
                 } label: {

@@ -87,7 +87,7 @@ struct FoodPlaceCell: View {
                                 .resizable()
                                 .scaledToFill()
                         } placeholder: {
-                            Color.gray.opacity(0.2)
+                            Color.gray.opacity(0)
                         }
                         .frame(width: 78, height: 78)
                         .cornerRadius(10)

@@ -15,6 +15,11 @@ final class FoodPlaceViewModel: ObservableObject {
     @Published var isPosting: Bool = false
     @Published var isSuccess: Bool = false
     @Published var errorMessage: String?
+    
+    private let clientId: String = "Lo1oPZFBR15FGmaahZcC"
+    private let clientSecret: String = "2vvsZj2YV4"
+    
+    @Published var selectedPlace: PlaceInfo?
 
     private let provider: FoodDataProvider
 
@@ -22,9 +27,49 @@ final class FoodPlaceViewModel: ObservableObject {
         self.provider = provider
     }
     
+    func searchPlace(keyword: String) async throws -> [PlaceInfo] {
+
+        var components = URLComponents(
+            string: "https://openapi.naver.com/v1/search/local.json"
+        )!
+
+        components.queryItems = [
+            URLQueryItem(name: "query", value: keyword),
+            URLQueryItem(name: "display", value: "10"),
+            URLQueryItem(name: "start", value: "1"),
+            URLQueryItem(name: "sort", value: "random")
+        ]
+
+        let url = components.url!
+
+        var request = URLRequest(url: url)
+
+        request.setValue(
+            clientId,
+            forHTTPHeaderField: "X-Naver-Client-Id"
+        )
+
+        request.setValue(
+            clientSecret,
+            forHTTPHeaderField: "X-Naver-Client-Secret"
+        )
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+
+        let result = try JSONDecoder().decode(
+            LocalSearchResponse.self,
+            from: data
+        )
+
+        return result.items
+    }
+    
     func postPlace(
         foodId: Int64,
         name: String,
+        category: String?,
+        address: String?,
+        link: String?,
         content: String,
         selectedImages: [UIImage]
     ) async throws {
@@ -63,8 +108,9 @@ final class FoodPlaceViewModel: ObservableObject {
         let request = FoodPlaceRequestModel(
             name: name,
             content: content,
-            category: "category",
-            address: "address",
+            category: category,
+            address: address,
+            naverUrl: link,
             imageUrls: imgUrls.compactMap({ $0.accessUrl })
         )
         

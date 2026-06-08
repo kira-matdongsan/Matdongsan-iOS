@@ -14,13 +14,14 @@ struct PlaceSearchView: View {
     
     @State var searchKeyword:String = ""
     @State var selectedId:Int = -1
-//    @EnvironmentObject var selectedPlace:Place?
 
     var isCompletable:Bool {
         selectedId != -1 // TODO
     }
     
-    @State var results:[PlaceInfo] = [PlaceInfo](repeating: .init(name: "토오베", category: "차 전문점", address: "서울특별시 종로구 인사동길 62-4 3층"), count: 10)
+    @State var results:[PlaceInfo] = []
+    
+    @EnvironmentObject var viewModel: FoodPlaceViewModel
     
     var body: some View {
         VStack (spacing: 24) {
@@ -36,6 +37,9 @@ struct PlaceSearchView: View {
                 .font(.system(size: 13, weight: .semibold))
                 .onSubmit({
                     isFocused = false
+                    Task {
+                        try await results = viewModel.searchPlace(keyword: searchKeyword)
+                    }
                     // 검색 API 호출
                 })
                 .focused($isFocused)
@@ -71,12 +75,13 @@ struct PlaceSearchView: View {
                                 .frame(width: 40, height: 40)
                             
                             VStack (alignment: .leading, spacing: 4) {
-                                HStack (alignment: .bottom, spacing: 8){
-                                    Text(result.name)
+                                HStack (alignment: .center, spacing: 8){
+                                    Text(result.displayTitle)
                                         .font(.system(size: 14, weight: .semibold))
                                     Text(result.category)
                                         .font(.system(size: 13, weight: .regular))
-                                    Spacer()
+                                        .lineLimit(1)
+                                    Spacer(minLength: 6)
                                 }
                                 Text(result.address)
                                     .font(.system(size: 12, weight: .regular))
@@ -107,6 +112,9 @@ struct PlaceSearchView: View {
             
             // 추가하기
             Button {
+                if selectedId > -1, !results.isEmpty {
+                    viewModel.selectedPlace = results[selectedId]
+                }
                 navigationManager.pop()
             } label: {
                 Text("추가하기")

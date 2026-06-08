@@ -293,13 +293,6 @@ struct FoodDataProvider {
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
-        print(response)
-
-        if let body = String(data: data, encoding: .utf8) {
-            print("Response Body")
-            print(body)
-        }
-        
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse
