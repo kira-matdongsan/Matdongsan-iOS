@@ -272,7 +272,7 @@ struct FoodDataProvider {
     
     // 제철 음식 플레이스 스토리 작성
     func postFoodPlace(foodId: Int64, request: FoodPlaceRequestModel) async throws {
-        let endpoint: String = FoodNetworkConst.baseUrl + "\(foodId)" + FoodNetworkConst.postRecord
+        let endpoint: String = FoodNetworkConst.baseUrl + "\(foodId)" + FoodNetworkConst.postPlace
         
         guard let url = URL(string: endpoint) else {
             throw NetworkError.invalidURL
@@ -291,8 +291,8 @@ struct FoodDataProvider {
             throw NetworkError.invalidData
         }
         
-        let (_, response) = try await URLSession.shared.data(for: urlRequest)
-
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        
         guard let response = response as? HTTPURLResponse,
               (200..<300).contains(response.statusCode) else {
             throw NetworkError.invalidResponse

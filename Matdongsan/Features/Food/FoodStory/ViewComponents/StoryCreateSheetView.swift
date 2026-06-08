@@ -80,34 +80,34 @@ struct StoryCreateSheetView: View {
                 .padding(4)
             }
             
-//                    Divider()
-//
-//                    Button {
-//                        showStorySheet = false
-//                        navigationManager.navigate(to: AppRoute.place)
-//                    } label: {
-//                        HStack (spacing: 10) {
-//                            Image("place-icon")
-//                                .resizable()
-//                                .frame(width: 48, height: 48)
-//                            VStack (alignment:.leading, spacing: 4) {
-//                                Text("플레이스")
-//                                    .font(.system(size: 16, weight: .bold))
-//                                    .foregroundStyle(.mdGray90)
-//                                Text("제철음식을 맛볼 수 있는 공간 소개")
-//                                    .font(.system(size: 14, weight: .regular))
-//                                    .foregroundStyle(.mdGray60)
-//                            }
-//                            Spacer()
-//                        }
-//                        .padding(4)
-//                    }
+            Divider()
+
+            Button {
+                showStorySheet = false
+                navigationManager.navigate(to: AppRoute.place(foodName: foodName, foodEngName: foodEngName))
+            } label: {
+                HStack (spacing: 10) {
+                    Image("place-icon")
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                    VStack (alignment:.leading, spacing: 4) {
+                        Text("플레이스")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundStyle(.mdGray90)
+                        Text("제철음식을 맛볼 수 있는 공간 소개")
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundStyle(.mdGray60)
+                    }
+                    Spacer()
+                }
+                .padding(4)
+            }
             
             Spacer()
         }
         .padding(.horizontal, 16)
         .padding(.top, 8)
-        .presentationDetents([.height(250)])
+        .presentationDetents([.height(300)])
         .presentationCornerRadius(32)
     }
 }

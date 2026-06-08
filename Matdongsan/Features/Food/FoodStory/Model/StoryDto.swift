@@ -79,6 +79,19 @@ extension StoryDto {
                     thumnails: thumbnailUrls
                 )
             )
+            
+        case .place:
+            storyContent = .place(
+                Place(
+                    name: name ?? "",
+                    category: category ?? "",
+                    address: address ?? "",
+                    review: content ?? "",
+                    images: imageUrls,
+                    thumbnailUrl: thumbnailUrls.first ?? ""
+                )
+            )
+            
         }
         
         return StoryModel(

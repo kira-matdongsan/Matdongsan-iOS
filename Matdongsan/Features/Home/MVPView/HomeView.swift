@@ -14,6 +14,7 @@ struct HomeView: View {
     @StateObject private var navigationManager = NavigationManager()
     @StateObject private var viewModel: HomeViewModel = HomeViewModel()
     @EnvironmentObject var authManager: AuthManager
+    @StateObject private var foodPlaceViewModel = FoodPlaceViewModel()
     
     let month: Int = 7
     let week: String = "넷"
@@ -71,7 +72,11 @@ struct HomeView: View {
                                 enabledAnswerDate = Date().timeIntervalSince1970
                             }
                             .padding(.horizontal, 16)
-                            .padding(.vertical, 16)
+                            .padding(.top, 16)
+                            
+                            WeeklyRecordView(viewModel: viewModel)
+                                .padding(.horizontal, 16)
+                                .padding(.top, 16)
                             
                             CustomDivider(opacity: 0.5)
                                 .padding(.vertical, 16)
@@ -99,12 +104,14 @@ struct HomeView: View {
                     }
                 case .placeSearch:
                     PlaceSearchView()
+                        .environmentObject(foodPlaceViewModel)
                 case .record(let foodName, let foodEngName):
                     FoodRecordWriteView(foodName: foodName, foodEngName: foodEngName)
                 case .recipe(let foodName, let foodEngName):
                     FoodRecipeWriteView(foodName: foodName, foodEngName: foodEngName)
-                case .place:
-                    FoodPlaceWriteView()
+                case .place(let foodName, let foodEngName):
+                    FoodPlaceWriteView(foodName: foodName, foodEngName: foodEngName)
+                        .environmentObject(foodPlaceViewModel)
                 case .search:
                     SearchView()
                 case .calendar:

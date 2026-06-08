@@ -13,7 +13,7 @@ enum AppRoute:Hashable {
     case placeSearch
     case record(foodName: String, foodEngName: String)
     case recipe(foodName: String, foodEngName: String)
-    case place
+    case place(foodName: String, foodEngName: String)
     case search
     case calendar
     case priceInput
