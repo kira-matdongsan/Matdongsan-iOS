@@ -40,7 +40,6 @@ struct PlaceSearchView: View {
                     Task {
                         try await results = viewModel.searchPlace(keyword: searchKeyword)
                     }
-                    // 검색 API 호출
                 })
                 .focused($isFocused)
                 .textInputAutocapitalization(.never)
@@ -50,6 +49,12 @@ struct PlaceSearchView: View {
                 Image(isFocused || !searchKeyword.isEmpty ? "search-normal-10" : "search-normal")
                     .resizable()
                     .frame(width: 18, height: 18)
+                    .onTapGesture {
+                        isFocused = false
+                        Task {
+                            try await results = viewModel.searchPlace(keyword: searchKeyword)
+                        }
+                    }
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 10)
