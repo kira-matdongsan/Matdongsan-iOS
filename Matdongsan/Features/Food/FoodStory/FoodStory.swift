@@ -16,10 +16,11 @@ struct FoodStory: View {
     
     var foodName: String = ""
     var foodEngName: String = ""
-    var stories:[String] = ["전체", "레시피", "제철기록"]
+    var stories:[String] = ["전체", "레시피", "제철기록", "플레이스"]
     @State var colorMap:[String:UIColor] = [
         "레시피":UIColor.mdOrange40,
         "제철기록":UIColor.mdTeal40,
+        "플레이스":UIColor.mdGreen40,
         "전체":UIColor.mdCoolgray10
     ]
     
@@ -34,6 +35,8 @@ struct FoodStory: View {
                 .recipe
         case "제철기록":
                 .seasonalNote
+        case "플레이스":
+                .place
         default:
             nil
         }
@@ -202,7 +205,7 @@ struct FoodStory: View {
                 .zIndex(99)
             FilterDropdownView(selectedIdx: $selectedFilterIndex, isPresenting: $isPopoverFilter, selectedItem: $viewModel.selectedFilter)
                 .zIndex(100)
-                .position(x: 155, y: 160) // temp
+                .position(x: 155, y: 170) // temp
         }
         
         // 스토리 더보기 메뉴
