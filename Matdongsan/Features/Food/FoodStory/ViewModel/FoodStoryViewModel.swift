@@ -63,6 +63,8 @@ final class FoodStoryViewModel: ObservableObject {
                     .recipe
             case "제철기록":
                     .seasonalNote
+            case "플레이스":
+                    .place
             default:
                 nil
             }

@@ -45,7 +45,7 @@ struct FoodPlaceWriteView: View {
                 ScrollView {
                     VStack (spacing: 24) {
                         // 플레이스
-                        VStack (spacing: 8) {
+                        VStack (spacing: 0) {
                             HStack {
                                 Text("플레이스")
                                     .foregroundStyle(.mdCoolgray90)
@@ -105,11 +105,11 @@ struct FoodPlaceWriteView: View {
                                 .background()
                                 .cornerRadius(16)
                                 .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
+                                .padding(.vertical, 8)
                             }
                         }
                         .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 16)
+                        .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
                         .background()
                         .cornerRadius(8)
@@ -127,7 +127,7 @@ struct FoodPlaceWriteView: View {
                                 )
                                 .overlay(alignment: .topLeading, content: {
                                     if !isFocused && content.isEmpty {
-                                        Text("플레이스를 추천하는 이유를 알려주세요.(선택)")
+                                        Text("플레이스를 추천하는 이유를 알려주세요.")
                                             .foregroundStyle(.mdCoolgray60)
                                             .font(.system(size: 12, weight: .light))
                                             .padding(10)
@@ -212,6 +212,7 @@ struct FoodPlaceWriteView: View {
                 CreateCompletionModalView(storyType: "플레이스를", isPresent: $showCompletionAlert)
                     .padding(24)
                     .onDisappear {
+                        viewModel.reset()
                         navigationManager.pop()
                     }
             }
@@ -223,6 +224,7 @@ struct FoodPlaceWriteView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    viewModel.reset()
                     navigationManager.pop()
                 } label: {
                     Image("close-circle")
@@ -240,7 +242,6 @@ struct FoodPlaceWriteView: View {
         .onTapGesture {
             isFocused = false
         }
-//        .environmentObject($place)
     }
 }
 

@@ -16,10 +16,11 @@ struct PlaceSearchView: View {
     @State var selectedId:Int = -1
 
     var isCompletable:Bool {
-        selectedId != -1 // TODO
+        selectedId != -1
     }
     
     @State var results:[PlaceInfo] = []
+    @State private var hasSearched = false
     
     @EnvironmentObject var viewModel: FoodPlaceViewModel
     
@@ -36,11 +37,11 @@ struct PlaceSearchView: View {
                 .foregroundStyle(.white)
                 .font(.system(size: 13, weight: .semibold))
                 .onSubmit({
+                    hasSearched = true
                     isFocused = false
                     Task {
                         try await results = viewModel.searchPlace(keyword: searchKeyword)
                     }
-                    // 검색 API 호출
                 })
                 .focused($isFocused)
                 .textInputAutocapitalization(.never)
@@ -50,6 +51,13 @@ struct PlaceSearchView: View {
                 Image(isFocused || !searchKeyword.isEmpty ? "search-normal-10" : "search-normal")
                     .resizable()
                     .frame(width: 18, height: 18)
+                    .onTapGesture {
+                        hasSearched = true
+                        isFocused = false
+                        Task {
+                            try await results = viewModel.searchPlace(keyword: searchKeyword)
+                        }
+                    }
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 10)
@@ -64,51 +72,74 @@ struct PlaceSearchView: View {
             Divider()
                 .padding(.horizontal, 24)
             
-            
-            // 검색 결과
-            ScrollView {
-                LazyVStack {
-                    ForEach(Array(results.enumerated()), id: \.offset) { (idx,result) in
-                        HStack (spacing: 8) {
-                            Image(idx == selectedId ? "location-sk" : "location-gray")
+            Group {
+                if results.isEmpty {
+                    VStack(spacing: 12) {
+                        if hasSearched {
+                            Image("empty-search")
                                 .resizable()
-                                .frame(width: 40, height: 40)
-                            
-                            VStack (alignment: .leading, spacing: 4) {
-                                HStack (alignment: .center, spacing: 8){
-                                    Text(result.displayTitle)
-                                        .font(.system(size: 14, weight: .semibold))
-                                    Text(result.category)
-                                        .font(.system(size: 13, weight: .regular))
-                                        .lineLimit(1)
-                                    Spacer(minLength: 6)
-                                }
-                                Text(result.address)
-                                    .font(.system(size: 12, weight: .regular))
-                            }
-                            .foregroundStyle(.mdCoolgray90)
-                            
-                            Image(idx == selectedId ? "check-sk" : "check-gray")
+                                .frame(width: 110, height: 110)
+
+                            Text("검색한 플레이스가 없어요\n다른 플레이스를 검색해주세요")
+                                .multilineTextAlignment(.center)
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(.mdCoolgray70)
+                        } else {
+                            Image("search-guide")
                                 .resizable()
-                                .frame(width: 18, height:18)
+                                .frame(width: 110, height: 110)
+
+                            Text("플레이스를 검색해주세요")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(.mdCoolgray70)
                         }
-                        .padding(10)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.white)
-                                .stroke(selectedId == idx ? .mdSkyBlue20 : .clear)
-                                .shadow(color: .init(uiColor: UIColor(hexCode: "C1C7CD", alpha: 0.2)), radius: 8, x: 0, y: 2)
-                        )
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 4)
-                        .onTapGesture {
-                            selectedId = idx
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    // 검색 결과
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(Array(results.enumerated()), id: \.offset) { (idx,result) in
+                                HStack (spacing: 8) {
+                                    Image(idx == selectedId ? "location-sk" : "location-gray")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                    
+                                    VStack (alignment: .leading, spacing: 4) {
+                                        HStack (alignment: .center, spacing: 8){
+                                            Text(result.displayTitle)
+                                                .font(.system(size: 14, weight: .semibold))
+                                            Text(result.category)
+                                                .font(.system(size: 13, weight: .regular))
+                                                .lineLimit(1)
+                                            Spacer(minLength: 6)
+                                        }
+                                        Text(result.address)
+                                            .font(.system(size: 12, weight: .regular))
+                                    }
+                                    .foregroundStyle(.mdCoolgray90)
+                                    
+                                    Image(idx == selectedId ? "check-sk" : "check-gray")
+                                        .resizable()
+                                        .frame(width: 18, height:18)
+                                }
+                                .padding(10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.white)
+                                        .stroke(selectedId == idx ? .mdSkyBlue20 : .clear)
+                                        .shadow(color: .init(uiColor: UIColor(hexCode: "C1C7CD", alpha: 0.2)), radius: 8, x: 0, y: 2)
+                                )
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 4)
+                                .onTapGesture {
+                                    selectedId = idx
+                                }
+                            }
                         }
                     }
                 }
             }
-            
-            
             
             // 추가하기
             Button {
