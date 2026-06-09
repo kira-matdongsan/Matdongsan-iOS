@@ -124,5 +124,10 @@ final class FoodPlaceViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+    
+    func reset() {
+        selectedPlace = nil
+        isSuccess = false
+    }
 
 }

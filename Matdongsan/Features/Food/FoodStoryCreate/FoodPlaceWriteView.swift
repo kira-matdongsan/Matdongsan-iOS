@@ -212,6 +212,7 @@ struct FoodPlaceWriteView: View {
                 CreateCompletionModalView(storyType: "플레이스를", isPresent: $showCompletionAlert)
                     .padding(24)
                     .onDisappear {
+                        viewModel.reset()
                         navigationManager.pop()
                     }
             }
@@ -223,6 +224,7 @@ struct FoodPlaceWriteView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    viewModel.reset()
                     navigationManager.pop()
                 } label: {
                     Image("close-circle")
@@ -240,7 +242,6 @@ struct FoodPlaceWriteView: View {
         .onTapGesture {
             isFocused = false
         }
-//        .environmentObject($place)
     }
 }
 
