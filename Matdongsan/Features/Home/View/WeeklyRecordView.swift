@@ -83,7 +83,8 @@ struct WeeklyRecordView: View {
                             Text(weekdayFormatter.string(from: date))
                         }
                         .font(.system(size: 13, weight: .semibold))
-                        .frame(width: 42, height: 66)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 66)
                         .background(
                             isSelected ? .mdYellow40 : .mdGray70
                         )
