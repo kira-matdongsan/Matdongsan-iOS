@@ -112,4 +112,22 @@ final class FoodStoryViewModel: ObservableObject {
             print("스토리 유저 block 실패:", error)
         }
     }
+    
+    // MARK: - open naver map
+    func openNaverMap(placeName: String) {
+        let encoded = placeName.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed
+        ) ?? ""
+
+        if let appURL = URL(string: "nmap://search?query=\(encoded)"),
+           UIApplication.shared.canOpenURL(appURL) {
+
+            UIApplication.shared.open(appURL)
+
+        } else if let webURL = URL(
+            string: "https://map.naver.com/p/search/\(encoded)"
+        ) {
+            UIApplication.shared.open(webURL)
+        }
+    }
 }

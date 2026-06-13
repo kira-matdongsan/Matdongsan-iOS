@@ -159,6 +159,8 @@ struct FoodStory: View {
                                 Task {
                                     await viewModel.deleteStory(storyId: story.id)
                                 }
+                            }, onPlaceTap: { placeName in
+                                viewModel.openNaverMap(placeName: placeName)
                             }, onActionTap: { position, storyId, isSelectedStoryOwner in
                                 showActionMenu = true
                                 actionMenuPosition = position

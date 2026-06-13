@@ -24,6 +24,7 @@ struct FoodPlaceCell: View {
     @State private var selectedActionIdx = 0
     
     var onDelete: () -> Void
+    let onPlaceTap: (String) -> Void
     var onActionTap: (CGPoint, Int64, Bool) -> Void
     
     var body: some View {
@@ -66,6 +67,9 @@ struct FoodPlaceCell: View {
                                 .padding(6)
                                 .background(.mdGreen10)
                                 .cornerRadius(8)
+                                .onTapGesture {
+                                    onPlaceTap(place.name)
+                                }
                             
                             Text(place.category)
                                 .foregroundStyle(.mdCoolgray90)
@@ -169,6 +173,6 @@ struct FoodPlaceCell: View {
 
 #Preview {
     FoodPlaceCell(
-        story: .constant(.mockPlace), onDelete: {}, onActionTap: {_,_,_  in }
+        story: .constant(.mockPlace), onDelete: {}, onPlaceTap: {_ in }, onActionTap: {_,_,_  in }
     )
 }
